@@ -61,22 +61,48 @@
 
 // --------------- lesson9 - practice
 
-const currRate: string = "1.05";
+// const currRate: string = "1.05";
 
-const fetchCurr = (response: string) => {
-  const data = JSON.parse(response);
-  return data;
-};
+// const fetchCurr = (response: string) => {
+//   const data = JSON.parse(response);
+//   return data;
+// };
 
-function transferEurToUsd(available: boolean, amount: number, commission: number): void {
-  if (available) {
-    let res = fetchCurr(currRate) * amount * commission;
-    console.log(res);
-    // Или запись в элемент на странице вместо консоли
-  } else {
-    console.log("Сейчас обмен недоступен");
+// function transferEurToUsd(available: boolean, amount: number, commission: number): void {
+//   if (available) {
+//     let res = fetchCurr(currRate) * amount * commission;
+//     console.log(res);
+//     // Или запись в элемент на странице вместо консоли
+//   } else {
+//     console.log("Сейчас обмен недоступен");
+//   }
+// }
+
+// transferEurToUsd(true, 500, 1.05);
+
+// --------------- lesson10 - type never
+
+const isBirthdayData: boolean = true;
+let ageData: number = 40;
+const userNameData: string = "John";
+
+const createError = (msg: string) => { // never
+  throw new Error("Error happened")
+}
+
+const createError2= (msg: string) => { // never
+  while(true) {
   }
 }
 
-transferEurToUsd(true, 500, 1.05);
+function logBirMsg(isBirthday: boolean, age: number, userName: string): string {
+  if (isBirthday) {
+    return `Congrats ${userName.toUpperCase()}, age: ${age + 1}`;
+  } else {
+    return createError("Error")
+  }
+}
+
+logBirMsg(true, 35, "Alex");
+logBirMsg(isBirthdayData, ageData, userNameData);
 
