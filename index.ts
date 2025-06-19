@@ -82,27 +82,49 @@
 
 // --------------- lesson10 - type never
 
-const isBirthdayData: boolean = true;
-let ageData: number = 40;
-const userNameData: string = "John";
+// const isBirthdayData: boolean = true;
+// let ageData: number = 40;
+// const userNameData: string = "John";
 
-const createError = (msg: string) => { // never
-  throw new Error("Error happened")
-}
+// const createError = (msg: string) => { // never
+//   throw new Error("Error happened")
+// }
 
-const createError2= (msg: string) => { // never
-  while(true) {
-  }
-}
+// const createError2= (msg: string) => { // never
+//   while(true) {
+//   }
+// }
 
-function logBirMsg(isBirthday: boolean, age: number, userName: string): string {
-  if (isBirthday) {
-    return `Congrats ${userName.toUpperCase()}, age: ${age + 1}`;
+// function logBirMsg(isBirthday: boolean, age: number, userName: string): string {
+//   if (isBirthday) {
+//     return `Congrats ${userName.toUpperCase()}, age: ${age + 1}`;
+//   } else {
+//     return createError("Error")
+//   }
+// }
+
+// logBirMsg(true, 35, "Alex");
+// logBirMsg(isBirthdayData, ageData, userNameData);
+
+// --------------- lesson11 - null undefined
+
+function getRandData() {
+  if (Math.random() < 0.5) {
+    return null;
   } else {
-    return createError("Error")
+    return "   Some data   ";
   }
 }
 
-logBirMsg(true, 35, "Alex");
-logBirMsg(isBirthdayData, ageData, userNameData);
+const data = getRandData();
+
+const trimmedData = data ? data.trim() : null;
+
+console.log(trimmedData);
+
+const test: undefined = undefined;
+
+const test2: any = undefined;
+
+const test3: string = undefined;
 
