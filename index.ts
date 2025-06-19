@@ -368,23 +368,41 @@
 
 // --------------- lesson20 type Aliases
 
-type AnimationTimingFunc = "ease" | "ease-out" | "ease-in";
+// type AnimationTimingFunc = "ease" | "ease-out" | "ease-in";
 
-type AnimationId = string | number;
+// type AnimationId = string | number;
 
-function createAnimation(
-  id: AnimationId,
-  animName: string,
-  timingFunc: AnimationTimingFunc = "ease", //literal types
-  duration: number,
-  iterCoun: "infinit" | number
-): void {
-  // const elem = document.querySelector(`#${id}`) as HTMLElement;
-  // if (elem) {
-  console.log(`${animName} ${timingFunc} ${iterCoun}`);
-  // elem.style.animation = `${animName} ${timingFunc} ${iterCoun}`;
-  // }
-}
+// function createAnimation(
+//   id: AnimationId,
+//   animName: string,
+//   timingFunc: AnimationTimingFunc = "ease", //literal types
+//   duration: number,
+//   iterCoun: "infinit" | number
+// ): void {
+//   // const elem = document.querySelector(`#${id}`) as HTMLElement;
+//   // if (elem) {
+//   console.log(`${animName} ${timingFunc} ${iterCoun}`);
+//   // elem.style.animation = `${animName} ${timingFunc} ${iterCoun}`;
+//   // }
+// }
 
-createAnimation(12345, "MyAnimation", "ease-out", 500, 5);
+// createAnimation(12345, "MyAnimation", "ease-out", 500, 5);
+
+// --------------- lesson21 object literals and annotations
+
+const serverConfig: { protocol: "http" | "https"; port: 3000 | 5000 } = {
+  protocol: "https",
+  port: 5000,
+};
+
+const startServer: (protocol: "http" | "https", port: 3000 | 5000) => string = (
+  protocol: "http" | "https",
+  port: 3000 | 5000
+): "Server started" => {
+  console.log(`Server started on ${protocol} :// port:${port}`);
+
+  return "Server started";
+};
+
+startServer(serverConfig.protocol, serverConfig.port);
 
