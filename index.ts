@@ -205,57 +205,65 @@
 
 // --------------- lesson15 - practice
 
-const electricityUserData = {
-  readings: 95,
-  units: "kWt",
-  mode: "double",
-};
+// const electricityUserData = {
+//   readings: 95,
+//   units: "kWt",
+//   mode: "double",
+// };
 
-const waterUserData = {
-  readings: 3,
-  units: "m3",
-};
+// const waterUserData = {
+//   readings: 3,
+//   units: "m3",
+// };
 
-const elRate = 0.45;
-const wRate = 2;
+// const elRate = 0.45;
+// const wRate = 2;
 
-const monthPayments = [0, 0]; // [electricity, water]
+// const monthPayments = [0, 0]; // [electricity, water]
 
-const calculatePayments = (
-  elData: { readings: number; units: string; mode: string },
-  wData: { readings: number; units: string },
-  elRate: number,
-  wRate: number
-) => {
-  if (elData.mode === "double" && elData.readings < 50) {
-    monthPayments[0] = elData.readings * elRate * 0.7;
-  } else {
-    monthPayments[0] = elData.readings * elRate;
-  }
+// const calculatePayments = (
+//   elData: { readings: number; units: string; mode: string },
+//   wData: { readings: number; units: string },
+//   elRate: number,
+//   wRate: number
+// ) => {
+//   if (elData.mode === "double" && elData.readings < 50) {
+//     monthPayments[0] = elData.readings * elRate * 0.7;
+//   } else {
+//     monthPayments[0] = elData.readings * elRate;
+//   }
 
-  monthPayments[1] = wData.readings * wRate;
-};
+//   monthPayments[1] = wData.readings * wRate;
+// };
 
-calculatePayments(electricityUserData, waterUserData, elRate, wRate);
+// calculatePayments(electricityUserData, waterUserData, elRate, wRate);
 
-console.log(monthPayments);
+// console.log(monthPayments);
 
-const sendInvoice = (
-  monthPayments: number[],
-  electricityUserData: { readings: number; units: string; mode: string },
-  waterUserData: { readings: number; units: string }
-) => {
-  const text = `    Hello!
-    This month you used ${electricityUserData.readings} ${electricityUserData.units} of electricity
-    It will cost: ${monthPayments[0]}€
+// const sendInvoice = (
+//   monthPayments: number[],
+//   electricityUserData: { readings: number; units: string; mode: string },
+//   waterUserData: { readings: number; units: string }
+// ) => {
+//   const text = `    Hello!
+//     This month you used ${electricityUserData.readings} ${electricityUserData.units} of electricity
+//     It will cost: ${monthPayments[0]}€
 
-    This month you used ${waterUserData.readings} ${waterUserData.units} of water
-    It will cost: ${monthPayments[1]}€`;
+//     This month you used ${waterUserData.readings} ${waterUserData.units} of water
+//     It will cost: ${monthPayments[1]}€`;
 
-  return text;
-};
+//   return text;
+// };
 
-const result = sendInvoice(monthPayments, electricityUserData, waterUserData);
+// const result = sendInvoice(monthPayments, electricityUserData, waterUserData);
 
-console.log(result);
+// console.log(result);
+
+// --------------- lesson16 tuples
+
+const userDataTuple: [boolean, number, ...string[]] = [true, 40, "John", 'Alex'];
+
+userDataTuple[0] = false;
+
+console.log(userDataTuple)
 
