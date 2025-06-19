@@ -281,55 +281,88 @@
 
 // --------------- lesson18 - narrowing type (звуження типу)
 
-const message: string | number = "str";
+// const message: string | number = "str";
 
-const messages: string[] | number[] = ["a", "b"];
+// const messages: string[] | number[] = ["a", "b"];
 
-function printMsg(msg: string | number): void {
-  if (typeof msg === "string") {
-    console.log(msg.toUpperCase());
-  } else {
-    console.log(msg.toExponential());
-  }
+// function printMsg(msg: string | number): void {
+//   if (typeof msg === "string") {
+//     console.log(msg.toUpperCase());
+//   } else {
+//     console.log(msg.toExponential());
+//   }
+// }
+
+// printMsg("dfgh");
+
+// const printReading = (a: number | string, b: number | boolean) => {
+//   if (a === b) {
+//     console.log(a, b);
+//   }
+//   return console.log(a, b);
+// };
+
+// printReading("one", true);
+
+// const obj = {
+//   user: 50,
+//   system: 10,
+// };
+
+// function cheackReadings(readings: { system: number } | { user: number }): void {
+//   if ("system" in readings) {
+//     console.log("system", readings.system);
+//   } else {
+//     console.log("user", readings.user);
+//   }
+// }
+
+// cheackReadings(obj);
+
+// const time = Date();
+
+// console.log(time);
+
+// function logValue(x: string | Date) {
+//   if (x instanceof Date) {
+//     console.log("getDate", x.getDate());
+//   } else {
+//     console.log(x.slice(0, 5));
+//   }
+// }
+
+// logValue(time)
+
+// --------------- lesson19 literal types
+
+let msg: "Hello" = "Hello";
+
+msg = "Hello";
+
+function startServer(
+  protocol: "http" | "https",
+  port: 3000 | 5000
+): "Server started" {
+  console.log(`Server started on ${protocol} :// port:${port}`);
+
+  return "Server started";
 }
 
-printMsg("dfgh");
+startServer("http", 5000);
 
-const printReading = (a: number | string, b: number | boolean) => {
-  if (a === b) {
-    console.log(a, b);
-  }
-  return console.log(a, b);
-};
-
-printReading("one", true);
-
-const obj = {
-  user: 50,
-  system: 10,
-};
-
-function cheackReadings(readings: { system: number } | { user: number }): void {
-  if ("system" in readings) {
-    console.log("system", readings.system);
-  } else {
-    console.log("user", readings.user);
-  }
+function createAnimation(
+  id: string | number,
+  animName: string,
+  timingFunc: "ease" | "ease-out" | "ease-in" = "ease", //literal types
+  duration: number,
+  iterCoun: "infinit" | number
+): void {
+  // const elem = document.querySelector(`#${id}`) as HTMLElement;
+  // if (elem) {
+  console.log(`${animName} ${timingFunc} ${iterCoun}`);
+  // elem.style.animation = `${animName} ${timingFunc} ${iterCoun}`;
+  // }
 }
 
-cheackReadings(obj);
-
-const time = Date();
-
-console.log(time);
-
-function logValue(x: string | Date) {
-  if (x instanceof Date) {
-    console.log("getDate", x.getDate());
-  } else {
-    console.log(x.slice(0, 5));
-  }
-}
-
-logValue(time)
+createAnimation(12345, "MyAnimation", "ease-out", 500, 5);
 
