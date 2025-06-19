@@ -261,9 +261,21 @@
 
 // --------------- lesson16 tuples
 
-const userDataTuple: [boolean, number, ...string[]] = [true, 40, "John", 'Alex'];
+// const userDataTuple: [boolean, number, ...string[]] = [true, 40, "John", 'Alex'];
 
-userDataTuple[0] = false;
+// userDataTuple[0] = false;
 
-console.log(userDataTuple)
+// console.log(userDataTuple)
+
+// --------------- lesson17 - union type
+
+const message: string | number = 'str';
+
+const messages: string[] | number[] = ['a', 'b'];
+
+function printMsg(msg: string | number): void {
+  console.log(msg)
+}
+
+printMsg(4)
 
