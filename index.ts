@@ -390,12 +390,46 @@
 
 // --------------- lesson21 object literals and annotations
 
-const serverConfig: { protocol: "http" | "https"; port: 3000 | 5000 } = {
+// const serverConfig: { protocol: "http" | "https"; port: 3000 | 5000 } = {
+//   protocol: "https",
+//   port: 5000,
+// };
+
+// const startServer: (protocol: "http" | "https", port: 3000 | 5000) => string = (
+//   protocol: "http" | "https",
+//   port: 3000 | 5000
+// ): "Server started" => {
+//   console.log(`Server started on ${protocol} :// port:${port}`);
+
+//   return "Server started";
+// };
+
+// startServer(serverConfig.protocol, serverConfig.port);
+
+// --------------- lesson22 - type and Intersection
+
+type Config = { protocol: "http" | "https"; port: 3000 | 5000 };
+
+type Role = {
+  role: string;
+};
+
+type ConfigWithRole = Config & Role; //Intersection
+
+const serverConfig: Config = {
   protocol: "https",
   port: 5000,
 };
 
-const startServer: (protocol: "http" | "https", port: 3000 | 5000) => string = (
+const backUpConfig: ConfigWithRole = {
+  protocol: "http",
+  port: 3000,
+  role: "admin",
+};
+
+type StartFunction = (protocol: "http" | "https", port: 3000 | 5000) => string;
+
+const startServer: StartFunction = (
   protocol: "http" | "https",
   port: 3000 | 5000
 ): "Server started" => {
