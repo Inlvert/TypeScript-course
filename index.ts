@@ -335,25 +335,47 @@
 
 // --------------- lesson19 literal types
 
-let msg: "Hello" = "Hello";
+// let msg: "Hello" = "Hello";
 
-msg = "Hello";
+// msg = "Hello";
 
-function startServer(
-  protocol: "http" | "https",
-  port: 3000 | 5000
-): "Server started" {
-  console.log(`Server started on ${protocol} :// port:${port}`);
+// function startServer(
+//   protocol: "http" | "https",
+//   port: 3000 | 5000
+// ): "Server started" {
+//   console.log(`Server started on ${protocol} :// port:${port}`);
 
-  return "Server started";
-}
+//   return "Server started";
+// }
 
-startServer("http", 5000);
+// startServer("http", 5000);
+
+// function createAnimation(
+//   id: string | number,
+//   animName: string,
+//   timingFunc: "ease" | "ease-out" | "ease-in" = "ease", //literal types
+//   duration: number,
+//   iterCoun: "infinit" | number
+// ): void {
+//   // const elem = document.querySelector(`#${id}`) as HTMLElement;
+//   // if (elem) {
+//   console.log(`${animName} ${timingFunc} ${iterCoun}`);
+//   // elem.style.animation = `${animName} ${timingFunc} ${iterCoun}`;
+//   // }
+// }
+
+// createAnimation(12345, "MyAnimation", "ease-out", 500, 5);
+
+// --------------- lesson20 type Aliases
+
+type AnimationTimingFunc = "ease" | "ease-out" | "ease-in";
+
+type AnimationId = string | number;
 
 function createAnimation(
-  id: string | number,
+  id: AnimationId,
   animName: string,
-  timingFunc: "ease" | "ease-out" | "ease-in" = "ease", //literal types
+  timingFunc: AnimationTimingFunc = "ease", //literal types
   duration: number,
   iterCoun: "infinit" | number
 ): void {
