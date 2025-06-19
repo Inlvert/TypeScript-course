@@ -108,23 +108,39 @@
 
 // --------------- lesson11 - null undefined
 
-function getRandData() {
-  if (Math.random() < 0.5) {
-    return null;
-  } else {
-    return "   Some data   ";
-  }
-}
+// function getRandData() {
+//   if (Math.random() < 0.5) {
+//     return null;
+//   } else {
+//     return "   Some data   ";
+//   }
+// }
 
-const data = getRandData();
+// const data = getRandData();
 
-const trimmedData = data ? data.trim() : null;
+// const trimmedData = data ? data.trim() : null;
 
-console.log(trimmedData);
+// console.log(trimmedData);
 
-const test: undefined = undefined;
+// const test: undefined = undefined;
 
-const test2: any = undefined;
+// const test2: any = undefined;
 
-const test3: string = undefined;
+// const test3: string = undefined;
+
+// --------------- lesson12 - symbol, bigint
+
+let id: symbol = Symbol("id");
+
+const data = {
+  [id]: 1,
+};
+
+console.log(data);
+
+const num1: bigint = 1n;
+
+const num2: bigint = 2n;
+
+console.log(num1 + num2);
 
