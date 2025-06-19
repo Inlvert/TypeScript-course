@@ -185,21 +185,77 @@
 
 // --------------- lesson14 array[]
 
-const departments: string[] = ["dev", "desing", "marketing"];
+// const departments: string[] = ["dev", "desing", "marketing"];
 
-const department = departments[0];
+// const department = departments[0];
 
-const report = departments
-  .filter((d: string) => d !== "dev")
-  .map((d: string) => `${d} - done`);
+// const report = departments
+//   .filter((d: string) => d !== "dev")
+//   .map((d: string) => `${d} - done`);
 
-const [first, second] = report;
+// const [first, second] = report;
 
-console.log("first", first);
-console.log("second", second);
+// console.log("first", first);
+// console.log("second", second);
 
-const nums: number[][] = [
-  [5, 5, 5],
-  [5, 4, 5],
-];
+// const nums: number[][] = [
+//   [5, 5, 5],
+//   [5, 4, 5],
+// ];
+
+// --------------- lesson15 - practice
+
+const electricityUserData = {
+  readings: 95,
+  units: "kWt",
+  mode: "double",
+};
+
+const waterUserData = {
+  readings: 3,
+  units: "m3",
+};
+
+const elRate = 0.45;
+const wRate = 2;
+
+const monthPayments = [0, 0]; // [electricity, water]
+
+const calculatePayments = (
+  elData: { readings: number; units: string; mode: string },
+  wData: { readings: number; units: string },
+  elRate: number,
+  wRate: number
+) => {
+  if (elData.mode === "double" && elData.readings < 50) {
+    monthPayments[0] = elData.readings * elRate * 0.7;
+  } else {
+    monthPayments[0] = elData.readings * elRate;
+  }
+
+  monthPayments[1] = wData.readings * wRate;
+};
+
+calculatePayments(electricityUserData, waterUserData, elRate, wRate);
+
+console.log(monthPayments);
+
+const sendInvoice = (
+  monthPayments: number[],
+  electricityUserData: { readings: number; units: string; mode: string },
+  waterUserData: { readings: number; units: string }
+) => {
+  const text = `    Hello!
+    This month you used ${electricityUserData.readings} ${electricityUserData.units} of electricity
+    It will cost: ${monthPayments[0]}€
+
+    This month you used ${waterUserData.readings} ${waterUserData.units} of water
+    It will cost: ${monthPayments[1]}€`;
+
+  return text;
+};
+
+const result = sendInvoice(monthPayments, electricityUserData, waterUserData);
+
+console.log(result);
 
