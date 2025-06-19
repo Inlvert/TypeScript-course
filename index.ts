@@ -146,40 +146,60 @@
 
 // --------------- lesson13 - object
 
-const isBirthdayData: boolean = true;
-let ageData: number = 40;
-const userNameData: string = "John";
+// const isBirthdayData: boolean = true;
+// let ageData: number = 40;
+// const userNameData: string = "John";
 
-const userData = {
-  isBirthdayData: true,
-  ageData: 40,
-  userNameData: "John",
-  messages: {
-    error: "Error",
-  },
-};
+// const userData = {
+//   isBirthdayData: true,
+//   ageData: 40,
+//   userNameData: "John",
+//   messages: {
+//     error: "Error",
+//   },
+// };
 
-const createError = (msg: string) => {
-  throw new Error("Error happened");
-};
+// const createError = (msg: string) => {
+//   throw new Error("Error happened");
+// };
 
-function logBirMsg({
-  isBirthdayData,
-  ageData,
-  userNameData,
-  messages: { error },
-}: {
-  isBirthdayData: boolean;
-  ageData: number;
-  userNameData: string;
-  messages: { error: string };
-}): string {
-  if (isBirthdayData) {
-    return `Congrats ${userNameData.toUpperCase()}, age: ${ageData + 1}`;
-  } else {
-    return createError(error);
-  }
-}
+// function logBirMsg({
+//   isBirthdayData,
+//   ageData,
+//   userNameData,
+//   messages: { error },
+// }: {
+//   isBirthdayData: boolean;
+//   ageData: number;
+//   userNameData: string;
+//   messages: { error: string };
+// }): string {
+//   if (isBirthdayData) {
+//     return `Congrats ${userNameData.toUpperCase()}, age: ${ageData + 1}`;
+//   } else {
+//     return createError(error);
+//   }
+// }
 
-console.log(logBirMsg(userData));
+// console.log(logBirMsg(userData));
+
+// --------------- lesson14 array[]
+
+const departments: string[] = ["dev", "desing", "marketing"];
+
+const department = departments[0];
+
+const report = departments
+  .filter((d: string) => d !== "dev")
+  .map((d: string) => `${d} - done`);
+
+const [first, second] = report;
+
+console.log("first", first);
+console.log("second", second);
+
+const nums: number[][] = [
+  [5, 5, 5],
+  [5, 4, 5],
+];
 
