@@ -269,13 +269,67 @@
 
 // --------------- lesson17 - union type
 
-const message: string | number = 'str';
+// const message: string | number = 'str';
 
-const messages: string[] | number[] = ['a', 'b'];
+// const messages: string[] | number[] = ['a', 'b'];
+
+// function printMsg(msg: string | number): void {
+//   console.log(msg)
+// }
+
+// printMsg(4)
+
+// --------------- lesson18 - narrowing type (звуження типу)
+
+const message: string | number = "str";
+
+const messages: string[] | number[] = ["a", "b"];
 
 function printMsg(msg: string | number): void {
-  console.log(msg)
+  if (typeof msg === "string") {
+    console.log(msg.toUpperCase());
+  } else {
+    console.log(msg.toExponential());
+  }
 }
 
-printMsg(4)
+printMsg("dfgh");
+
+const printReading = (a: number | string, b: number | boolean) => {
+  if (a === b) {
+    console.log(a, b);
+  }
+  return console.log(a, b);
+};
+
+printReading("one", true);
+
+const obj = {
+  user: 50,
+  system: 10,
+};
+
+function cheackReadings(readings: { system: number } | { user: number }): void {
+  if ("system" in readings) {
+    console.log("system", readings.system);
+  } else {
+    console.log("user", readings.user);
+  }
+}
+
+cheackReadings(obj);
+
+const time = Date();
+
+console.log(time);
+
+function logValue(x: string | Date) {
+  if (x instanceof Date) {
+    console.log("getDate", x.getDate());
+  } else {
+    console.log(x.slice(0, 5));
+  }
+}
+
+logValue(time)
 
