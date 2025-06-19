@@ -130,17 +130,56 @@
 
 // --------------- lesson12 - symbol, bigint
 
-let id: symbol = Symbol("id");
+// let id: symbol = Symbol("id");
 
-const data = {
-  [id]: 1,
+// const data = {
+//   [id]: 1,
+// };
+
+// console.log(data);
+
+// const num1: bigint = 1n;
+
+// const num2: bigint = 2n;
+
+// console.log(num1 + num2);
+
+// --------------- lesson13 - object
+
+const isBirthdayData: boolean = true;
+let ageData: number = 40;
+const userNameData: string = "John";
+
+const userData = {
+  isBirthdayData: true,
+  ageData: 40,
+  userNameData: "John",
+  messages: {
+    error: "Error",
+  },
 };
 
-console.log(data);
+const createError = (msg: string) => {
+  throw new Error("Error happened");
+};
 
-const num1: bigint = 1n;
+function logBirMsg({
+  isBirthdayData,
+  ageData,
+  userNameData,
+  messages: { error },
+}: {
+  isBirthdayData: boolean;
+  ageData: number;
+  userNameData: string;
+  messages: { error: string };
+}): string {
+  if (isBirthdayData) {
+    return `Congrats ${userNameData.toUpperCase()}, age: ${ageData + 1}`;
+  } else {
+    return createError(error);
+  }
+}
 
-const num2: bigint = 2n;
-
-console.log(num1 + num2);
+console.log(logBirMsg(userData));
 
