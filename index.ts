@@ -37,23 +37,46 @@
 
 // --------------- lesson8 - type any
 
-let salary; //any
+// let salary; //any
 
-const userData = '{"isBirthdayData": true, "ageData": 40, "userNameData": "John"}'
+// const userData = '{"isBirthdayData": true, "ageData": 40, "userNameData": "John"}'
 
-// const userObj = JSON.parse(userData) //any
+// // const userObj = JSON.parse(userData) //any
 
-const userObj: {isBirthdayData: boolean, ageData: number, userNameData: string} = JSON.parse(userData)
+// const userObj: {isBirthdayData: boolean, ageData: number, userNameData: string} = JSON.parse(userData)
 
-console.log(userObj)
+// console.log(userObj)
 
-const {isBirthdayData, ageData, userNameData} = userObj
+// const {isBirthdayData, ageData, userNameData} = userObj
 
-const logBirMsg2 = (isBirthday: boolean, age: number, userName: string): void | string => {
-  if (isBirthday) {
-    return console.log(`Congrats ${userName.toUpperCase()}, age: ${age + 1}`);
+// const logBirMsg2 = (isBirthday: boolean, age: number, userName: string): void | string => {
+//   if (isBirthday) {
+//     return console.log(`Congrats ${userName.toUpperCase()}, age: ${age + 1}`);
+//   } else {
+//     return "Error"
+//   }
+// }
+
+// logBirMsg2(isBirthdayData, ageData, userNameData);
+
+// --------------- lesson9 - practice
+
+const currRate: string = "1.05";
+
+const fetchCurr = (response: string) => {
+  const data = JSON.parse(response);
+  return data;
+};
+
+function transferEurToUsd(available: boolean, amount: number, commission: number): void {
+  if (available) {
+    let res = fetchCurr(currRate) * amount * commission;
+    console.log(res);
+    // Или запись в элемент на странице вместо консоли
   } else {
-    return "Error"
+    console.log("Сейчас обмен недоступен");
   }
 }
+
+transferEurToUsd(true, 500, 1.05);
 
