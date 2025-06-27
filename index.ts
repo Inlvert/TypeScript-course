@@ -408,35 +408,85 @@
 
 // --------------- lesson22 - type and Intersection
 
-type Config = { protocol: "http" | "https"; port: 3000 | 5000 };
+// type Config = { protocol: "http" | "https"; port: 3000 | 5000 };
 
-type Role = {
-  role: string;
-};
+// type Role = {
+//   role: string;
+// };
 
-type ConfigWithRole = Config & Role; //Intersection
+// type ConfigWithRole = Config & Role; //Intersection
 
-const serverConfig: Config = {
+// const serverConfig: Config = {
+//   protocol: "https",
+//   port: 5000,
+// };
+
+// const backUpConfig: ConfigWithRole = {
+//   protocol: "http",
+//   port: 3000,
+//   role: "admin",
+// };
+
+// type StartFunction = (protocol: "http" | "https", port: 3000 | 5000) => string;
+
+// const startServer: StartFunction = (
+//   protocol: "http" | "https",
+//   port: 3000 | 5000
+// ): "Server started" => {
+//   console.log(`Server started on ${protocol} :// port:${port}`);
+
+//   return "Server started";
+// };
+
+// startServer(serverConfig.protocol, serverConfig.port);
+
+// --------------- lesson23 - Interfaces
+
+// type Config = { protocol: "http" | "https"; port: 3000 | 5000 };
+interface Config {
+  protocol: "http" | "https";
+  port: 3000 | 5000;
+  log: (msg: string) => void;
+}
+
+interface Role {
+  role: "admin";
+}
+
+interface ConfigWithRole extends Config, Role {}
+
+const serverConfig: ConfigWithRole = {
   protocol: "https",
   port: 5000,
-};
-
-const backUpConfig: ConfigWithRole = {
-  protocol: "http",
-  port: 3000,
   role: "admin",
+  log: (msg: string): void => console.log(msg),
 };
 
-type StartFunction = (protocol: "http" | "https", port: 3000 | 5000) => string;
+type StartFunction = (
+  protocol: "http" | "https",
+  port: 3000 | 5000,
+  log: (msg: string) => void
+) => string;
 
 const startServer: StartFunction = (
   protocol: "http" | "https",
-  port: 3000 | 5000
+  port: 3000 | 5000,
+  log: (msg: string) => void
 ): "Server started" => {
-  console.log(`Server started on ${protocol} :// port:${port}`);
+  log(`Server started on ${protocol}://${port}`);
 
   return "Server started";
 };
 
-startServer(serverConfig.protocol, serverConfig.port);
+startServer(serverConfig.protocol, serverConfig.port, serverConfig.log);
 
+interface Styles {
+  [key: string]: string;
+}
+
+const styles: Styles = {
+  position: "absolute",
+  top: "20px",
+  left: "50px",
+  align: "centr",
+};
