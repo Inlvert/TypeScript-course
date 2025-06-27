@@ -443,50 +443,75 @@
 // --------------- lesson23 - Interfaces
 
 // type Config = { protocol: "http" | "https"; port: 3000 | 5000 };
-interface Config {
+// interface Config {
+//   protocol: "http" | "https";
+//   port: 3000 | 5000;
+//   log: (msg: string) => void;
+// }
+
+// interface Role {
+//   role: "admin";
+// }
+
+// interface ConfigWithRole extends Config, Role {}
+
+// const serverConfig: ConfigWithRole = {
+//   protocol: "https",
+//   port: 5000,
+//   role: "admin",
+//   log: (msg: string): void => console.log(msg),
+// };
+
+// type StartFunction = (
+//   protocol: "http" | "https",
+//   port: 3000 | 5000,
+//   log: (msg: string) => void
+// ) => string;
+
+// const startServer: StartFunction = (
+//   protocol: "http" | "https",
+//   port: 3000 | 5000,
+//   log: (msg: string) => void
+// ): "Server started" => {
+//   log(`Server started on ${protocol}://${port}`);
+
+//   return "Server started";
+// };
+
+// startServer(serverConfig.protocol, serverConfig.port, serverConfig.log);
+
+// interface Styles {
+//   [key: string]: string;
+// }
+
+// const styles: Styles = {
+//   position: "absolute",
+//   top: "20px",
+//   left: "50px",
+//   align: "centr",
+// };
+
+// --------------- lesson24 - Interfaces vs Type
+
+interface IConfig {
   protocol: "http" | "https";
   port: 3000 | 5000;
-  log: (msg: string) => void;
 }
 
-interface Role {
-  role: "admin";
+interface IConfig {
+  data: Date;
 }
 
-interface ConfigWithRole extends Config, Role {}
+interface IRole {
+  role: string;
+}
 
-const serverConfig: ConfigWithRole = {
-  protocol: "https",
+interface IConfogWithIRole extends IConfig, IRole {}
+
+const serverConfig: IConfogWithIRole = {
+  protocol: "http",
   port: 5000,
-  role: "admin",
-  log: (msg: string): void => console.log(msg),
+  data: new Date(),
+  role: "user",
 };
 
-type StartFunction = (
-  protocol: "http" | "https",
-  port: 3000 | 5000,
-  log: (msg: string) => void
-) => string;
-
-const startServer: StartFunction = (
-  protocol: "http" | "https",
-  port: 3000 | 5000,
-  log: (msg: string) => void
-): "Server started" => {
-  log(`Server started on ${protocol}://${port}`);
-
-  return "Server started";
-};
-
-startServer(serverConfig.protocol, serverConfig.port, serverConfig.log);
-
-interface Styles {
-  [key: string]: string;
-}
-
-const styles: Styles = {
-  position: "absolute",
-  top: "20px",
-  left: "50px",
-  align: "centr",
-};
