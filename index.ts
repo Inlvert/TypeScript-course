@@ -613,30 +613,55 @@
 
 // --------------- lesson26 Type Inference
 
-let salary: number;
+// let salary: number;
 
-salary = 500;
+// salary = 500;
 
-interface UserData {
-  isBirthdayData: boolean;
-  ageData: number;
-  userNameData: string;
-}
+// interface UserData {
+//   isBirthdayData: boolean;
+//   ageData: number;
+//   userNameData: string;
+// }
 
-const userData =
-  '{"isBirthdayData": true, "ageData": 40, "userNameData": "John"}';
+// const userData =
+//   '{"isBirthdayData": true, "ageData": 40, "userNameData": "John"}';
 
-const userObj: UserData = JSON.parse(userData); //any
+// const userObj: UserData = JSON.parse(userData); //any
 
+// console.log(userObj);
 
-console.log(userObj);
+// let isOk = true;
+// let movement: boolean | string = false;
 
+// if(isOk) {
+//   movement = 'moving';
+// }
 
-let isOk = true;
-let movement: boolean | string = false;
+// --------------- lesson27 - optional property modifiers
 
-if(isOk) {
-  movement = 'moving';
-}
+// interface User {
+//   login: string;
+//   password: string;
+//   age: number;
+//   // addr?: string;
+//   addr: string | undefined;
+//   parents?: {
+//     mom?: string;
+//     dad?: string;
+//   };
+// }
 
+// const user: User = {
+//   login: "test@mail.com",
+//   password: "qwerty",
+//   age: 40,
+//   addr: undefined,
+// };
 
+// const dbName = "12345";
+
+// function sendUserData(obj: User, db?: string): void {
+//   console.log(obj.parents?.mom?.length, db?.concat);
+// }
+
+// sendUserData(user)
