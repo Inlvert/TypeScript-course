@@ -666,10 +666,41 @@
 
 // sendUserData(user)
 
-// --------------- lesson28 non-null and  non-undefined !
+// --------------- lesson28 - non-null and  non-undefined !
+
+// interface User {
+//   login: string;
+//   password: string;
+//   age: number;
+//   // addr?: string;
+//   addr: string | undefined;
+//   parents?: {
+//     mom?: string;
+//     dad?: string;
+//   };
+// }
+
+// const user: User = {
+//   login: "test@mail.com",
+//   password: "qwerty",
+//   age: 40,
+//   addr: undefined,
+// };
+
+// let dbName: string;
+// console.log(dbName!)
+
+// function sendUserData(obj: User, db?: string): void {
+//   dbName = "12345";
+//   console.log(obj.parents!.mom?.length, db!.concat);
+// }
+
+// sendUserData(user);
+
+// --------------- lesson29 - readonly (property modifiers)
 
 interface User {
-  login: string;
+  readonly login: string;
   password: string;
   age: number;
   // addr?: string;
@@ -687,8 +718,15 @@ const user: User = {
   addr: undefined,
 };
 
+const userFreeze: Readonly<User> = {  // generic
+  login: "test@mail.com",
+  password: "qwerty",
+  age: 40,
+  addr: undefined,
+};
+
 let dbName: string;
-console.log(dbName!)
+console.log(dbName!);
 
 function sendUserData(obj: User, db?: string): void {
   dbName = "12345";
@@ -696,3 +734,22 @@ function sendUserData(obj: User, db?: string): void {
 }
 
 sendUserData(user);
+
+class Animal {
+  readonly name: string = "name";
+}
+
+// const basicPorts: readonly number[] = [3000, 3001, 5000];
+// basicPorts[0] = 5005;
+// basicPorts.push(1515);
+
+const basicPorts: ReadonlyArray<number> = [3000, 3001, 5000]; //generic
+basicPorts[0] = 5005;
+basicPorts.push(1515);
+
+// const basicPorts: readonly [number, ...string[]] = [3000, "5050", "56656"];
+// basicPorts[0] = 5005;
+// basicPorts.push(1515);
+
+
+lesson30 - Enums
