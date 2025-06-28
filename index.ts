@@ -665,3 +665,34 @@
 // }
 
 // sendUserData(user)
+
+// --------------- lesson28 non-null and  non-undefined !
+
+interface User {
+  login: string;
+  password: string;
+  age: number;
+  // addr?: string;
+  addr: string | undefined;
+  parents?: {
+    mom?: string;
+    dad?: string;
+  };
+}
+
+const user: User = {
+  login: "test@mail.com",
+  password: "qwerty",
+  age: 40,
+  addr: undefined,
+};
+
+let dbName: string;
+console.log(dbName!)
+
+function sendUserData(obj: User, db?: string): void {
+  dbName = "12345";
+  console.log(obj.parents!.mom?.length, db!.concat);
+}
+
+sendUserData(user);
