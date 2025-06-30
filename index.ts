@@ -699,57 +699,87 @@
 
 // --------------- lesson29 - readonly (property modifiers)
 
-interface User {
-  readonly login: string;
-  password: string;
-  age: number;
-  // addr?: string;
-  addr: string | undefined;
-  parents?: {
-    mom?: string;
-    dad?: string;
-  };
-}
+// interface User {
+//   readonly login: string;
+//   password: string;
+//   age: number;
+//   // addr?: string;
+//   addr: string | undefined;
+//   parents?: {
+//     mom?: string;
+//     dad?: string;
+//   };
+// }
 
-const user: User = {
-  login: "test@mail.com",
-  password: "qwerty",
-  age: 40,
-  addr: undefined,
-};
+// const user: User = {
+//   login: "test@mail.com",
+//   password: "qwerty",
+//   age: 40,
+//   addr: undefined,
+// };
 
-const userFreeze: Readonly<User> = {  // generic
-  login: "test@mail.com",
-  password: "qwerty",
-  age: 40,
-  addr: undefined,
-};
+// const userFreeze: Readonly<User> = {  // generic
+//   login: "test@mail.com",
+//   password: "qwerty",
+//   age: 40,
+//   addr: undefined,
+// };
 
-let dbName: string;
-console.log(dbName!);
+// let dbName: string;
+// console.log(dbName!);
 
-function sendUserData(obj: User, db?: string): void {
-  dbName = "12345";
-  console.log(obj.parents!.mom?.length, db!.concat);
-}
+// function sendUserData(obj: User, db?: string): void {
+//   dbName = "12345";
+//   console.log(obj.parents!.mom?.length, db!.concat);
+// }
 
-sendUserData(user);
+// sendUserData(user);
 
-class Animal {
-  readonly name: string = "name";
-}
+// class Animal {
+//   readonly name: string = "name";
+// }
 
 // const basicPorts: readonly number[] = [3000, 3001, 5000];
 // basicPorts[0] = 5005;
 // basicPorts.push(1515);
 
-const basicPorts: ReadonlyArray<number> = [3000, 3001, 5000]; //generic
-basicPorts[0] = 5005;
-basicPorts.push(1515);
+// const basicPorts: ReadonlyArray<number> = [3000, 3001, 5000]; //generic
+// basicPorts[0] = 5005;
+// basicPorts.push(1515);
 
 // const basicPorts: readonly [number, ...string[]] = [3000, "5050", "56656"];
 // basicPorts[0] = 5005;
 // basicPorts.push(1515);
 
+// --------------- lesson30 - Enums
 
-lesson30 - Enums
+const TOP = "Top";
+const RIGHT = "Right";
+
+ enum Directions {
+  TOP,
+  RIGHT,
+  LEFT,
+  BOTTOM,
+}
+ 
+const enum TimingFunc {
+  EASE = "ease",
+  EASE_IN = "ease-in",
+  LINEAR = "liner",
+}
+
+const  enum TimingFuncN {
+  EASE = 1,
+  EASE_IN = 10,
+  LINEAR = EASE * EASE_IN,
+}
+
+function frame(elem: string, dir: Directions, tFunc: TimingFunc): void {
+  if (dir === Directions.RIGHT) {
+    console.log(tFunc)
+  }
+}
+
+frame("id", Directions.RIGHT, TimingFunc.EASE_IN);
+
