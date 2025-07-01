@@ -849,26 +849,99 @@
 
 // --------------- lesson32 - type queries
 
-const dataFromControl = {
-  water: 200,
-  el: 350,
-};
+// const dataFromControl = {
+//   water: 200,
+//   el: 350,
+// };
 
-function checkReadings(data: typeof dataFromControl): boolean {
-  const dataFromUser = {
-    water: 200,
-    el: 350,
-  };
+// function checkReadings(data: typeof dataFromControl): boolean {
+//   const dataFromUser = {
+//     water: 200,
+//     el: 350,
+//   };
 
-  if (data.el === dataFromUser.el && data.water === dataFromUser.water) {
-    console.log("true");
-    return true;
-  }
+//   if (data.el === dataFromUser.el && data.water === dataFromUser.water) {
+//     console.log("true");
+//     return true;
+//   }
 
-  return false;
+//   return false;
+// }
+
+// checkReadings(dataFromControl);
+
+// const PI = 3.14;
+// let PIClone: typeof PI; // 3.14
+
+
+// --------------- lesson33 task
+
+// Перечисление с названием TypesOfMedia, которое включает строчные типы video, audio
+
+enum TypesOfMedia {
+  VIDEO = 'video',
+  AUDIO = 'audio'
 }
 
-checkReadings(dataFromControl);
+// Перечисление с названием FormatsOfMedia, которое включает строчные видео-форматы: .mp4, .mov, .mkv, .flv, .webM
 
-const PI = 3.14;
-let PIClone: typeof PI; // 3.14
+enum FormatsOfMedia {
+  MP4 = '.mp4',
+  MOV = ".mov",
+  MKV = '.mkv',
+  FLV = ".flv",
+  WEBM = ".webM"
+}
+
+interface DataStructure {
+  name: string,
+  type: TypesOfMedia,
+  format: FormatsOfMedia,
+  subtitles?: string,
+  marks?: unknown,
+}
+
+// Описание интерфейса, в котором:
+// name - строка
+// type - один из перечисления выше
+// format = один из перечисления выше
+// subtitles - необязательное поле типа строка
+// marks - необязательное поле неизвестного типа
+
+function playMedia(
+	{ name, type, format, subtitles, marks }: DataStructure = {
+		name: "example",
+		type: TypesOfMedia.AUDIO,
+		format: FormatsOfMedia.MP4,
+	}
+): string {
+	let marksLog: string;
+
+    // Создать функционал, что если marks - это массив, то "сложить" все эелементы в одну строку и поместить в marksLog
+    // Если это строка, то просто поместить её в marksLog
+    // Если что-то другое - то marksLog = "Unsupported type of marks"
+    // Не допускайте any!
+
+  if(Array.isArray(marks)) {
+    marksLog = marks.join(" ")
+  } else if (typeof marks === 'string') {
+    marksLog = marks;
+  } else {
+    marksLog = 'Unsupported type of marks'
+  }
+
+	console.log(`Media ${name}${format} is ${type}
+    Marks: ${marksLog}
+    Subtitles: ${subtitles ?? "none"}`);
+    // помните что это за оператор ??
+
+	return "Media started";
+}
+
+playMedia({
+	name: "WoW",
+	format: FormatsOfMedia.MP4,
+	type: TypesOfMedia.VIDEO,
+	subtitles: "hmhmhm hmhmhm doh",
+	marks: ["4:30", "5:40"],
+});
