@@ -560,18 +560,178 @@
 // basicPorts[0] = 5005;
 // basicPorts.push(1515);
 // --------------- lesson30 - Enums
-var TOP = "Top";
-var RIGHT = "Right";
-var Directions;
-(function (Directions) {
-    Directions[Directions["TOP"] = 0] = "TOP";
-    Directions[Directions["RIGHT"] = 1] = "RIGHT";
-    Directions[Directions["LEFT"] = 2] = "LEFT";
-    Directions[Directions["BOTTOM"] = 3] = "BOTTOM";
-})(Directions || (Directions = {}));
-function frame(elem, dir, tFunc) {
-    if (dir === Directions.RIGHT) {
-        console.log(tFunc);
-    }
-}
-frame("id", Directions.RIGHT, "ease-in" /* TimingFunc.EASE_IN */);
+// const TOP = "Top";
+// const RIGHT = "Right";
+//  enum Directions {
+//   TOP,
+//   RIGHT,
+//   LEFT,
+//   BOTTOM,
+// }
+// const enum TimingFunc {
+//   EASE = "ease",
+//   EASE_IN = "ease-in",
+//   LINEAR = "liner",
+// }
+// const  enum TimingFuncN {
+//   EASE = 1,
+//   EASE_IN = 10,
+//   LINEAR = EASE * EASE_IN,
+// }
+// function frame(elem: string, dir: Directions, tFunc: TimingFunc): void {
+//   if (dir === Directions.RIGHT) {
+//     console.log(tFunc)
+//   }
+// }
+// frame("id", Directions.RIGHT, TimingFunc.EASE_IN);
+// --------------- lesson31 - Unknown
+// let smth: unknown;
+// smth = "str";
+// let data: string[] = smth;
+// data.find((e) => e);
+// const someValue: unknown = 10;
+// someValue.method();
+// function fetchData(data: unknown): void {
+//   if (typeof data === "string") {
+//     console.log(data.toLocaleLowerCase());
+//   }
+// }
+// const userData =
+//   '{"isBirthdayData": true, "ageData": 40, "userNameData": "John"}';
+// function safeParse(s: string): unknown {
+//   return JSON.parse(s);
+// }
+// const data = safeParse(userData);
+// function transferData(d: unknown): void {
+//   if (typeof d === "string") {
+//     console.log(d.toUpperCase);
+//   } else if (typeof d === 'object' && d) {
+//     console.log(data)
+//   } else {
+//     console.error('Some Error')
+//   }
+// }
+// transferData(data)
+// try {
+//   if (1) {
+//     throw "error";
+//   }
+// } catch (e) {
+//   console.log(typeof e);
+// }
+// try {
+//   if (1) {
+//     throw new Error("error");
+//   }
+// } catch (e) {
+//   if (e instanceof Error) {
+//     console.log(e.message);
+//   }
+// }
+// type T0 = any | unknown;
+// type T2 = unknown | any;
+// type T1 = number | unknown;
+// type T3 = unknown & any;
+// type T4 = number & unknown;
+// --------------- lesson32 - type queries
+// const dataFromControl = {
+//   water: 200,
+//   el: 350,
+// };
+// function checkReadings(data: typeof dataFromControl): boolean {
+//   const dataFromUser = {
+//     water: 200,
+//     el: 350,
+//   };
+//   if (data.el === dataFromUser.el && data.water === dataFromUser.water) {
+//     console.log("true");
+//     return true;
+//   }
+//   return false;
+// }
+// checkReadings(dataFromControl);
+// const PI = 3.14;
+// let PIClone: typeof PI; // 3.14
+// --------------- lesson33 task
+// Перечисление с названием TypesOfMedia, которое включает строчные типы video, audio
+// enum TypesOfMedia {
+//   VIDEO = 'video',
+//   AUDIO = 'audio'
+// }
+// // Перечисление с названием FormatsOfMedia, которое включает строчные видео-форматы: .mp4, .mov, .mkv, .flv, .webM
+// enum FormatsOfMedia {
+//   MP4 = '.mp4',
+//   MOV = ".mov",
+//   MKV = '.mkv',
+//   FLV = ".flv",
+//   WEBM = ".webM"
+// }
+// interface DataStructure {
+//   name: string,
+//   type: TypesOfMedia,
+//   format: FormatsOfMedia,
+//   subtitles?: string,
+//   marks?: unknown,
+// }
+// // Описание интерфейса, в котором:
+// // name - строка
+// // type - один из перечисления выше
+// // format = один из перечисления выше
+// // subtitles - необязательное поле типа строка
+// // marks - необязательное поле неизвестного типа
+// function playMedia(
+// 	{ name, type, format, subtitles, marks }: DataStructure = {
+// 		name: "example",
+// 		type: TypesOfMedia.AUDIO,
+// 		format: FormatsOfMedia.MP4,
+// 	}
+// ): string {
+// 	let marksLog: string;
+//     // Создать функционал, что если marks - это массив, то "сложить" все эелементы в одну строку и поместить в marksLog
+//     // Если это строка, то просто поместить её в marksLog
+//     // Если что-то другое - то marksLog = "Unsupported type of marks"
+//     // Не допускайте any!
+//   if(Array.isArray(marks)) {
+//     marksLog = marks.join(" ")
+//   } else if (typeof marks === 'string') {
+//     marksLog = marks;
+//   } else {
+//     marksLog = 'Unsupported type of marks'
+//   }
+// 	console.log(`Media ${name}${format} is ${type}
+//     Marks: ${marksLog}
+//     Subtitles: ${subtitles ?? "none"}`);
+//     // помните что это за оператор ??
+// 	return "Media started";
+// }
+// playMedia({
+// 	name: "WoW",
+// 	format: FormatsOfMedia.MP4,
+// 	type: TypesOfMedia.VIDEO,
+// 	subtitles: "hmhmhm hmhmhm doh",
+// 	marks: ["4:30", "5:40"],
+// });
+// --------------- lesson34 - type Assertions (узгодження типу)
+var fetchData = function (url, method) {
+    console.log("Fetched!");
+};
+var requestOptions = {
+    url: "https://some.com",
+    method: "GET",
+};
+var requestOptions2 = {
+    url: "https://some.com",
+    method: "GET",
+};
+var requestOptions3 = {
+    url: "https://some.com",
+    method: "GET",
+};
+fetchData("https://some.com", "GET");
+fetchData(requestOptions.url, requestOptions.method);
+fetchData(requestOptions2.url, requestOptions2.method);
+fetchData(requestOptions3.url, requestOptions3.method); // doesn't work in Reac
+var input2 = document.querySelector("input");
+var input = document.querySelector("input");
+var soleNumber = input.value;
+console.log(soleNumber * 2);
