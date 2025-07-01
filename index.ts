@@ -753,33 +753,96 @@
 
 // --------------- lesson30 - Enums
 
-const TOP = "Top";
-const RIGHT = "Right";
+// const TOP = "Top";
+// const RIGHT = "Right";
 
- enum Directions {
-  TOP,
-  RIGHT,
-  LEFT,
-  BOTTOM,
-}
- 
-const enum TimingFunc {
-  EASE = "ease",
-  EASE_IN = "ease-in",
-  LINEAR = "liner",
-}
+//  enum Directions {
+//   TOP,
+//   RIGHT,
+//   LEFT,
+//   BOTTOM,
+// }
 
-const  enum TimingFuncN {
-  EASE = 1,
-  EASE_IN = 10,
-  LINEAR = EASE * EASE_IN,
-}
+// const enum TimingFunc {
+//   EASE = "ease",
+//   EASE_IN = "ease-in",
+//   LINEAR = "liner",
+// }
 
-function frame(elem: string, dir: Directions, tFunc: TimingFunc): void {
-  if (dir === Directions.RIGHT) {
-    console.log(tFunc)
+// const  enum TimingFuncN {
+//   EASE = 1,
+//   EASE_IN = 10,
+//   LINEAR = EASE * EASE_IN,
+// }
+
+// function frame(elem: string, dir: Directions, tFunc: TimingFunc): void {
+//   if (dir === Directions.RIGHT) {
+//     console.log(tFunc)
+//   }
+// }
+
+// frame("id", Directions.RIGHT, TimingFunc.EASE_IN);
+
+// --------------- lesson31 - Unknown
+
+let smth: unknown;
+
+smth = "str";
+
+let data: string[] = smth;
+
+data.find((e) => e);
+
+const someValue: unknown = 10;
+someValue.method();
+
+function fetchData(data: unknown): void {
+  if (typeof data === "string") {
+    console.log(data.toLocaleLowerCase());
   }
 }
 
-frame("id", Directions.RIGHT, TimingFunc.EASE_IN);
+const userData =
+  '{"isBirthdayData": true, "ageData": 40, "userNameData": "John"}';
 
+function safeParse(s: string): unknown {
+  return JSON.parse(s);
+}
+
+const data = safeParse(userData);
+
+function transferData(d: unknown): void {
+  if (typeof d === "string") {
+    console.log(d.toUpperCase);
+  } else if (typeof d === 'object' && d) {
+    console.log(data)
+  } else {
+    console.error('Some Error')
+  }
+}
+
+transferData(data)
+
+try {
+  if (1) {
+    throw "error";
+  }
+} catch (e) {
+  console.log(typeof e);
+}
+
+try {
+  if (1) {
+    throw new Error("error");
+  }
+} catch (e) {
+  if (e instanceof Error) {
+    console.log(e.message);
+  }
+}
+
+type T0 = any | unknown;
+type T2 = unknown | any;
+type T1 = number | unknown;
+type T3 = unknown & any;
+type T4 = number & unknown;
