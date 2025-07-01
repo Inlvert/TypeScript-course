@@ -785,64 +785,90 @@
 
 // --------------- lesson31 - Unknown
 
-let smth: unknown;
+// let smth: unknown;
 
-smth = "str";
+// smth = "str";
 
-let data: string[] = smth;
+// let data: string[] = smth;
 
-data.find((e) => e);
+// data.find((e) => e);
 
-const someValue: unknown = 10;
-someValue.method();
+// const someValue: unknown = 10;
+// someValue.method();
 
-function fetchData(data: unknown): void {
-  if (typeof data === "string") {
-    console.log(data.toLocaleLowerCase());
+// function fetchData(data: unknown): void {
+//   if (typeof data === "string") {
+//     console.log(data.toLocaleLowerCase());
+//   }
+// }
+
+// const userData =
+//   '{"isBirthdayData": true, "ageData": 40, "userNameData": "John"}';
+
+// function safeParse(s: string): unknown {
+//   return JSON.parse(s);
+// }
+
+// const data = safeParse(userData);
+
+// function transferData(d: unknown): void {
+//   if (typeof d === "string") {
+//     console.log(d.toUpperCase);
+//   } else if (typeof d === 'object' && d) {
+//     console.log(data)
+//   } else {
+//     console.error('Some Error')
+//   }
+// }
+
+// transferData(data)
+
+// try {
+//   if (1) {
+//     throw "error";
+//   }
+// } catch (e) {
+//   console.log(typeof e);
+// }
+
+// try {
+//   if (1) {
+//     throw new Error("error");
+//   }
+// } catch (e) {
+//   if (e instanceof Error) {
+//     console.log(e.message);
+//   }
+// }
+
+// type T0 = any | unknown;
+// type T2 = unknown | any;
+// type T1 = number | unknown;
+// type T3 = unknown & any;
+// type T4 = number & unknown;
+
+// --------------- lesson32 - type queries
+
+const dataFromControl = {
+  water: 200,
+  el: 350,
+};
+
+function checkReadings(data: typeof dataFromControl): boolean {
+  const dataFromUser = {
+    water: 200,
+    el: 350,
+  };
+
+  if (data.el === dataFromUser.el && data.water === dataFromUser.water) {
+    console.log("true");
+    return true;
   }
+
+  return false;
 }
 
-const userData =
-  '{"isBirthdayData": true, "ageData": 40, "userNameData": "John"}';
+checkReadings(dataFromControl);
 
-function safeParse(s: string): unknown {
-  return JSON.parse(s);
-}
-
-const data = safeParse(userData);
-
-function transferData(d: unknown): void {
-  if (typeof d === "string") {
-    console.log(d.toUpperCase);
-  } else if (typeof d === 'object' && d) {
-    console.log(data)
-  } else {
-    console.error('Some Error')
-  }
-}
-
-transferData(data)
-
-try {
-  if (1) {
-    throw "error";
-  }
-} catch (e) {
-  console.log(typeof e);
-}
-
-try {
-  if (1) {
-    throw new Error("error");
-  }
-} catch (e) {
-  if (e instanceof Error) {
-    console.log(e.message);
-  }
-}
-
-type T0 = any | unknown;
-type T2 = unknown | any;
-type T1 = number | unknown;
-type T3 = unknown & any;
-type T4 = number & unknown;
+const PI = 3.14;
+let PIClone: typeof PI; // 3.14
