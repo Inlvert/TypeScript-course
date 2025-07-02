@@ -1028,59 +1028,114 @@
 
 // --------------- lesson36 - Type Guard
 
-function printMsg(msg: string[] | number | boolean): void {
-  if (Array.isArray(msg)) {
-    msg.forEach((m) => console.log(m));
-  } else if (isNumber(msg)) {
-    console.log(msg);
-  } else {
-    console.log(msg);
-  }
-}
+// function printMsg(msg: string[] | number | boolean): void {
+//   if (Array.isArray(msg)) {
+//     msg.forEach((m) => console.log(m));
+//   } else if (isNumber(msg)) {
+//     console.log(msg);
+//   } else {
+//     console.log(msg);
+//   }
+// }
 
-printMsg(5);
+// printMsg(5);
 
-// function isNumber(n: string[] | number | boolean): n is number {
+// // function isNumber(n: string[] | number | boolean): n is number {
+// //   return typeof n === "number";
+// // }
+
+// function isNumber(n: unknown): n is number {
 //   return typeof n === "number";
 // }
 
-function isNumber(n: unknown): n is number {
-  return typeof n === "number";
-}
+// interface Car {
+//   engine: string;
+//   wheels: number;
+// }
+
+// interface Ship {
+//   engine: string;
+//   sail: string;
+// }
+
+// function repaireVehicle(vehicle: Car | Ship) {
+//   if (isCar(vehicle)) {
+//     console.log(vehicle.wheels, vehicle.engine);
+//   } else if (isShip(vehicle)) {
+//     console.log(vehicle.sail);
+//   } else {
+//     vehicle // never
+//   }
+// }
+
+// function isCar(car: Car | Ship): car is Car {
+//   // return "wheels" in car;
+//   return (car as Car).wheels !== undefined;
+// }
+
+// function isShip(ship: Car | Ship): ship is Ship {
+//   return (ship as Ship).sail !== undefined;
+// }
+
+// const someCar = {
+//   engine: "V8",
+//   sail: 'uhijkl',
+// };
+
+// repaireVehicle(someCar);
+
+// --------------- lesson37 case use never
 
 interface Car {
+  name: "car";
   engine: string;
   wheels: number;
 }
 
 interface Ship {
+  name: "ship";
   engine: string;
   sail: string;
 }
 
-function repaireVehicle(vehicle: Car | Ship) {
-  if (isCar(vehicle)) {
-    console.log(vehicle.wheels, vehicle.engine);
-  } else if (isShip(vehicle)) {
-    console.log(vehicle.sail);
-  } else {
-    vehicle // never
+interface Airplane {
+  name: "airplane";
+  engine: string;
+  wings: string;
+}
+
+interface SuperAirPlane {
+  name: "smth";
+  engine: string;
+  wings: string;
+}
+
+type Vehicle = Car | Ship | Airplane | SuperAirPlane;
+
+function repaireVehicle(vehicle: Vehicle) {
+  switch (vehicle.name) {
+    case "car":
+      console.log(vehicle.wheels);
+      break;
+    case "ship":
+      console.log(vehicle.sail);
+      break;
+    case "airplane":
+      console.log(vehicle.wings);
+      break;
+    case "smth":
+      console.log(vehicle.wings);
+      break;
+    default:
+      const smth: never = vehicle;
+      console.log("Ouups");
   }
 }
 
-function isCar(car: Car | Ship): car is Car {
-  // return "wheels" in car;
-  return (car as Car).wheels !== undefined;
-}
-
-function isShip(ship: Car | Ship): ship is Ship {
-  return (ship as Ship).sail !== undefined;
-}
-
-const someCar = {
+const someCar: Vehicle = {
+  name: "car",
   engine: "V8",
-  sail: 'uhijkl',
+  wheels: 4,
 };
 
 repaireVehicle(someCar);
-
