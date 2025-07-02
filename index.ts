@@ -1174,58 +1174,126 @@
 // console.log(calculateArea(5));
 // console.log(calculateArea(5, 6));
 
-// --------------- lesson38 - (розділення інтерфасу)
+// --------------- lesson39 - (розділення інтерфасу)
 
-interface Car {
-  name: "car";
-  engine: string;
-  wheels: number;
+// interface Car {
+//   name: "car";
+//   engine: string;
+//   wheels: number;
+// }
+
+// interface Ship {
+//   name: "ship";
+//   engine: string;
+//   sail: string;
+// }
+
+// interface Airplane {
+//   name: "airplane";
+//   engine: string;
+//   wings: string;
+// }
+
+// // розділяти інтерфайс краще ніж робити суцільний
+// interface ComplexVehicle {
+//   name: "car" | "ship" | "airplane";
+//   engine: string;
+//   wheels?: number;
+//   sail?: string;
+//   wings?: string;
+// }
+
+// type Vehicle = Car | Ship | Airplane;
+
+// function repaireVehicle(vehicle: ComplexVehicle) {
+//   switch (vehicle.name) {
+//     case "car":
+//       console.log(vehicle.wheels);
+//       break;
+//     case "ship":
+//       console.log(vehicle.sail);
+//       break;
+//     case "airplane":
+//       console.log(vehicle.wings);
+//       break;
+//     default:
+//       // const smth: never = vehicle;
+//       console.log("Ouups");
+//   }
+// }
+
+// const someCar: ComplexVehicle = {
+//   name: "car",
+//   engine: "V8",
+//   wheels: 4,
+// };
+
+// repaireVehicle(someCar);
+
+// --------------- lesson40 - task
+
+type Animal = "cat" | "dog" | "bird";
+
+enum AnimalStatus {
+  Available = "available",
+  NotAvailable = "not available",
 }
 
-interface Ship {
-  name: "ship";
-  engine: string;
-  sail: string;
+interface DataAnimal {
+  animal: Animal;
+  breed: string;
+  sterilized?: string;
 }
 
-interface Airplane {
-  name: "airplane";
-  engine: string;
-  wings: string;
+interface AnimalAvalableData extends DataAnimal {
+  location: string;
+  age?: number;
 }
 
-// розділяти інтерфайс краще ніж робити суцільний
-interface ComplexVehicle {
-  name: "car" | "ship" | "airplane";
-  engine: string;
-  wheels?: number;
-  sail?: string;
-  wings?: string;
+interface AnimalNotAvalableData {
+  message: string;
+  nextUpdateIn: Date;
 }
 
-type Vehicle = Car | Ship | Airplane;
+interface AnimalAvalableResponse {
+  status: AnimalStatus.Available;
+  data: AnimalAvalableData;
+}
 
-function repaireVehicle(vehicle: ComplexVehicle) {
-  switch (vehicle.name) {
-    case "car":
-      console.log(vehicle.wheels);
-      break;
-    case "ship":
-      console.log(vehicle.sail);
-      break;
-    case "airplane":
-      console.log(vehicle.wings);
-      break;
-    default:
-      // const smth: never = vehicle;
-      console.log("Ouups");
+interface AnimalNotAvalableResponse {
+  status: AnimalStatus.NotAvailable;
+  data: AnimalNotAvalableData;
+}
+
+type Res = AnimalAvalableResponse | AnimalNotAvalableResponse;
+
+function isAvalable(res: Res): res is AnimalAvalableResponse {
+  if (res.status === AnimalStatus.Available) {
+    return true;
+  } else {
+    return false;
   }
 }
 
-const someCar: ComplexVehicle = {
-  name: "car",
-  engine: "V8",
-  wheels: 4,
+function checkAnimalData(animal: Res): AnimalAvalableData | string {
+  if (isAvalable(animal)) {
+    // Заменить условие!
+    console.log(animal.data)
+    return animal.data;
+  } else {
+    return `${animal.data}, you can try in ${animal.data.nextUpdateIn}`;
+  }
+}
+
+const myAnimal: Res = {
+  status: AnimalStatus.Available,
+  data: {
+    animal: "cat",
+    breed: "kings",
+    sterilized: "sterilized",
+    location: "kiev",
+    age: 10,
+  },
 };
 
-repaireVehicle(someCar);
+checkAnimalData(myAnimal);
