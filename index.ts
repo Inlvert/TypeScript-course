@@ -1086,56 +1086,92 @@
 
 // --------------- lesson37 case use never
 
-interface Car {
-  name: "car";
-  engine: string;
-  wheels: number;
+// interface Car {
+//   name: "car";
+//   engine: string;
+//   wheels: number;
+// }
+
+// interface Ship {
+//   name: "ship";
+//   engine: string;
+//   sail: string;
+// }
+
+// interface Airplane {
+//   name: "airplane";
+//   engine: string;
+//   wings: string;
+// }
+
+// interface SuperAirPlane {
+//   name: "smth";
+//   engine: string;
+//   wings: string;
+// }
+
+// type Vehicle = Car | Ship | Airplane | SuperAirPlane;
+
+// function repaireVehicle(vehicle: Vehicle) {
+//   switch (vehicle.name) {
+//     case "car":
+//       console.log(vehicle.wheels);
+//       break;
+//     case "ship":
+//       console.log(vehicle.sail);
+//       break;
+//     case "airplane":
+//       console.log(vehicle.wings);
+//       break;
+//     case "smth":
+//       console.log(vehicle.wings);
+//       break;
+//     default:
+//       const smth: never = vehicle;
+//       console.log("Ouups");
+//   }
+// }
+
+// const someCar: Vehicle = {
+//   name: "car",
+//   engine: "V8",
+//   wheels: 4,
+// };
+
+// repaireVehicle(someCar);
+
+// --------------- lesson38 - overload (перегрузка функцій)
+
+interface Square {
+  side: number;
+  area: number;
 }
 
-interface Ship {
-  name: "ship";
-  engine: string;
-  sail: string;
+interface Rect {
+  a: number;
+  b: number;
+  area: number;
 }
-
-interface Airplane {
-  name: "airplane";
-  engine: string;
-  wings: string;
-}
-
-interface SuperAirPlane {
-  name: "smth";
-  engine: string;
-  wings: string;
-}
-
-type Vehicle = Car | Ship | Airplane | SuperAirPlane;
-
-function repaireVehicle(vehicle: Vehicle) {
-  switch (vehicle.name) {
-    case "car":
-      console.log(vehicle.wheels);
-      break;
-    case "ship":
-      console.log(vehicle.sail);
-      break;
-    case "airplane":
-      console.log(vehicle.wings);
-      break;
-    case "smth":
-      console.log(vehicle.wings);
-      break;
-    default:
-      const smth: never = vehicle;
-      console.log("Ouups");
+function calculateArea(side: number): Square;  //перегрузка функцій
+function calculateArea(a: number, b: number): Rect; //перегрузка функцій
+function calculateArea(a: number, b?: number): Square | Rect {
+  if (b) {
+    const rect: Rect = {
+      a,
+      b,
+      area: a * b,
+    };
+    return rect;
+  } else {
+    const square: Square = {
+      side: a,
+      area: a * a,
+    };
+    return square;
   }
 }
 
-const someCar: Vehicle = {
-  name: "car",
-  engine: "V8",
-  wheels: 4,
-};
+console.log(calculateArea(5));
+console.log(calculateArea(5, 6));
 
-repaireVehicle(someCar);
+
