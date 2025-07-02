@@ -1142,36 +1142,90 @@
 
 // --------------- lesson38 - overload (перегрузка функцій)
 
-interface Square {
-  side: number;
-  area: number;
+// interface Square {
+//   side: number;
+//   area: number;
+// }
+
+// interface Rect {
+//   a: number;
+//   b: number;
+//   area: number;
+// }
+// function calculateArea(side: number): Square;  //перегрузка функцій
+// function calculateArea(a: number, b: number): Rect; //перегрузка функцій
+// function calculateArea(a: number, b?: number): Square | Rect {
+//   if (b) {
+//     const rect: Rect = {
+//       a,
+//       b,
+//       area: a * b,
+//     };
+//     return rect;
+//   } else {
+//     const square: Square = {
+//       side: a,
+//       area: a * a,
+//     };
+//     return square;
+//   }
+// }
+
+// console.log(calculateArea(5));
+// console.log(calculateArea(5, 6));
+
+// --------------- lesson38 - (розділення інтерфасу)
+
+interface Car {
+  name: "car";
+  engine: string;
+  wheels: number;
 }
 
-interface Rect {
-  a: number;
-  b: number;
-  area: number;
+interface Ship {
+  name: "ship";
+  engine: string;
+  sail: string;
 }
-function calculateArea(side: number): Square;  //перегрузка функцій
-function calculateArea(a: number, b: number): Rect; //перегрузка функцій
-function calculateArea(a: number, b?: number): Square | Rect {
-  if (b) {
-    const rect: Rect = {
-      a,
-      b,
-      area: a * b,
-    };
-    return rect;
-  } else {
-    const square: Square = {
-      side: a,
-      area: a * a,
-    };
-    return square;
+
+interface Airplane {
+  name: "airplane";
+  engine: string;
+  wings: string;
+}
+
+// розділяти інтерфайс краще ніж робити суцільний
+interface ComplexVehicle {
+  name: "car" | "ship" | "airplane";
+  engine: string;
+  wheels?: number;
+  sail?: string;
+  wings?: string;
+}
+
+type Vehicle = Car | Ship | Airplane;
+
+function repaireVehicle(vehicle: ComplexVehicle) {
+  switch (vehicle.name) {
+    case "car":
+      console.log(vehicle.wheels);
+      break;
+    case "ship":
+      console.log(vehicle.sail);
+      break;
+    case "airplane":
+      console.log(vehicle.wings);
+      break;
+    default:
+      // const smth: never = vehicle;
+      console.log("Ouups");
   }
 }
 
-console.log(calculateArea(5));
-console.log(calculateArea(5, 6));
+const someCar: ComplexVehicle = {
+  name: "car",
+  engine: "V8",
+  wheels: 4,
+};
 
-
+repaireVehicle(someCar);
