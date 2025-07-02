@@ -982,46 +982,105 @@
 
 // --------------- lesson35 - internal - внутрішні (приведення типів)
 
-let num: Number = new Number(5);
-let num2: number = 5;
-let num3 = Number(5);
+// let num: Number = new Number(5);
+// let num2: number = 5;
+// let num3 = Number(5);
 
-num = num2;
-num2 = num 
+// num = num2;
+// num2 = num
 
-const num4 = 5;
-const strNum: string = num.toString();
-console.log(strNum);
-const numStr: number = +strNum;
-console.log(numStr);
+// const num4 = 5;
+// const strNum: string = num.toString();
+// console.log(strNum);
+// const numStr: number = +strNum;
+// console.log(numStr);
 
-interface Department {
-  name: string;
-  budget: number;
-}
+// interface Department {
+//   name: string;
+//   budget: number;
+// }
 
-const department: Department = {
-  name: "web-dev",
-  budget: 50000,
-};
-
-interface Project {
-  name: string;
-  projectBudget: number;
-}
-
-// const mainProject: Project = {
-//   ...department,
-//   projectBudget: 5000,
+// const department: Department = {
+//   name: "web-dev",
+//   budget: 50000,
 // };
 
-function transformDepartment(department: Department, amount: number): Project {
-  return {
-    name: department.name,
-    projectBudget: amount,
-  };
+// interface Project {
+//   name: string;
+//   projectBudget: number;
+// }
+
+// // const mainProject: Project = {
+// //   ...department,
+// //   projectBudget: 5000,
+// // };
+
+// function transformDepartment(department: Department, amount: number): Project {
+//   return {
+//     name: department.name,
+//     projectBudget: amount,
+//   };
+// }
+
+// const mainProject: Project = transformDepartment(department, 300);
+
+// console.log(mainProject)
+
+// --------------- lesson36 - Type Guard
+
+function printMsg(msg: string[] | number | boolean): void {
+  if (Array.isArray(msg)) {
+    msg.forEach((m) => console.log(m));
+  } else if (isNumber(msg)) {
+    console.log(msg);
+  } else {
+    console.log(msg);
+  }
 }
 
-const mainProject: Project = transformDepartment(department, 300);
+printMsg(5);
 
-console.log(mainProject)
+// function isNumber(n: string[] | number | boolean): n is number {
+//   return typeof n === "number";
+// }
+
+function isNumber(n: unknown): n is number {
+  return typeof n === "number";
+}
+
+interface Car {
+  engine: string;
+  wheels: number;
+}
+
+interface Ship {
+  engine: string;
+  sail: string;
+}
+
+function repaireVehicle(vehicle: Car | Ship) {
+  if (isCar(vehicle)) {
+    console.log(vehicle.wheels, vehicle.engine);
+  } else if (isShip(vehicle)) {
+    console.log(vehicle.sail);
+  } else {
+    vehicle // never
+  }
+}
+
+function isCar(car: Car | Ship): car is Car {
+  // return "wheels" in car;
+  return (car as Car).wheels !== undefined;
+}
+
+function isShip(ship: Car | Ship): ship is Ship {
+  return (ship as Ship).sail !== undefined;
+}
+
+const someCar = {
+  engine: "V8",
+  sail: 'uhijkl',
+};
+
+repaireVehicle(someCar);
+
