@@ -947,36 +947,81 @@
 
 // --------------- lesson34 - type Assertions (узгодження типу)
 
-const fetchData = (url: string, method: "GET" | "POST"): void => {
-  console.log("Fetched!");
+// const fetchData = (url: string, method: "GET" | "POST"): void => {
+//   console.log("Fetched!");
+// };
+
+// const requestOptions = {
+//   url: "https://some.com",
+//   method: "GET",
+// };
+
+// const requestOptions2 = {
+//   url: "https://some.com",
+//   method: "GET",
+// } as const;
+
+// const requestOptions3 = {
+//   url: "https://some.com",
+//   method: "GET",
+// };
+
+// fetchData("https://some.com", "GET");
+// fetchData(requestOptions.url, requestOptions.method as "GET");
+// fetchData(requestOptions2.url, requestOptions2.method);
+// fetchData(requestOptions3.url, <"GET">requestOptions3.method); // doesn't work in Reac
+
+// const input2 = <HTMLInputElement>document.querySelector("input");
+// const input = document.querySelector("input") as HTMLInputElement;
+// const soleNumber: number = input.value as any as number;
+// console.log(soleNumber * 2);
+
+// let a = "value" as const;
+// let b = { f: 100 } as const;
+// let c = [] as const;
+
+// --------------- lesson35 - internal - внутрішні (приведення типів)
+
+let num: Number = new Number(5);
+let num2: number = 5;
+let num3 = Number(5);
+
+num = num2;
+num2 = num 
+
+const num4 = 5;
+const strNum: string = num.toString();
+console.log(strNum);
+const numStr: number = +strNum;
+console.log(numStr);
+
+interface Department {
+  name: string;
+  budget: number;
+}
+
+const department: Department = {
+  name: "web-dev",
+  budget: 50000,
 };
 
-const requestOptions = {
-  url: "https://some.com",
-  method: "GET",
-};
+interface Project {
+  name: string;
+  projectBudget: number;
+}
 
-const requestOptions2 = {
-  url: "https://some.com",
-  method: "GET",
-} as const;
+// const mainProject: Project = {
+//   ...department,
+//   projectBudget: 5000,
+// };
 
-const requestOptions3 = {
-  url: "https://some.com",
-  method: "GET",
-};
+function transformDepartment(department: Department, amount: number): Project {
+  return {
+    name: department.name,
+    projectBudget: amount,
+  };
+}
 
-fetchData("https://some.com", "GET");
-fetchData(requestOptions.url, requestOptions.method as "GET");
-fetchData(requestOptions2.url, requestOptions2.method);
-fetchData(requestOptions3.url, <"GET">requestOptions3.method); // doesn't work in Reac
+const mainProject: Project = transformDepartment(department, 300);
 
-const input2 = <HTMLInputElement>document.querySelector("input");
-const input = document.querySelector("input") as HTMLInputElement;
-const soleNumber: number = input.value as any as number;
-console.log(soleNumber * 2);
-
-let a = "value" as const;
-let b = { f: 100 } as const;
-let c = [] as const;
-
+console.log(mainProject)

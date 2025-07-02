@@ -712,26 +712,40 @@
 // 	marks: ["4:30", "5:40"],
 // });
 // --------------- lesson34 - type Assertions (узгодження типу)
-var fetchData = function (url, method) {
-    console.log("Fetched!");
-};
-var requestOptions = {
-    url: "https://some.com",
-    method: "GET",
-};
-var requestOptions2 = {
-    url: "https://some.com",
-    method: "GET",
-};
-var requestOptions3 = {
-    url: "https://some.com",
-    method: "GET",
-};
-fetchData("https://some.com", "GET");
-fetchData(requestOptions.url, requestOptions.method);
-fetchData(requestOptions2.url, requestOptions2.method);
-fetchData(requestOptions3.url, requestOptions3.method); // doesn't work in Reac
-var input2 = document.querySelector("input");
-var input = document.querySelector("input");
-var soleNumber = input.value;
-console.log(soleNumber * 2);
+// const fetchData = (url: string, method: "GET" | "POST"): void => {
+//   console.log("Fetched!");
+// };
+// const requestOptions = {
+//   url: "https://some.com",
+//   method: "GET",
+// };
+// const requestOptions2 = {
+//   url: "https://some.com",
+//   method: "GET",
+// } as const;
+// const requestOptions3 = {
+//   url: "https://some.com",
+//   method: "GET",
+// };
+// fetchData("https://some.com", "GET");
+// fetchData(requestOptions.url, requestOptions.method as "GET");
+// fetchData(requestOptions2.url, requestOptions2.method);
+// fetchData(requestOptions3.url, <"GET">requestOptions3.method); // doesn't work in Reac
+// const input2 = <HTMLInputElement>document.querySelector("input");
+// const input = document.querySelector("input") as HTMLInputElement;
+// const soleNumber: number = input.value as any as number;
+// console.log(soleNumber * 2);
+// let a = "value" as const;
+// let b = { f: 100 } as const;
+// let c = [] as const;
+// --------------- lesson35 - internal - внутрішні (приведення типів)
+var num = new Number(5);
+var num2 = 5;
+var num3 = Number(5);
+// num = num2;
+// num2 = num
+var num4 = 5;
+var strNum = num.toString();
+console.log(strNum);
+var numStr = +strNum;
+console.log(numStr);
