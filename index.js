@@ -739,13 +739,350 @@
 // let b = { f: 100 } as const;
 // let c = [] as const;
 // --------------- lesson35 - internal - внутрішні (приведення типів)
-var num = new Number(5);
-var num2 = 5;
-var num3 = Number(5);
+// let num: Number = new Number(5);
+// let num2: number = 5;
+// let num3 = Number(5);
 // num = num2;
 // num2 = num
-var num4 = 5;
-var strNum = num.toString();
-console.log(strNum);
-var numStr = +strNum;
-console.log(numStr);
+// const num4 = 5;
+// const strNum: string = num.toString();
+// console.log(strNum);
+// const numStr: number = +strNum;
+// console.log(numStr);
+// interface Department {
+//   name: string;
+//   budget: number;
+// }
+// const department: Department = {
+//   name: "web-dev",
+//   budget: 50000,
+// };
+// interface Project {
+//   name: string;
+//   projectBudget: number;
+// }
+// // const mainProject: Project = {
+// //   ...department,
+// //   projectBudget: 5000,
+// // };
+// function transformDepartment(department: Department, amount: number): Project {
+//   return {
+//     name: department.name,
+//     projectBudget: amount,
+//   };
+// }
+// const mainProject: Project = transformDepartment(department, 300);
+// console.log(mainProject)
+// --------------- lesson36 - Type Guard
+// function printMsg(msg: string[] | number | boolean): void {
+//   if (Array.isArray(msg)) {
+//     msg.forEach((m) => console.log(m));
+//   } else if (isNumber(msg)) {
+//     console.log(msg);
+//   } else {
+//     console.log(msg);
+//   }
+// }
+// printMsg(5);
+// // function isNumber(n: string[] | number | boolean): n is number {
+// //   return typeof n === "number";
+// // }
+// function isNumber(n: unknown): n is number {
+//   return typeof n === "number";
+// }
+// interface Car {
+//   engine: string;
+//   wheels: number;
+// }
+// interface Ship {
+//   engine: string;
+//   sail: string;
+// }
+// function repaireVehicle(vehicle: Car | Ship) {
+//   if (isCar(vehicle)) {
+//     console.log(vehicle.wheels, vehicle.engine);
+//   } else if (isShip(vehicle)) {
+//     console.log(vehicle.sail);
+//   } else {
+//     vehicle // never
+//   }
+// }
+// function isCar(car: Car | Ship): car is Car {
+//   // return "wheels" in car;
+//   return (car as Car).wheels !== undefined;
+// }
+// function isShip(ship: Car | Ship): ship is Ship {
+//   return (ship as Ship).sail !== undefined;
+// }
+// const someCar = {
+//   engine: "V8",
+//   sail: 'uhijkl',
+// };
+// repaireVehicle(someCar);
+// --------------- lesson37 case use never
+// interface Car {
+//   name: "car";
+//   engine: string;
+//   wheels: number;
+// }
+// interface Ship {
+//   name: "ship";
+//   engine: string;
+//   sail: string;
+// }
+// interface Airplane {
+//   name: "airplane";
+//   engine: string;
+//   wings: string;
+// }
+// interface SuperAirPlane {
+//   name: "smth";
+//   engine: string;
+//   wings: string;
+// }
+// type Vehicle = Car | Ship | Airplane | SuperAirPlane;
+// function repaireVehicle(vehicle: Vehicle) {
+//   switch (vehicle.name) {
+//     case "car":
+//       console.log(vehicle.wheels);
+//       break;
+//     case "ship":
+//       console.log(vehicle.sail);
+//       break;
+//     case "airplane":
+//       console.log(vehicle.wings);
+//       break;
+//     case "smth":
+//       console.log(vehicle.wings);
+//       break;
+//     default:
+//       const smth: never = vehicle;
+//       console.log("Ouups");
+//   }
+// }
+// const someCar: Vehicle = {
+//   name: "car",
+//   engine: "V8",
+//   wheels: 4,
+// };
+// repaireVehicle(someCar);
+// --------------- lesson38 - overload (перегрузка функцій)
+// interface Square {
+//   side: number;
+//   area: number;
+// }
+// interface Rect {
+//   a: number;
+//   b: number;
+//   area: number;
+// }
+// function calculateArea(side: number): Square;  //перегрузка функцій
+// function calculateArea(a: number, b: number): Rect; //перегрузка функцій
+// function calculateArea(a: number, b?: number): Square | Rect {
+//   if (b) {
+//     const rect: Rect = {
+//       a,
+//       b,
+//       area: a * b,
+//     };
+//     return rect;
+//   } else {
+//     const square: Square = {
+//       side: a,
+//       area: a * a,
+//     };
+//     return square;
+//   }
+// }
+// console.log(calculateArea(5));
+// console.log(calculateArea(5, 6));
+// --------------- lesson39 - (розділення інтерфасу)
+// interface Car {
+//   name: "car";
+//   engine: string;
+//   wheels: number;
+// }
+// interface Ship {
+//   name: "ship";
+//   engine: string;
+//   sail: string;
+// }
+// interface Airplane {
+//   name: "airplane";
+//   engine: string;
+//   wings: string;
+// }
+// // розділяти інтерфайс краще ніж робити суцільний
+// interface ComplexVehicle {
+//   name: "car" | "ship" | "airplane";
+//   engine: string;
+//   wheels?: number;
+//   sail?: string;
+//   wings?: string;
+// }
+// type Vehicle = Car | Ship | Airplane;
+// function repaireVehicle(vehicle: ComplexVehicle) {
+//   switch (vehicle.name) {
+//     case "car":
+//       console.log(vehicle.wheels);
+//       break;
+//     case "ship":
+//       console.log(vehicle.sail);
+//       break;
+//     case "airplane":
+//       console.log(vehicle.wings);
+//       break;
+//     default:
+//       // const smth: never = vehicle;
+//       console.log("Ouups");
+//   }
+// }
+// const someCar: ComplexVehicle = {
+//   name: "car",
+//   engine: "V8",
+//   wheels: 4,
+// };
+// repaireVehicle(someCar);
+// --------------- lesson40 - task
+// type Animal = "cat" | "dog" | "bird";
+// enum AnimalStatus {
+//   Available = "available",
+//   NotAvailable = "not available",
+// }
+// interface DataAnimal {
+//   animal: Animal;
+//   breed: string;
+//   sterilized?: string;
+// }
+// interface AnimalAvalableData extends DataAnimal {
+//   location: string;
+//   age?: number;
+// }
+// interface AnimalNotAvalableData {
+//   message: string;
+//   nextUpdateIn: Date;
+// }
+// interface AnimalAvalableResponse {
+//   status: AnimalStatus.Available;
+//   data: AnimalAvalableData;
+// }
+// interface AnimalNotAvalableResponse {
+//   status: AnimalStatus.NotAvailable;
+//   data: AnimalNotAvalableData;
+// }
+// type Res = AnimalAvalableResponse | AnimalNotAvalableResponse;
+// function isAvalable(res: Res): res is AnimalAvalableResponse {
+//   if (res.status === AnimalStatus.Available) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// }
+// function checkAnimalData(animal: Res): AnimalAvalableData | string {
+//   if (isAvalable(animal)) {
+//     // Заменить условие!
+//     console.log(animal.data)
+//     return animal.data;
+//   } else {
+//     return `${animal.data}, you can try in ${animal.data.nextUpdateIn}`;
+//   }
+// }
+// const myAnimal: Res = {
+//   status: AnimalStatus.Available,
+//   data: {
+//     animal: "cat",
+//     breed: "kings",
+//     sterilized: "sterilized",
+//     location: "kiev",
+//     age: 10,
+//   },
+// };
+// checkAnimalData(myAnimal);
+// ------------------------ task V2
+// Request
+// {
+//     animal: 'cat' | 'dog' | 'bird',
+//     breed: string,
+//     sterilized?: string
+// }
+// Response #1
+// {
+//     status: 'available',
+//     data: {
+//         animal: 'cat' | 'dog' | 'bird',
+//         breed: string,
+//         sterilized?: string,
+//         location: string,
+//         age?: number
+//     }
+// }
+// Response #2
+// {
+//     status: 'not available',
+//     data: {
+//         message: string,
+//         nextUpdateIn: Date
+//     }
+// }
+// enum ResponseStatus {
+//   Available = "available",
+//   NotAvailable = "not available",
+// }
+// type Animal = "cat" | "dog" | "bird";
+// interface AnimalData {
+//   animal: Animal;
+//   breed: string;
+//   sterilized?: string;
+// }
+// interface AnimalAvalableData extends AnimalData {
+//   location: string;
+//   age?: number;
+// }
+// interface AnimalNotAvalableData {
+//   message: string;
+//   nextUpdateIn: Date;
+// }
+// interface AnimalAvalableResponse {
+//   status: ResponseStatus.Available;
+//   data: AnimalAvalableData;
+// }
+// interface AnimalNotAvalableResponse {
+//   status: ResponseStatus.NotAvailable;
+//   data: AnimalNotAvalableData;
+// }
+// type Res = AnimalAvalableResponse | AnimalNotAvalableResponse;
+// function isAvalable(res: Res): res is AnimalAvalableResponse {
+//   if (res.status === ResponseStatus.Available) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// }
+// function checkAnimalData(
+//   animal: Res
+// ): AnimalAvalableData | AnimalNotAvalableData {
+//   if (isAvalable(animal)) {
+//     // Заменить условие!
+//     return animal.data;
+//   } else {
+//     return animal.data;
+//   }
+// }
+// const cheackAnimal: Res = {
+//   status: ResponseStatus.NotAvailable,
+//   data: {
+//     message: 'This anima not avalable',
+//     nextUpdateIn: new Date(),
+//   },
+// };
+// console.log(checkAnimalData(cheackAnimal))
+// --------------- lesson41 - work with DOM
+var hElem = document.createElement("h1");
+hElem.textContent = "test";
+document.body.append(hElem);
+var link = document.querySelector('h1');
+var counter = 0;
+link.addEventListener("click", function (e) {
+    counter++;
+    console.log("Clicked", counter);
+});

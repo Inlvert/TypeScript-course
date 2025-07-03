@@ -1232,68 +1232,178 @@
 
 // --------------- lesson40 - task
 
-type Animal = "cat" | "dog" | "bird";
+// type Animal = "cat" | "dog" | "bird";
 
-enum AnimalStatus {
-  Available = "available",
-  NotAvailable = "not available",
-}
+// enum AnimalStatus {
+//   Available = "available",
+//   NotAvailable = "not available",
+// }
 
-interface DataAnimal {
-  animal: Animal;
-  breed: string;
-  sterilized?: string;
-}
+// interface DataAnimal {
+//   animal: Animal;
+//   breed: string;
+//   sterilized?: string;
+// }
 
-interface AnimalAvalableData extends DataAnimal {
-  location: string;
-  age?: number;
-}
+// interface AnimalAvalableData extends DataAnimal {
+//   location: string;
+//   age?: number;
+// }
 
-interface AnimalNotAvalableData {
-  message: string;
-  nextUpdateIn: Date;
-}
+// interface AnimalNotAvalableData {
+//   message: string;
+//   nextUpdateIn: Date;
+// }
 
-interface AnimalAvalableResponse {
-  status: AnimalStatus.Available;
-  data: AnimalAvalableData;
-}
+// interface AnimalAvalableResponse {
+//   status: AnimalStatus.Available;
+//   data: AnimalAvalableData;
+// }
 
-interface AnimalNotAvalableResponse {
-  status: AnimalStatus.NotAvailable;
-  data: AnimalNotAvalableData;
-}
+// interface AnimalNotAvalableResponse {
+//   status: AnimalStatus.NotAvailable;
+//   data: AnimalNotAvalableData;
+// }
 
-type Res = AnimalAvalableResponse | AnimalNotAvalableResponse;
+// type Res = AnimalAvalableResponse | AnimalNotAvalableResponse;
 
-function isAvalable(res: Res): res is AnimalAvalableResponse {
-  if (res.status === AnimalStatus.Available) {
-    return true;
-  } else {
-    return false;
-  }
-}
+// function isAvalable(res: Res): res is AnimalAvalableResponse {
+//   if (res.status === AnimalStatus.Available) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// }
 
-function checkAnimalData(animal: Res): AnimalAvalableData | string {
-  if (isAvalable(animal)) {
-    // Заменить условие!
-    console.log(animal.data)
-    return animal.data;
-  } else {
-    return `${animal.data}, you can try in ${animal.data.nextUpdateIn}`;
-  }
-}
+// function checkAnimalData(animal: Res): AnimalAvalableData | string {
+//   if (isAvalable(animal)) {
+//     // Заменить условие!
+//     console.log(animal.data)
+//     return animal.data;
+//   } else {
+//     return `${animal.data}, you can try in ${animal.data.nextUpdateIn}`;
+//   }
+// }
 
-const myAnimal: Res = {
-  status: AnimalStatus.Available,
-  data: {
-    animal: "cat",
-    breed: "kings",
-    sterilized: "sterilized",
-    location: "kiev",
-    age: 10,
-  },
-};
+// const myAnimal: Res = {
+//   status: AnimalStatus.Available,
+//   data: {
+//     animal: "cat",
+//     breed: "kings",
+//     sterilized: "sterilized",
+//     location: "kiev",
+//     age: 10,
+//   },
+// };
 
-checkAnimalData(myAnimal);
+// checkAnimalData(myAnimal);
+
+// ------------------------ task V2
+
+// Request
+// {
+//     animal: 'cat' | 'dog' | 'bird',
+//     breed: string,
+//     sterilized?: string
+// }
+
+// Response #1
+
+// {
+//     status: 'available',
+//     data: {
+//         animal: 'cat' | 'dog' | 'bird',
+//         breed: string,
+//         sterilized?: string,
+//         location: string,
+//         age?: number
+//     }
+// }
+
+// Response #2
+
+// {
+//     status: 'not available',
+//     data: {
+//         message: string,
+//         nextUpdateIn: Date
+//     }
+// }
+
+// enum ResponseStatus {
+//   Available = "available",
+//   NotAvailable = "not available",
+// }
+
+// type Animal = "cat" | "dog" | "bird";
+
+// interface AnimalData {
+//   animal: Animal;
+//   breed: string;
+//   sterilized?: string;
+// }
+
+// interface AnimalAvalableData extends AnimalData {
+//   location: string;
+//   age?: number;
+// }
+
+// interface AnimalNotAvalableData {
+//   message: string;
+//   nextUpdateIn: Date;
+// }
+
+// interface AnimalAvalableResponse {
+//   status: ResponseStatus.Available;
+//   data: AnimalAvalableData;
+// }
+
+// interface AnimalNotAvalableResponse {
+//   status: ResponseStatus.NotAvailable;
+//   data: AnimalNotAvalableData;
+// }
+
+// type Res = AnimalAvalableResponse | AnimalNotAvalableResponse;
+
+// function isAvalable(res: Res): res is AnimalAvalableResponse {
+//   if (res.status === ResponseStatus.Available) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// }
+
+// function checkAnimalData(
+//   animal: Res
+// ): AnimalAvalableData | AnimalNotAvalableData {
+//   if (isAvalable(animal)) {
+//     // Заменить условие!
+//     return animal.data;
+//   } else {
+//     return animal.data;
+//   }
+// }
+
+// const cheackAnimal: Res = {
+//   status: ResponseStatus.NotAvailable,
+//   data: {
+//     message: 'This anima not avalable',
+//     nextUpdateIn: new Date(),
+//   },
+// };
+
+// console.log(checkAnimalData(cheackAnimal))
+
+// --------------- lesson41 - work with DOM
+
+const hElem = document.createElement("h1");
+hElem.textContent = "test";
+document.body.append(hElem);
+
+const link = document.querySelector('h1') as HTMLElement;
+
+let counter = 0;
+link.addEventListener("click", (e) => {
+  counter++;
+  console.log("Clicked", counter);
+});
