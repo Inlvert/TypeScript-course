@@ -1475,17 +1475,55 @@
 
 // --------------- lesson43 - void in function
 
-type FuncVoid = () => void;
+// type FuncVoid = () => void;
 
-const myfunc: FuncVoid = (): number => {
-  return 5
+// const myfunc: FuncVoid = (): number => {
+//   return 5
+// };
+
+// const result = myfunc()
+
+// console.log(result)
+
+// const myfunc2 = (): void => {
+//   return 5
+// };
+
+// --------------- lesson44 - Generics
+
+function processingData<T>(data: T): T {
+  return data;
+}
+
+const res1 = processingData(1);
+const res2 = processingData("1");
+
+const num = 10;
+const res3 = processingData<number>(num);
+
+interface PrintUK {
+  design: number;
+}
+
+interface PrintUES {
+  design: string;
+}
+
+interface Print<T> {
+  design: T;
+}
+
+const somePrint: Print<string> = {
+  design: "ten",
 };
 
-const result = myfunc()
-
-console.log(result)
-
-const myfunc2 = (): void => {
-  return 5
+const somePrint2: Print<number> = {
+  design: 10,
 };
 
+
+Array<T>
+
+RefferalSystem<UserId, S>
+
+T U V S P K/V
