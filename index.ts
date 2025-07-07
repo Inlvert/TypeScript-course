@@ -1653,124 +1653,161 @@
 
 // --------------- lesson47 - task
 
-// Создать Generic-интерфейс PlayerData, который подходил бы для создания таких объектов:
+// // Создать Generic-интерфейс PlayerData, который подходил бы для создания таких объектов:
 
-interface PlayerData<Game, Hours> {
-  game: Game;
-  hours: Hours;
-  server: string;
-}
+// interface PlayerData<Game, Hours> {
+//   game: Game;
+//   hours: Hours;
+//   server: string;
+// }
 
-const player1: PlayerData<string, number> = {
-  game: "CS:GO",
-  hours: 300,
-  server: "basic",
-};
+// const player1: PlayerData<string, number> = {
+//   game: "CS:GO",
+//   hours: 300,
+//   server: "basic",
+// };
 
-const player2: PlayerData<number, string> = {
-  game: 2048,
-  hours: "300 h.",
-  server: "arcade",
-};
+// const player2: PlayerData<number, string> = {
+//   game: 2048,
+//   hours: "300 h.",
+//   server: "arcade",
+// };
 
-const player3: PlayerData<string, object> = {
-  game: "Chess",
-  hours: {
-    total: 500,
-    inMenu: 50,
-  },
-  server: "chess",
-};
+// const player3: PlayerData<string, object> = {
+//   game: "Chess",
+//   hours: {
+//     total: 500,
+//     inMenu: 50,
+//   },
+//   server: "chess",
+// };
 
-// Массив данных с фигурами содержит объекты, у каждого из которых обязательно есть свойство name
-// Каждый объект может еще содержать дополнительные свойства в случайном виде
-// Свойство name может иметь только 4 варианта
-// Функция calculateAmountOfFigures должна принимать массив с объектами, у которых обязательно должно быть свойство name
-// Возвращает она объект-экземпляр AmountOfFigures
-// Внутри себя подсчитывает сколько каких фигур было в массиве и записывает результаты в AmountOfFigures
-// С текущими данными в консоль должно попадать:
-// { squares: 3, circles: 2, triangles: 2, others: 1 }
+// // Массив данных с фигурами содержит объекты, у каждого из которых обязательно есть свойство name
+// // Каждый объект может еще содержать дополнительные свойства в случайном виде
+// // Свойство name может иметь только 4 варианта
+// // Функция calculateAmountOfFigures должна принимать массив с объектами, у которых обязательно должно быть свойство name
+// // Возвращает она объект-экземпляр AmountOfFigures
+// // Внутри себя подсчитывает сколько каких фигур было в массиве и записывает результаты в AmountOfFigures
+// // С текущими данными в консоль должно попадать:
+// // { squares: 3, circles: 2, triangles: 2, others: 1 }
 
-enum FigureNames {
-  Rect = "rect",
-  Triangle = "triangle",
-  Line = "line",
-  Circle = "circle",
-}
+// enum FigureNames {
+//   Rect = "rect",
+//   Triangle = "triangle",
+//   Line = "line",
+//   Circle = "circle",
+// }
 
-interface Figure {
-  name: FigureNames;
-}
+// interface Figure {
+//   name: FigureNames;
+// }
 
-interface AmountOfFigures {
-  squares: number;
-  circles: number;
-  triangles: number;
-  others: number;
-}
+// interface AmountOfFigures {
+//   squares: number;
+//   circles: number;
+//   triangles: number;
+//   others: number;
+// }
 
-function calculateAmountOfFigures<T extends Figure>( figure: T[]): AmountOfFigures {
-  const amout: AmountOfFigures = {
-    squares: 0,
-    circles: 0,
-    triangles: 0,
-    others: 0,
-  };
+// function calculateAmountOfFigures<T extends Figure>( figure: T[]): AmountOfFigures {
+//   const amout: AmountOfFigures = {
+//     squares: 0,
+//     circles: 0,
+//     triangles: 0,
+//     others: 0,
+//   };
 
-  figure.forEach((item) => {
-    switch (item.name) {
-      case FigureNames.Circle:
-        amout.circles++;
-        break;
+//   figure.forEach((item) => {
+//     switch (item.name) {
+//       case FigureNames.Circle:
+//         amout.circles++;
+//         break;
 
-      case FigureNames.Rect:
-        amout.squares++;
-        break;
+//       case FigureNames.Rect:
+//         amout.squares++;
+//         break;
 
-      case FigureNames.Line:
-        amout.others++;
-        break;
+//       case FigureNames.Line:
+//         amout.others++;
+//         break;
 
-      case FigureNames.Triangle:
-        amout.triangles++;
-        break;
+//       case FigureNames.Triangle:
+//         amout.triangles++;
+//         break;
+//     }
+//   });
+//   return amout;
+// }
+
+// const data = [
+//   {
+//     name: FigureNames.Rect,
+//     data: { a: 5, b: 10 },
+//   },
+//   {
+//     name: FigureNames.Rect,
+//     data: { a: 6, b: 11 },
+//   },
+//   {
+//     name: FigureNames.Triangle,
+//     data: { a: 5, b: 10, c: 14 },
+//   },
+//   {
+//     name: FigureNames.Line,
+//     data: { l: 15 },
+//   },
+//   {
+//     name: FigureNames.Circle,
+//     data: { r: 10 },
+//   },
+//   {
+//     name: FigureNames.Circle,
+//     data: { r: 5 },
+//   },
+//   {
+//     name: FigureNames.Rect,
+//     data: { a: 15, b: 7 },
+//   },
+//   {
+//     name: FigureNames.Triangle,
+//   },
+// ];
+
+// console.log(calculateAmountOfFigures(data));
+
+// --------------- lesson48 - Generics class
+
+class User<T, S> {
+  name: T;
+  age: S;
+
+  constructor(name: T, age: S) {
+    this.name = name;
+    this.age = age;
+  }
+  sayMyFullName<T>(surname: T): string {
+    if (typeof surname !== "string") {
+      return "I have only name";
+    } else {
+      return `${this.name} ${surname} is ${this.age}`;
     }
-  });
-  return amout;
+  }
 }
 
-const data = [
-  {
-    name: FigureNames.Rect,
-    data: { a: 5, b: 10 },
-  },
-  {
-    name: FigureNames.Rect,
-    data: { a: 6, b: 11 },
-  },
-  {
-    name: FigureNames.Triangle,
-    data: { a: 5, b: 10, c: 14 },
-  },
-  {
-    name: FigureNames.Line,
-    data: { l: 15 },
-  },
-  {
-    name: FigureNames.Circle,
-    data: { r: 10 },
-  },
-  {
-    name: FigureNames.Circle,
-    data: { r: 5 },
-  },
-  {
-    name: FigureNames.Rect,
-    data: { a: 15, b: 7 },
-  },
-  {
-    name: FigureNames.Triangle,
-  },
-];
+const ivan = new User("Ivan", 30);
+console.log(ivan);
 
-console.log(calculateAmountOfFigures(data));
+const alex = new User<number, boolean>(10, true);
+console.log(alex);
+
+console.log(ivan.sayMyFullName(0));
+
+
+class AdminUser<T> extends User<string, number> { // can't use <T, S> must be <string, number>
+  rules: T;
+
+  constructor(name: string, age: number, rules: T) {
+    super(name, age);
+    this.rules = rules;
+  }
+}
