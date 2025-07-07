@@ -1590,65 +1590,187 @@
 
 // --------------- lesson46 - Generics type interface, constraints
 
-interface ProcessingFn {
-  <T>(data: T): T;
-}
+// interface ProcessingFn {
+//   <T>(data: T): T;
+// }
 
-function processing<T>(data: T): T {
-  return data;
-}
+// function processing<T>(data: T): T {
+//   return data;
+// }
 
-let newFunc: ProcessingFn = processing;
+// let newFunc: ProcessingFn = processing;
 
-type Smth<T> = T;
+// type Smth<T> = T;
 
-const num: Smth<number> = 5;
+// const num: Smth<number> = 5;
 
-// type User<T, S> = {
+// // type User<T, S> = {
+// //   login: T;
+// //   age: S;
+// // };
+
+// interface User<T, S> {
 //   login: T;
 //   age: S;
+// }
+
+// const user: User<string, string> = {
+//   login: "str",
+//   age: "20",
 // };
 
-interface User<T, S> {
-  login: T;
-  age: S;
+// type OrNUll<Type> = Type | null;
+// type OneOrMany<Type> = Type | Type[];
+
+// const data: OneOrMany<number[]> = [5, 10];
+
+// //------------------------------
+
+// interface ParentsOfAnimal {
+//   mom: string;
+//   father: string;
+// }
+// interface Animal<ParentData extends ParentsOfAnimal> {
+//   login: string;
+//   parents: ParentData;
+// }
+
+// const Dog: Animal<{ mom: string; father: string; married: boolean }> = {
+//   login: "str",
+//   parents: { mom: "lily", father: "", married: true },
+// };
+
+// //------------------------------
+
+// const depositMoney = <T extends number | string>(amount: T): T => {
+//   console.log(`req to server with amount: ${amount}`);
+//   return amount;
+// };
+
+// depositMoney(500);
+// depositMoney('500');
+// depositMoney(false);
+
+// --------------- lesson47 - task
+
+// Создать Generic-интерфейс PlayerData, который подходил бы для создания таких объектов:
+
+interface PlayerData<Game, Hours> {
+  game: Game;
+  hours: Hours;
+  server: string;
 }
 
-const user: User<string, string> = {
-  login: "str",
-  age: "20",
+const player1: PlayerData<string, number> = {
+  game: "CS:GO",
+  hours: 300,
+  server: "basic",
 };
 
-type OrNUll<Type> = Type | null;
-type OneOrMany<Type> = Type | Type[];
+const player2: PlayerData<number, string> = {
+  game: 2048,
+  hours: "300 h.",
+  server: "arcade",
+};
 
-const data: OneOrMany<number[]> = [5, 10];
+const player3: PlayerData<string, object> = {
+  game: "Chess",
+  hours: {
+    total: 500,
+    inMenu: 50,
+  },
+  server: "chess",
+};
 
-//------------------------------
+// Массив данных с фигурами содержит объекты, у каждого из которых обязательно есть свойство name
+// Каждый объект может еще содержать дополнительные свойства в случайном виде
+// Свойство name может иметь только 4 варианта
+// Функция calculateAmountOfFigures должна принимать массив с объектами, у которых обязательно должно быть свойство name
+// Возвращает она объект-экземпляр AmountOfFigures
+// Внутри себя подсчитывает сколько каких фигур было в массиве и записывает результаты в AmountOfFigures
+// С текущими данными в консоль должно попадать:
+// { squares: 3, circles: 2, triangles: 2, others: 1 }
 
-interface ParentsOfAnimal {
-  mom: string;
-  father: string;
+enum FigureNames {
+  Rect = "rect",
+  Triangle = "triangle",
+  Line = "line",
+  Circle = "circle",
 }
-interface Animal<ParentData extends ParentsOfAnimal> {
-  login: string;
-  parents: ParentData;
+
+interface Figure {
+  name: FigureNames;
 }
 
-const Dog: Animal<{ mom: string; father: string; married: boolean }> = {
-  login: "str",
-  parents: { mom: "lily", father: "", married: true },
-};
+interface AmountOfFigures {
+  squares: number;
+  circles: number;
+  triangles: number;
+  others: number;
+}
 
-//------------------------------
+function calculateAmountOfFigures<T extends Figure>( figure: T[]): AmountOfFigures {
+  const amout: AmountOfFigures = {
+    squares: 0,
+    circles: 0,
+    triangles: 0,
+    others: 0,
+  };
 
-const depositMoney = <T extends number | string>(amount: T): T => {
-  console.log(`req to server with amount: ${amount}`);
-  return amount;
-};
+  figure.forEach((item) => {
+    switch (item.name) {
+      case FigureNames.Circle:
+        amout.circles++;
+        break;
 
-depositMoney(500);
-depositMoney('500');
-depositMoney(false);
+      case FigureNames.Rect:
+        amout.squares++;
+        break;
 
+      case FigureNames.Line:
+        amout.others++;
+        break;
 
+      case FigureNames.Triangle:
+        amout.triangles++;
+        break;
+    }
+  });
+  return amout;
+}
+
+const data = [
+  {
+    name: FigureNames.Rect,
+    data: { a: 5, b: 10 },
+  },
+  {
+    name: FigureNames.Rect,
+    data: { a: 6, b: 11 },
+  },
+  {
+    name: FigureNames.Triangle,
+    data: { a: 5, b: 10, c: 14 },
+  },
+  {
+    name: FigureNames.Line,
+    data: { l: 15 },
+  },
+  {
+    name: FigureNames.Circle,
+    data: { r: 10 },
+  },
+  {
+    name: FigureNames.Circle,
+    data: { r: 5 },
+  },
+  {
+    name: FigureNames.Rect,
+    data: { a: 15, b: 7 },
+  },
+  {
+    name: FigureNames.Triangle,
+  },
+];
+
+console.log(calculateAmountOfFigures(data));
