@@ -1529,61 +1529,126 @@
 
 // --------------- lesson45 - Generics functions
 
-function processingData<T, S>(data: T[], options: S): string {
-  data.length;
-  switch (typeof data) {
-    case "string":
-      return `${data}, speed ${options}`;
-      break;
-    case "number":
-      return `${data}, speed ${options}`;
-      break;
-    default:
-      return " not valid";
-  }
-}
+// function processingData<T, S>(data: T[], options: S): string {
+//   data.length;
+//   switch (typeof data) {
+//     case "string":
+//       return `${data}, speed ${options}`;
+//       break;
+//     case "number":
+//       return `${data}, speed ${options}`;
+//       break;
+//     default:
+//       return " not valid";
+//   }
+// }
 
-const res1 = processingData([1], "12");
-const res2 = processingData(["1"], false);
+// const res1 = processingData([1], "12");
+// const res2 = processingData(["1"], false);
 
-const num = 10;
-let res3 = processingData<number, string>([num], "ten");
+// const num = 10;
+// let res3 = processingData<number, string>([num], "ten");
 
-function processing<T>(data: T): T {
-  return data;
-}
+// function processing<T>(data: T): T {
+//   return data;
+// }
+
+// interface ProcessingFn {
+//   <T>(data: T): T;
+// }
+
+// // let newFunc: <T>(data: T) => T = processing;
+
+// let newFunc: ProcessingFn = processing;
+
+// interface DataSaver {
+
+//   // processing: <T>(data: T) => T;
+
+//   // processing: typeof processing;
+
+//   processing: ProcessingFn;
+// }
+
+// // const saver: DataSaver = {                    // V1
+// //   processing(data) {
+// //     console.log(data);
+// //     return data;
+// //   },
+// // };
+
+// // const saver: DataSaver = {                    // V2
+// //   processing: <T>(data: T) => {
+// //     return data;
+// //   },
+// // };
+
+// const saver: DataSaver = {
+//   // V3
+//   processing: processing,
+// };
+
+// --------------- lesson46 - Generics type interface, constraints
 
 interface ProcessingFn {
   <T>(data: T): T;
 }
 
-// let newFunc: <T>(data: T) => T = processing;
+function processing<T>(data: T): T {
+  return data;
+}
 
 let newFunc: ProcessingFn = processing;
 
-interface DataSaver {
-  
-  // processing: <T>(data: T) => T;
+type Smth<T> = T;
 
-  // processing: typeof processing;
+const num: Smth<number> = 5;
 
-  processing: ProcessingFn;
+// type User<T, S> = {
+//   login: T;
+//   age: S;
+// };
+
+interface User<T, S> {
+  login: T;
+  age: S;
 }
 
-// const saver: DataSaver = {                    // V1
-//   processing(data) {
-//     console.log(data);
-//     return data;
-//   },
-// };
-
-// const saver: DataSaver = {                    // V2
-//   processing: <T>(data: T) => {
-//     return data;
-//   },
-// };
-
-const saver: DataSaver = {
-  // V3
-  processing: processing,
+const user: User<string, string> = {
+  login: "str",
+  age: "20",
 };
+
+type OrNUll<Type> = Type | null;
+type OneOrMany<Type> = Type | Type[];
+
+const data: OneOrMany<number[]> = [5, 10];
+
+//------------------------------
+
+interface ParentsOfAnimal {
+  mom: string;
+  father: string;
+}
+interface Animal<ParentData extends ParentsOfAnimal> {
+  login: string;
+  parents: ParentData;
+}
+
+const Dog: Animal<{ mom: string; father: string; married: boolean }> = {
+  login: "str",
+  parents: { mom: "lily", father: "", married: true },
+};
+
+//------------------------------
+
+const depositMoney = <T extends number | string>(amount: T): T => {
+  console.log(`req to server with amount: ${amount}`);
+  return amount;
+};
+
+depositMoney(500);
+depositMoney('500');
+depositMoney(false);
+
+
