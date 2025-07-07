@@ -1491,39 +1491,99 @@
 
 // --------------- lesson44 - Generics
 
-function processingData<T>(data: T): T {
+// function processingData<T>(data: T): T {
+//   return data;
+// }
+
+// const res1 = processingData(1);
+// const res2 = processingData("1");
+
+// const num = 10;
+// const res3 = processingData<number>(num);
+
+// interface PrintUK {
+//   design: number;
+// }
+
+// interface PrintUES {
+//   design: string;
+// }
+
+// interface Print<T> {
+//   design: T;
+// }
+
+// const somePrint: Print<string> = {
+//   design: "ten",
+// };
+
+// const somePrint2: Print<number> = {
+//   design: 10,
+// };
+
+// Array<T>
+
+// RefferalSystem<UserId, S>
+
+// T U V S P K/V
+
+// --------------- lesson45 - Generics functions
+
+function processingData<T, S>(data: T[], options: S): string {
+  data.length;
+  switch (typeof data) {
+    case "string":
+      return `${data}, speed ${options}`;
+      break;
+    case "number":
+      return `${data}, speed ${options}`;
+      break;
+    default:
+      return " not valid";
+  }
+}
+
+const res1 = processingData([1], "12");
+const res2 = processingData(["1"], false);
+
+const num = 10;
+let res3 = processingData<number, string>([num], "ten");
+
+function processing<T>(data: T): T {
   return data;
 }
 
-const res1 = processingData(1);
-const res2 = processingData("1");
-
-const num = 10;
-const res3 = processingData<number>(num);
-
-interface PrintUK {
-  design: number;
+interface ProcessingFn {
+  <T>(data: T): T;
 }
 
-interface PrintUES {
-  design: string;
+// let newFunc: <T>(data: T) => T = processing;
+
+let newFunc: ProcessingFn = processing;
+
+interface DataSaver {
+  
+  // processing: <T>(data: T) => T;
+
+  // processing: typeof processing;
+
+  processing: ProcessingFn;
 }
 
-interface Print<T> {
-  design: T;
-}
+// const saver: DataSaver = {                    // V1
+//   processing(data) {
+//     console.log(data);
+//     return data;
+//   },
+// };
 
-const somePrint: Print<string> = {
-  design: "ten",
+// const saver: DataSaver = {                    // V2
+//   processing: <T>(data: T) => {
+//     return data;
+//   },
+// };
+
+const saver: DataSaver = {
+  // V3
+  processing: processing,
 };
-
-const somePrint2: Print<number> = {
-  design: 10,
-};
-
-
-Array<T>
-
-RefferalSystem<UserId, S>
-
-T U V S P K/V
