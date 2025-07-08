@@ -2041,82 +2041,120 @@
 
 // --------------- lesson55 - Conditional types and infer
 
-// Condition ? true : false
+// // Condition ? true : false
 
-// SomeType extends OtherType ? TrueType : FalseType
+// // SomeType extends OtherType ? TrueType : FalseType
 
-type Example = "string" extends "Hello" ? string : number;
-type Example2 = "string" extends string ? string : number;
+// type Example = "string" extends "Hello" ? string : number;
+// type Example2 = "string" extends string ? string : number;
 
-const str: string = "Hello";
-type Example3 = "string" extends typeof str ? string : number;
+// const str: string = "Hello";
+// type Example3 = "string" extends typeof str ? string : number;
 
-type FromUserOrFromBase<T extends string | number> = T extends string
-  ? IDataFromUser
-  : IDataFromBase;
+// type FromUserOrFromBase<T extends string | number> = T extends string
+//   ? IDataFromUser
+//   : IDataFromBase;
 
-interface User<T extends "created" | Date> {
-  created: T extends "created" ? "created" : Date;
-}
+// interface User<T extends "created" | Date> {
+//   created: T extends "created" ? "created" : Date;
+// }
 
-const user: User<"created"> = {
-  created: "created",
-};
+// const user: User<"created"> = {
+//   created: "created",
+// };
 
-interface IDataFromUser {
-  weight: string;
-}
+// interface IDataFromUser {
+//   weight: string;
+// }
 
-interface IDataFromBase {
-  calories: number;
-}
+// interface IDataFromBase {
+//   calories: number;
+// }
 
-// function calculateDailyCalories(str: string): IDataFromUser; // перегрузка функцій
-// function calculateDailyCalories(str: number): IDataFromBase; // перегрузка функцій
-// function calculateDailyCalories(
-//   numOrStr: string | number
-// ): IDataFromUser | IDataFromBase {
+// // function calculateDailyCalories(str: string): IDataFromUser; // перегрузка функцій
+// // function calculateDailyCalories(str: number): IDataFromBase; // перегрузка функцій
+// // function calculateDailyCalories(
+// //   numOrStr: string | number
+// // ): IDataFromUser | IDataFromBase {
+// //   if (typeof numOrStr === "string") {
+// //     const obj: IDataFromUser = {
+// //       weight: numOrStr,
+// //     };
+// //     return obj;
+// //   } else {
+// //     const obj: IDataFromBase = {
+// //       calories: numOrStr,
+// //     };
+// //     return obj;
+// //   }
+// // }
+
+// function calculateDailyCalories<T extends string | number>(
+//   numOrStr: T
+// ): T extends string ? IDataFromUser : IDataFromBase {
 //   if (typeof numOrStr === "string") {
 //     const obj: IDataFromUser = {
 //       weight: numOrStr,
 //     };
-//     return obj;
+//     return obj as FromUserOrFromBase<T>; // as T extends string ? IDataFromUser : IDataFromBase
 //   } else {
 //     const obj: IDataFromBase = {
 //       calories: numOrStr,
 //     };
-//     return obj;
+//     return obj as FromUserOrFromBase<T>; // as T extends string ? IDataFromUser : IDataFromBase
 //   }
 // }
 
-function calculateDailyCalories<T extends string | number>(
-  numOrStr: T
-): T extends string ? IDataFromUser : IDataFromBase {
-  if (typeof numOrStr === "string") {
-    const obj: IDataFromUser = {
-      weight: numOrStr,
-    };
-    return obj as FromUserOrFromBase<T>; // as T extends string ? IDataFromUser : IDataFromBase
-  } else {
-    const obj: IDataFromBase = {
-      calories: numOrStr,
-    };
-    return obj as FromUserOrFromBase<T>; // as T extends string ? IDataFromUser : IDataFromBase
-  }
-}
+// type GetStringType<T extends "hello" | "world" | string> = T extends "hello"
+//   ? "hello"
+//   : T extends "world"
+//   ? "world"
+//   : string;
 
-type GetStringType<T extends "hello" | "world" | string> = T extends "hello"
-  ? "hello"
-  : T extends "world"
-  ? "world"
-  : string;
+// type GetFirstType<T> = T extends Array<infer First> ? First : T; // infer потрібен щоб витягнути певний тип із якойсь сущьності
 
-type GetFirstType<T> = T extends Array<infer First> ? First : T; // infer потрібен щоб витягнути певний тип із якойсь сущьності
+// type Ex = GetFirstType<number[]>;
 
-type Ex = GetFirstType<number[]>;
+// type ToArray<Type> = Type extends any ? Type[] : never; // task
 
-type ToArray<Type> = Type extends any ? Type[] : never; // task
+// type ExArray = ToArray<Ex | string>;
 
-type ExArray = ToArray<Ex | string>;
+// --------------- lesson56 - Mapped types, +/-operators
 
+type Currencies = {
+  readonly usa: "usd";
+  china?: "cny";
+  readonly ukraine: "uah";
+  kz?: "tenge";
+};
 
+type ROnlyCurr = Readonly<Currencies>;
+
+type CustomCurrencies = {
+  usa: string;
+  china: string;
+  ukraine: string;
+  kz: string;
+};
+
+type CreateCustomCurr<T> = {
+  +readonly[P in keyof T]-?: string;
+};
+
+type CustomCurrencies2 = CreateCustomCurr<Currencies>
+
+// type СопоставимийТип = {
+//   [произвольнийИдентификатор in Множество]: ПроизвольнийТипДанних;
+// };
+
+type Keys = "name" | "age" | "role";
+
+type User = {
+  [K in Keys]: string;
+};
+
+const alex: User = {
+  name: "Alex",
+  age: "25",
+  role: "admin",
+};
