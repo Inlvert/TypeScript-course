@@ -1777,37 +1777,108 @@
 
 // --------------- lesson48 - Generics class
 
-class User<T, S> {
-  name: T;
-  age: S;
+// class User<T, S> {
+//   name: T;
+//   age: S;
 
-  constructor(name: T, age: S) {
-    this.name = name;
-    this.age = age;
-  }
-  sayMyFullName<T>(surname: T): string {
-    if (typeof surname !== "string") {
-      return "I have only name";
-    } else {
-      return `${this.name} ${surname} is ${this.age}`;
-    }
-  }
+//   constructor(name: T, age: S) {
+//     this.name = name;
+//     this.age = age;
+//   }
+//   sayMyFullName<T>(surname: T): string {
+//     if (typeof surname !== "string") {
+//       return "I have only name";
+//     } else {
+//       return `${this.name} ${surname} is ${this.age}`;
+//     }
+//   }
+// }
+
+// const ivan = new User("Ivan", 30);
+// console.log(ivan);
+
+// const alex = new User<number, boolean>(10, true);
+// console.log(alex);
+
+// console.log(ivan.sayMyFullName(0));
+
+// class AdminUser<T> extends User<string, number> { // can't use <T, S> must be <string, number>
+//   rules: T;
+
+//   constructor(name: string, age: number, rules: T) {
+//     super(name, age);
+//     this.rules = rules;
+//   }
+// }
+
+// --------------- lesson49 - embedded generalizations(Readonly, Partial, Required)
+
+// const arr: Array<number> = [1, 2, 3];
+// const arr2: number[] = [1, 2, 3];
+
+// const roarr: ReadonlyArray<string> = ["str"];
+// // roarr[0] = 'ghbjnkml';
+
+// interface IState {
+//   data: {
+//     name: string;
+//   };
+//   tag?: string;
+// }
+
+// const state: Partial<IState> = {
+//   data: {
+//     name: "Jhon",
+//   },
+// };
+
+// const strictState: Required<IState> = {
+//   data: {
+//     name: "Pes",
+//   },
+//   tag: 'Req'
+// };
+
+// function action(state: Readonly<IState>): void {
+//   const newData = structuredClone(state);
+//   console.log(newData);
+// }
+
+// action({
+//   data: { name: "value" },
+//   tag: "example",
+// });
+
+// --------------- lesson50 - talk
+
+// --------------- lesson51 - keyof
+
+interface ICompany {
+  name: string;
+  debts: number;
 }
 
-const ivan = new User("Ivan", 30);
-console.log(ivan);
+type CompanyKeys = keyof ICompany;
+const keys: CompanyKeys = "name";
 
-const alex = new User<number, boolean>(10, true);
-console.log(alex);
-
-console.log(ivan.sayMyFullName(0));
-
-
-class AdminUser<T> extends User<string, number> { // can't use <T, S> must be <string, number>
-  rules: T;
-
-  constructor(name: string, age: number, rules: T) {
-    super(name, age);
-    this.rules = rules;
-  }
+function printDebts<T, K extends keyof T, S extends keyof T>(
+  company: T,
+  name: K,
+  debts: S
+) {
+  console.log(`Company ${company[name]}, debts ${company[debts]}`);
 }
+
+const hh: ICompany = {
+  name: "HH",
+  debts: 5000,
+};
+
+printDebts(hh, "name", "debts");
+
+const google = {
+  name: "Google",
+  open: "true",
+};
+
+printDebts(google, "name", "open");
