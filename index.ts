@@ -1883,8 +1883,59 @@
 
 // printDebts(google, "name", "open");
 
-
 // --------------- lesson52 - typeof
+
+// function printDebts<T, K extends keyof T, S extends keyof T>(
+//   company: T,
+//   name: K,
+//   debts: S
+// ) {
+//   console.log(`Company ${company[name]}, debts ${company[debts]}`);
+// }
+
+// const google = {
+//   name: "Google",
+//   open: "true",
+// };
+
+// type GoogleKeys = keyof typeof google;
+
+// const keys: GoogleKeys = 'name'
+
+// --------------- lesson53 - Indexed Access Types
+
+interface ICompany {
+  name: string;
+  debts: number;
+  departments: Department[];
+  managment: {
+    owner: string;
+  };
+}
+
+interface Department {
+  [key: string]: string;
+}
+
+// const debts = 'debts'; // V1
+// let debts = "debts" as "debts"; // V2
+let debts: "debts" = "debts"; // V3
+
+// type CompanyDebtsType = ICompany["debts"];
+type CompanyDebtsType = ICompany[typeof debts];
+type CompanyOwnerType = ICompany["managment"]["owner"];
+type CompanyDepType = ICompany["departments"];
+type CompanyDepTypes = ICompany["departments"][number];
+
+type Test = ICompany[keyof ICompany];
+
+type CompanyKeys = keyof ICompany;
+const keys: CompanyKeys = "name";
+
+// const hh: ICompany = {
+//   name: "HH",
+//   debts: 5000,
+// };
 
 function printDebts<T, K extends keyof T, S extends keyof T>(
   company: T,
@@ -1894,11 +1945,20 @@ function printDebts<T, K extends keyof T, S extends keyof T>(
   console.log(`Company ${company[name]}, debts ${company[debts]}`);
 }
 
-const google = {
+const google: ICompany = {
   name: "Google",
-  open: "true",
+  debts: 10000,
+  departments: [
+    {
+      sales: "sales",
+      developer: "dev",
+    },
+  ],
+  managment: {
+    owner: "Jhon",
+  },
 };
 
 type GoogleKeys = keyof typeof google;
 
-const keys: GoogleKeys = 'name'
+const keys2: GoogleKeys = "name";
