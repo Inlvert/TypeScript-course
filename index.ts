@@ -2159,7 +2159,27 @@
 //   role: "admin",
 // };
 
-// --------------- lesson57 - Tamplate literal types
+// --------------- lesson57 - Template literal types
+
+// type Currencies = {
+//   usa: "usd";
+//   china?: "cny";
+//   ukraine: "uah";
+//   kz?: "tenge";
+// };
+
+// type CreateCustomCurr<T> = {
+//   [P in keyof T as `custom${Capitalize<string & P>}`]: string;
+// };
+
+// type CustomCurrencies = CreateCustomCurr<Currencies>;
+
+// type MyAnimation = "fade" | "swipe";
+// type Direction = "in" | "out";
+
+// type MyNewAnimation = `${MyAnimation}${Capitalize<Direction>}`;
+
+// --------------- lesson58 - Utility types Pick, Omit, Extract, Exclude, Record
 
 type Currencies = {
   usa: "usd";
@@ -2168,11 +2188,35 @@ type Currencies = {
   kz?: "tenge";
 };
 
+type CurrWithoutUSA = Omit<Currencies, "usa">; // Виключення
+type CurrUSAAndUkraine = Pick<Currencies, "usa" | "ukraine">; // фільтрація за властивістью
+type FadeType = Exclude<MyAnimation, "swipe">; // Видалення із union типу
+type CantriesWthoutUSA = Exclude<keyof Currencies, "usa">; // Видалення із union типу
+type SwipeType = Extract<MyAnimation, "swipe">; // Вибір потрібного типу
+
 type CreateCustomCurr<T> = {
   [P in keyof T as `custom${Capitalize<string & P>}`]: string;
 };
 
+type PlayersNames = "alex" | "Jhon";
 type CustomCurrencies = CreateCustomCurr<Currencies>;
+
+type GameDataCurr = Record<PlayersNames, CustomCurrencies>;
+
+const gameData: GameDataCurr = {
+  alex: {
+    customChina: "dsds",
+    customUkraine: "kgyhjk",
+    customUsa: "hhghj",
+    customKz: "juhoj",
+  },
+  Jhon: {
+     customChina: "dsdvdvdvds",
+    customUkraine: "kgyhdvdvdvjk",
+    customUsa: "hhgdvdvdvdvhj",
+    customKz: "juhdvdvdvoj",
+  }
+};
 
 type MyAnimation = "fade" | "swipe";
 type Direction = "in" | "out";
