@@ -1853,13 +1853,38 @@
 
 // --------------- lesson51 - keyof
 
-interface ICompany {
-  name: string;
-  debts: number;
-}
+// interface ICompany {
+//   name: string;
+//   debts: number;
+// }
 
-type CompanyKeys = keyof ICompany;
-const keys: CompanyKeys = "name";
+// type CompanyKeys = keyof ICompany;
+// const keys: CompanyKeys = "name";
+
+// function printDebts<T, K extends keyof T, S extends keyof T>(
+//   company: T,
+//   name: K,
+//   debts: S
+// ) {
+//   console.log(`Company ${company[name]}, debts ${company[debts]}`);
+// }
+
+// const hh: ICompany = {
+//   name: "HH",
+//   debts: 5000,
+// };
+
+// printDebts(hh, "name", "debts");
+
+// const google = {
+//   name: "Google",
+//   open: "true",
+// };
+
+// printDebts(google, "name", "open");
+
+
+// --------------- lesson52 - typeof
 
 function printDebts<T, K extends keyof T, S extends keyof T>(
   company: T,
@@ -1869,16 +1894,11 @@ function printDebts<T, K extends keyof T, S extends keyof T>(
   console.log(`Company ${company[name]}, debts ${company[debts]}`);
 }
 
-const hh: ICompany = {
-  name: "HH",
-  debts: 5000,
-};
-
-printDebts(hh, "name", "debts");
-
 const google = {
   name: "Google",
   open: "true",
 };
 
-printDebts(google, "name", "open");
+type GoogleKeys = keyof typeof google;
+
+const keys: GoogleKeys = 'name'
