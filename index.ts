@@ -1965,77 +1965,158 @@
 
 // --------------- lesson54 - task
 
-interface IPhone {
-  company: string;
-  number: number;
+// interface IPhone {
+//   company: string;
+//   number: number;
+// }
+
+// // IMobilePhone должен наследоваться от IPhone,
+// // тип свойства companyPartner зависит от свойства company
+
+// interface IMobilePhone extends IPhone {
+//   size: string;
+//   companyPartner: IPhone["company"];
+//   manufactured: Date;
+// }
+
+// // Типизировать объект phones
+
+// const phones: IMobilePhone[] = [
+//   {
+//     company: "Nokia",
+//     number: 1285637,
+//     size: "5.5",
+//     companyPartner: "MobileNokia",
+//     manufactured: new Date("2022-09-01"),
+//   },
+//   {
+//     company: "Samsung",
+//     number: 4356637,
+//     size: "5.0",
+//     companyPartner: "SamMobile",
+//     manufactured: new Date("2021-11-05"),
+//   },
+//   {
+//     company: "Apple",
+//     number: 4552833,
+//     size: "5.7",
+//     companyPartner: "no data",
+//     manufactured: new Date("2022-05-24T12:00:00"),
+//   },
+// ];
+
+// interface IPhonesManufacturedAfterDate extends IMobilePhone {
+//   initialDate: string;
+// }
+
+// // Функция должна отфильтровать массив данных и вернуть новый массив
+// // с телефонами, выпущенными после даты в третьем аргументе
+
+// function filterPhonesByDate<T, K extends keyof T>(
+//   phones: T[],
+//   key: K,
+//   initial: string
+// ): Partial<IPhonesManufacturedAfterDate>[] {
+//   return phones
+//     .filter((phone) => {
+//       const manufactured = phone[key];
+
+//       if (
+//         manufactured instanceof Date &&
+//         manufactured.getTime() > new Date(initial).getTime()
+//       ) {
+//         return phone;
+//       }
+//     })
+//     .map((phone) => {
+//       const newObj = { ...phone, initialDate: initial };
+//       return newObj;
+//     });
+// }
+
+// // Второй аргумент при вызове функции должен быть связан с первым,
+// // а значит мы получим подсказки - свойства этого объекта
+
+// console.log(filterPhonesByDate(phones, "manufactured", "2022-01-01"));
+
+// --------------- lesson55 - Conditional types and infer
+
+// Condition ? true : false
+
+// SomeType extends OtherType ? TrueType : FalseType
+
+type Example = "string" extends "Hello" ? string : number;
+type Example2 = "string" extends string ? string : number;
+
+const str: string = "Hello";
+type Example3 = "string" extends typeof str ? string : number;
+
+type FromUserOrFromBase<T extends string | number> = T extends string
+  ? IDataFromUser
+  : IDataFromBase;
+
+interface User<T extends "created" | Date> {
+  created: T extends "created" ? "created" : Date;
 }
 
-// IMobilePhone должен наследоваться от IPhone,
-// тип свойства companyPartner зависит от свойства company
+const user: User<"created"> = {
+  created: "created",
+};
 
-interface IMobilePhone extends IPhone {
-  size: string;
-  companyPartner: IPhone["company"];
-  manufactured: Date;
+interface IDataFromUser {
+  weight: string;
 }
 
-// Типизировать объект phones
-
-const phones: IMobilePhone[] = [
-  {
-    company: "Nokia",
-    number: 1285637,
-    size: "5.5",
-    companyPartner: "MobileNokia",
-    manufactured: new Date("2022-09-01"),
-  },
-  {
-    company: "Samsung",
-    number: 4356637,
-    size: "5.0",
-    companyPartner: "SamMobile",
-    manufactured: new Date("2021-11-05"),
-  },
-  {
-    company: "Apple",
-    number: 4552833,
-    size: "5.7",
-    companyPartner: "no data",
-    manufactured: new Date("2022-05-24T12:00:00"),
-  },
-];
-
-interface IPhonesManufacturedAfterDate extends IMobilePhone {
-  initialDate: string;
+interface IDataFromBase {
+  calories: number;
 }
 
-// Функция должна отфильтровать массив данных и вернуть новый массив
-// с телефонами, выпущенными после даты в третьем аргументе
+// function calculateDailyCalories(str: string): IDataFromUser; // перегрузка функцій
+// function calculateDailyCalories(str: number): IDataFromBase; // перегрузка функцій
+// function calculateDailyCalories(
+//   numOrStr: string | number
+// ): IDataFromUser | IDataFromBase {
+//   if (typeof numOrStr === "string") {
+//     const obj: IDataFromUser = {
+//       weight: numOrStr,
+//     };
+//     return obj;
+//   } else {
+//     const obj: IDataFromBase = {
+//       calories: numOrStr,
+//     };
+//     return obj;
+//   }
+// }
 
-function filterPhonesByDate<T, K extends keyof T>(
-  phones: T[],
-  key: K,
-  initial: string
-): Partial<IPhonesManufacturedAfterDate>[] {
-  return phones
-    .filter((phone) => {
-      const manufactured = phone[key];
-
-      if (
-        manufactured instanceof Date &&
-        manufactured.getTime() > new Date(initial).getTime()
-      ) {
-        return phone;
-      }
-    })
-    .map((phone) => {
-      const newObj = { ...phone, initialDate: initial };
-      return newObj;
-    });
+function calculateDailyCalories<T extends string | number>(
+  numOrStr: T
+): T extends string ? IDataFromUser : IDataFromBase {
+  if (typeof numOrStr === "string") {
+    const obj: IDataFromUser = {
+      weight: numOrStr,
+    };
+    return obj as FromUserOrFromBase<T>; // as T extends string ? IDataFromUser : IDataFromBase
+  } else {
+    const obj: IDataFromBase = {
+      calories: numOrStr,
+    };
+    return obj as FromUserOrFromBase<T>; // as T extends string ? IDataFromUser : IDataFromBase
+  }
 }
 
-// Второй аргумент при вызове функции должен быть связан с первым,
-// а значит мы получим подсказки - свойства этого объекта
+type GetStringType<T extends "hello" | "world" | string> = T extends "hello"
+  ? "hello"
+  : T extends "world"
+  ? "world"
+  : string;
 
-console.log(filterPhonesByDate(phones, "manufactured", "2022-01-01"));
+type GetFirstType<T> = T extends Array<infer First> ? First : T; // infer потрібен щоб витягнути певний тип із якойсь сущьності
+
+type Ex = GetFirstType<number[]>;
+
+type ToArray<Type> = Type extends any ? Type[] : never; // task
+
+type ExArray = ToArray<Ex | string>;
+
 
