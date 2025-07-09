@@ -2161,23 +2161,23 @@
 
 // --------------- lesson57 - Template literal types
 
-type Currencies = {
-  usa: "usd";
-  china?: "cny";
-  ukraine: "uah";
-  kz?: "tenge";
-};
+// type Currencies = {
+//   usa: "usd";
+//   china?: "cny";
+//   ukraine: "uah";
+//   kz?: "tenge";
+// };
 
-type CreateCustomCurr<T> = {
-  [P in keyof T as `custom${Capitalize<string & P>}`]: string;
-};
+// type CreateCustomCurr<T> = {
+//   [P in keyof T as `custom${Capitalize<string & P>}`]: string;
+// };
 
-type CustomCurrencies = CreateCustomCurr<Currencies>;
+// type CustomCurrencies = CreateCustomCurr<Currencies>;
 
-type MyAnimation = "fade" | "swipe";
-type Direction = "in" | "out";
+// type MyAnimation = "fade" | "swipe";
+// type Direction = "in" | "out";
 
-type MyNewAnimation = `${MyAnimation}${Capitalize<Direction>}`;
+// type MyNewAnimation = `${MyAnimation}${Capitalize<Direction>}`;
 
 // --------------- lesson58 - Utility types Pick, Omit, Extract, Exclude, Record
 
@@ -2337,22 +2337,71 @@ type MyNewAnimation = `${MyAnimation}${Capitalize<Direction>}`;
 
 // --------------- lesson59 task 2
 
-interface IForm {
-  login: string;
-  password: string;
+// interface IForm {
+//   login: string;
+//   password: string;
+// }
+
+// // Необходимо типизировать объект валидации
+// // Учтите, что данные в форме могут расширяться и эти поля
+// // должны появиться и в объекте валидации
+
+// const validationData: Validation<IForm> = {
+//   login: { isValid: false, errorMsg: "At least 3 characters" },
+//   password: { isValid: true },
+// };
+
+// type Validation<T> = {
+//   [P in keyof T]:
+//     | { isValid: true }
+//     | { isValid: false; errorMsg: "At least 3 characters" };
+// };
+
+// --------------- lesson59 task 3
+
+interface ISlider {
+  container?: string;
+  numberOfSlides?: number;
+  speed?: 300 | 500 | 700;
+  direction?: "horizontal" | "vertical";
+  dots?: boolean;
+  arrows?: boolean;
+  animationName?: string;
 }
 
-// Необходимо типизировать объект валидации
-// Учтите, что данные в форме могут расширяться и эти поля
-// должны появиться и в объекте валидации
+type customSliderBase = Required<Omit<ISlider, "animationName" | "speed">>;
 
-const validationData: Validation<IForm> = {
-  login: { isValid: false, errorMsg: "At least 3 characters" },
-  password: { isValid: true },
+interface ICustomSlider extends customSliderBase {
+  speed: number;
+}
+
+function createSlider({
+  container = "",
+  numberOfSlides = 1,
+  speed = 300,
+  direction = "horizontal",
+  dots = true,
+  arrows = true,
+}: ISlider = {}): void {
+  console.log(container, numberOfSlides, speed, direction, dots, arrows);
+}
+
+createSlider();
+
+// Необходимо типизировать объект настроек, который будет зависим
+// от интерфейса ISlider
+// Все поля в нем обязательны для заполнения
+const customSliderOptions: ICustomSlider = {
+  container: "id",
+  numberOfSlides: 4,
+  speed: 1100,
+  direction: "horizontal",
+  dots: true,
+  arrows: true,
 };
 
-type Validation<T> = {
-  [P in keyof T]:
-    | { isValid: true }
-    | { isValid: false; errorMsg: "At least 3 characters" };
-};
+function createCustomSlider(options: ICustomSlider): void {
+  if ("container" in options) {
+    console.log(options);
+  }
+}
