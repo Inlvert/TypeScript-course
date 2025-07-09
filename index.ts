@@ -2161,26 +2161,6 @@
 
 // --------------- lesson57 - Template literal types
 
-// type Currencies = {
-//   usa: "usd";
-//   china?: "cny";
-//   ukraine: "uah";
-//   kz?: "tenge";
-// };
-
-// type CreateCustomCurr<T> = {
-//   [P in keyof T as `custom${Capitalize<string & P>}`]: string;
-// };
-
-// type CustomCurrencies = CreateCustomCurr<Currencies>;
-
-// type MyAnimation = "fade" | "swipe";
-// type Direction = "in" | "out";
-
-// type MyNewAnimation = `${MyAnimation}${Capitalize<Direction>}`;
-
-// --------------- lesson58 - Utility types Pick, Omit, Extract, Exclude, Record
-
 type Currencies = {
   usa: "usd";
   china?: "cny";
@@ -2188,37 +2168,170 @@ type Currencies = {
   kz?: "tenge";
 };
 
-type CurrWithoutUSA = Omit<Currencies, "usa">; // Виключення
-type CurrUSAAndUkraine = Pick<Currencies, "usa" | "ukraine">; // фільтрація за властивістью
-type FadeType = Exclude<MyAnimation, "swipe">; // Видалення із union типу
-type CantriesWthoutUSA = Exclude<keyof Currencies, "usa">; // Видалення із union типу
-type SwipeType = Extract<MyAnimation, "swipe">; // Вибір потрібного типу
-
 type CreateCustomCurr<T> = {
   [P in keyof T as `custom${Capitalize<string & P>}`]: string;
 };
 
-type PlayersNames = "alex" | "Jhon";
 type CustomCurrencies = CreateCustomCurr<Currencies>;
-
-type GameDataCurr = Record<PlayersNames, CustomCurrencies>;
-
-const gameData: GameDataCurr = {
-  alex: {
-    customChina: "dsds",
-    customUkraine: "kgyhjk",
-    customUsa: "hhghj",
-    customKz: "juhoj",
-  },
-  Jhon: {
-     customChina: "dsdvdvdvds",
-    customUkraine: "kgyhdvdvdvjk",
-    customUsa: "hhgdvdvdvdvhj",
-    customKz: "juhdvdvdvoj",
-  }
-};
 
 type MyAnimation = "fade" | "swipe";
 type Direction = "in" | "out";
 
 type MyNewAnimation = `${MyAnimation}${Capitalize<Direction>}`;
+
+// --------------- lesson58 - Utility types Pick, Omit, Extract, Exclude, Record
+
+// type Currencies = {
+//   usa: "usd";
+//   china?: "cny";
+//   ukraine: "uah";
+//   kz?: "tenge";
+// };
+
+// type CurrWithoutUSA = Omit<Currencies, "usa">; // Виключення
+// type CurrUSAAndUkraine = Pick<Currencies, "usa" | "ukraine">; // фільтрація за властивістью
+// type FadeType = Exclude<MyAnimation, "swipe">; // Видалення із union типу
+// type CantriesWthoutUSA = Exclude<keyof Currencies, "usa">; // Видалення із union типу
+// type SwipeType = Extract<MyAnimation, "swipe">; // Вибір потрібного типу
+
+// type CreateCustomCurr<T> = {
+//   [P in keyof T as `custom${Capitalize<string & P>}`]: string;
+// };
+
+// type PlayersNames = "alex" | "Jhon";
+// type CustomCurrencies = CreateCustomCurr<Currencies>;
+
+// type GameDataCurr = Record<PlayersNames, CustomCurrencies>;
+
+// const gameData: GameDataCurr = {
+//   alex: {
+//     customChina: "dsds",
+//     customUkraine: "kgyhjk",
+//     customUsa: "hhghj",
+//     customKz: "juhoj",
+//   },
+//   Jhon: {
+//      customChina: "dsdvdvdvds",
+//     customUkraine: "kgyhdvdvdvjk",
+//     customUsa: "hhgdvdvdvdvhj",
+//     customKz: "juhdvdvdvoj",
+//   }
+// };
+
+// type MyAnimation = "fade" | "swipe";
+// type Direction = "in" | "out";
+
+// type MyNewAnimation = `${MyAnimation}${Capitalize<Direction>}`;
+
+// --------------- lesson59 task 1
+
+// Необходимо типизировать этот большой объект
+// Свойство futureClasses должно быть в зависимости от classes по типу
+// Свойства exClients и futureClients тоже должны быть в зависимости от currClients
+// ИЛИ все три зависят от общего родителя
+
+// Простыми словами: при добавлении свойства в целевой объект они должны быть
+// автоматически добавлены в зависимые (сразу подсказка от TS)
+
+interface IClasses {
+  name: string;
+  startsAt?: string;
+  duration: number;
+}
+
+interface IFutureClasses extends Omit<IClasses, "startsAt"> {
+  willStartsAt: string;
+}
+
+interface ICurrClients {
+  name: string;
+  age: string | number;
+  gender: "male" | "female";
+  timeLeft: string;
+  makeCallFor: Date;
+}
+
+type CurrClientsType = Omit<ICurrClients, 'makeCallFor'>
+
+type IExClients = Omit<ICurrClients, "timeLeft">
+
+
+type IFutureClients = Pick<IExClients, 'name' | 'makeCallFor'>
+
+interface IFitnessClubCenter {
+  clubName: string;
+  location: string;
+  classes: IClasses[];
+  currClients: CurrClientsType[];
+  futureClasses: IFutureClasses[];
+  exClients: IExClients[];
+  futureClients: IFutureClients[];
+}
+
+const fitnessClubCenter: IFitnessClubCenter = {
+  clubName: "Fitness club Center",
+  location: "central ave. 45, 5th floor",
+  classes: [
+    {
+      name: "yoga",
+      startsAt: "8:00 AM",
+      duration: 60,
+    },
+    {
+      name: "trx",
+      startsAt: "11:00 AM",
+      duration: 45,
+    },
+    {
+      name: "swimming",
+      startsAt: "3:00 PM",
+      duration: 70,
+    },
+  ],
+  futureClasses: [
+    {
+      name: "boxing",
+      willStartsAt: "6:00 PM",
+      duration: 40,
+    },
+    {
+      name: "breath training",
+      willStartsAt: "8:00 PM",
+      duration: 30,
+    },
+  ],
+  currClients: [
+    {
+      name: "John Smith",
+      age: "-",
+      gender: "male",
+      timeLeft: "1 month",
+    },
+    {
+      name: "Alise Smith",
+      age: 35,
+      gender: "female",
+      timeLeft: "3 month",
+    },
+    {
+      name: "Ann Sonne",
+      age: 24,
+      gender: "female",
+      timeLeft: "5 month",
+    },
+  ],
+  exClients: [
+    {
+      name: "Tom Smooth",
+      age: 50,
+      gender: "male",
+      makeCallFor: new Date("2023-08-12"),
+    },
+  ],
+  futureClients: [
+    {
+      name: "Maria",
+      makeCallFor: new Date("2023-07-10"),
+    },
+  ],
+};
