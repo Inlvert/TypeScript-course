@@ -2432,38 +2432,60 @@
 
 // --------------- lesson62 - Promise JSON
 
-const jsonText = '{ "name": "Test", "data": 4}';
+// const jsonText = '{ "name": "Test", "data": 4}';
 
-const objFromJson = JSON.parse(jsonText);
+// const objFromJson = JSON.parse(jsonText);
 
-console.log(objFromJson);
+// console.log(objFromJson);
 
-interface ToDo {
-  userId: number;
-  id: number;
-  title: string;
-  completed: boolean;
+// interface ToDo {
+//   userId: number;
+//   id: number;
+//   title: string;
+//   completed: boolean;
+// }
+
+// let toDoList: ToDo[] = [];
+
+// fetch("https://jsonplaceholder.typicode.com/todos")
+//   .then((response) => response.json())
+//   .then((json) => {
+//     if ("id" in json) {
+//       toDoList.push(json);
+//     } else if (Array.isArray(json)) {
+//       toDoList = json;
+//     }
+//     console.log(toDoList);
+//   });
+
+// const promise = new Promise<string>((resolve, reject) => {
+//   resolve("Test");
+// });
+
+// promise.then((resolve) => console.log(resolve.toUpperCase()));
+
+// console.log(promise)
+
+// --------------- lesson63 - Awaited
+
+type FromPromise = Awaited<Promise<number>>;
+
+interface User {
+  name: string;
 }
 
-let toDoList: ToDo[] = [];
+async function fetchUsers(): Promise<User[]> {
+  const users: User[] = [
+    {
+      name: "Alex",
+    },
+  ];
+  return users;
+}
 
-fetch("https://jsonplaceholder.typicode.com/todos")
-  .then((response) => response.json())
-  .then((json) => {
-    if ("id" in json) {
-      toDoList.push(json);
-    } else if (Array.isArray(json)) {
-      toDoList = json;
-    }
-    console.log(toDoList);
-  });
+const users = fetchUsers();
 
-  
+type FetchUsersReturnType = Awaited<ReturnType<typeof fetchUsers>>;
 
-const promise = new Promise<string>((resolve, reject) => {
-  resolve("Test");
-});
-
-promise.then((resolve) => console.log(resolve.toUpperCase()));
-
-console.log(promise)
+type UnwrappedPromise<T> = T extends Promise<infer Return> ? Return : T;
+type FetchDataReturnType = UnwrappedPromise<ReturnType<typeof fetchUsers>>;
