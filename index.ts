@@ -2359,49 +2359,74 @@
 
 // --------------- lesson59 task 3
 
-interface ISlider {
-  container?: string;
-  numberOfSlides?: number;
-  speed?: 300 | 500 | 700;
-  direction?: "horizontal" | "vertical";
-  dots?: boolean;
-  arrows?: boolean;
-  animationName?: string;
+// interface ISlider {
+//   container?: string;
+//   numberOfSlides?: number;
+//   speed?: 300 | 500 | 700;
+//   direction?: "horizontal" | "vertical";
+//   dots?: boolean;
+//   arrows?: boolean;
+//   animationName?: string;
+// }
+
+// type customSliderBase = Required<Omit<ISlider, "animationName" | "speed">>;
+
+// interface ICustomSlider extends customSliderBase {
+//   speed: number;
+// }
+
+// function createSlider({
+//   container = "",
+//   numberOfSlides = 1,
+//   speed = 300,
+//   direction = "horizontal",
+//   dots = true,
+//   arrows = true,
+// }: ISlider = {}): void {
+//   console.log(container, numberOfSlides, speed, direction, dots, arrows);
+// }
+
+// createSlider();
+
+// // Необходимо типизировать объект настроек, который будет зависим
+// // от интерфейса ISlider
+// // Все поля в нем обязательны для заполнения
+// const customSliderOptions: ICustomSlider = {
+//   container: "id",
+//   numberOfSlides: 4,
+//   speed: 1100,
+//   direction: "horizontal",
+//   dots: true,
+//   arrows: true,
+// };
+
+// function createCustomSlider(options: ICustomSlider): void {
+//   if ("container" in options) {
+//     console.log(options);
+//   }
+// }
+
+// --------------- lesson60 - answers for task
+
+// --------------- lesson61 - Parameters<Type>, ConstructorParameters<Type>, ReturnType<Type>
+
+function calculate(a: number, b: number): number {
+  return a * b;
 }
 
-type customSliderBase = Required<Omit<ISlider, "animationName" | "speed">>;
+type Calculate = ReturnType<typeof calculate>;
 
-interface ICustomSlider extends customSliderBase {
-  speed: number;
+let anotherResult: Calculate = 5;
+
+type CalculatePT = Parameters<typeof calculate>;
+type CalculatePT2 = Parameters<typeof calculate>[1];
+
+type PT1 = Parameters<(a: number) => number>;
+type PT2 = Parameters<<T>(arg: T) => T>;
+
+class Examplle {
+  constructor(a: number, b: string) {}
 }
 
-function createSlider({
-  container = "",
-  numberOfSlides = 1,
-  speed = 300,
-  direction = "horizontal",
-  dots = true,
-  arrows = true,
-}: ISlider = {}): void {
-  console.log(container, numberOfSlides, speed, direction, dots, arrows);
-}
+type T0 = ConstructorParameters<typeof Examplle>;
 
-createSlider();
-
-// Необходимо типизировать объект настроек, который будет зависим
-// от интерфейса ISlider
-// Все поля в нем обязательны для заполнения
-const customSliderOptions: ICustomSlider = {
-  container: "id",
-  numberOfSlides: 4,
-  speed: 1100,
-  direction: "horizontal",
-  dots: true,
-  arrows: true,
-};
-
-function createCustomSlider(options: ICustomSlider): void {
-  if ("container" in options) {
-    console.log(options);
-  }
-}
