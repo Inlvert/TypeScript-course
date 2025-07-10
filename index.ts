@@ -2468,24 +2468,49 @@
 
 // --------------- lesson63 - Awaited
 
-type FromPromise = Awaited<Promise<number>>;
+// type FromPromise = Awaited<Promise<number>>;
 
-interface User {
-  name: string;
+// interface User {
+//   name: string;
+// }
+
+// async function fetchUsers(): Promise<User[]> {
+//   const users: User[] = [
+//     {
+//       name: "Alex",
+//     },
+//   ];
+//   return users;
+// }
+
+// const users = fetchUsers();
+
+// type FetchUsersReturnType = Awaited<ReturnType<typeof fetchUsers>>;
+
+// type UnwrappedPromise<T> = T extends Promise<infer Return> ? Return : T;
+// type FetchDataReturnType = UnwrappedPromise<ReturnType<typeof fetchUsers>>;
+
+// --------------- lesson64 - base work with class
+
+class Box {
+  width!: number;
+  height: number;
+
+  constructor(width: number, height: number) {
+    this.width = width;
+    this.height = 500;
+  }
 }
 
-async function fetchUsers(): Promise<User[]> {
-  const users: User[] = [
-    {
-      name: "Alex",
-    },
-  ];
-  return users;
+const firstBox = new Box(10, 20);
+console.log(firstBox);
+
+class User {
+  name!: string;
 }
 
-const users = fetchUsers();
+const ivan = new User();
 
-type FetchUsersReturnType = Awaited<ReturnType<typeof fetchUsers>>;
+ivan.name = 'Ivan'
 
-type UnwrappedPromise<T> = T extends Promise<infer Return> ? Return : T;
-type FetchDataReturnType = UnwrappedPromise<ReturnType<typeof fetchUsers>>;
+console.log(ivan)
