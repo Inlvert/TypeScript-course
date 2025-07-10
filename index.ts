@@ -2410,23 +2410,60 @@
 
 // --------------- lesson61 - Parameters<Type>, ConstructorParameters<Type>, ReturnType<Type>
 
-function calculate(a: number, b: number): number {
-  return a * b;
+// function calculate(a: number, b: number): number {
+//   return a * b;
+// }
+
+// type Calculate = ReturnType<typeof calculate>;
+
+// let anotherResult: Calculate = 5;
+
+// type CalculatePT = Parameters<typeof calculate>;
+// type CalculatePT2 = Parameters<typeof calculate>[1];
+
+// type PT1 = Parameters<(a: number) => number>;
+// type PT2 = Parameters<<T>(arg: T) => T>;
+
+// class Examplle {
+//   constructor(a: number, b: string) {}
+// }
+
+// type T0 = ConstructorParameters<typeof Examplle>;
+
+// --------------- lesson62 - Promise JSON
+
+const jsonText = '{ "name": "Test", "data": 4}';
+
+const objFromJson = JSON.parse(jsonText);
+
+console.log(objFromJson);
+
+interface ToDo {
+  userId: number;
+  id: number;
+  title: string;
+  completed: boolean;
 }
 
-type Calculate = ReturnType<typeof calculate>;
+let toDoList: ToDo[] = [];
 
-let anotherResult: Calculate = 5;
+fetch("https://jsonplaceholder.typicode.com/todos")
+  .then((response) => response.json())
+  .then((json) => {
+    if ("id" in json) {
+      toDoList.push(json);
+    } else if (Array.isArray(json)) {
+      toDoList = json;
+    }
+    console.log(toDoList);
+  });
 
-type CalculatePT = Parameters<typeof calculate>;
-type CalculatePT2 = Parameters<typeof calculate>[1];
+  
 
-type PT1 = Parameters<(a: number) => number>;
-type PT2 = Parameters<<T>(arg: T) => T>;
+const promise = new Promise<string>((resolve, reject) => {
+  resolve("Test");
+});
 
-class Examplle {
-  constructor(a: number, b: string) {}
-}
+promise.then((resolve) => console.log(resolve.toUpperCase()));
 
-type T0 = ConstructorParameters<typeof Examplle>;
-
+console.log(promise)
