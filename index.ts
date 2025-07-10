@@ -2492,25 +2492,54 @@
 
 // --------------- lesson64 - base work with class
 
+// class Box {
+//   width!: number;
+//   height: number;
+
+//   constructor(width: number, height: number) {
+//     this.width = width;
+//     this.height = 500;
+//   }
+// }
+
+// const firstBox = new Box(10, 20);
+// console.log(firstBox);
+
+// class User {
+//   name!: string;
+// }
+
+// const ivan = new User();
+
+// ivan.name = 'Ivan'
+
+// console.log(ivan)
+
+// --------------- lesson65 - class Constructor Перегрузка Дженерики
+
 class Box {
   width!: number;
-  height: number;
+  height!: number;
+  volume!: string;
 
-  constructor(width: number, height: number) {
+  constructor(volume: string); // Перегрузка
+  constructor(width: number); // Перегрузка
+  constructor(widthOrVolume: number | string) {
+    if (typeof widthOrVolume === "number") {
+      this.width = widthOrVolume;
+    } else {
+      this.volume = widthOrVolume;
+    }
+  }
+}
+
+class Box2<T> {
+  width!: T;
+  height!: number;
+  volume!: string;
+
+  constructor(width: T) {
     this.width = width;
     this.height = 500;
   }
 }
-
-const firstBox = new Box(10, 20);
-console.log(firstBox);
-
-class User {
-  name!: string;
-}
-
-const ivan = new User();
-
-ivan.name = 'Ivan'
-
-console.log(ivan)
