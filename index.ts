@@ -2546,59 +2546,88 @@
 
 // --------------- lesson66 - methods, overload, getter, setter
 
+// class Box {
+//   width!: number;
+//   height!: number;
+//   volume!: number | undefined;
+//   content: string | undefined;
+
+//   constructor(width: number, volume?: number, content?: string) {
+//     this.width = width;
+//     this.height = 500;
+//     this.volume = volume;
+//     this.content = content;
+//   }
+
+//   calculateVolume(): void {
+//     if (!this.volume) {
+//       this.volume = this.width * this.height;
+//       console.log(`Volume is ${this.volume}`);
+//     } else {
+//       console.log(`Volume is ${this.volume}`);
+//     }
+//   }
+
+//   checkBoxSize(transport: number): string;
+//   checkBoxSize(transport: number[]): string;
+//   checkBoxSize(transport: number | number[]): string {
+//     if (typeof transport === "number") {
+//       return transport >= this.width ? "ok" : "not ok";
+//     } else {
+//       return transport.some((t) => t >= this.width) ? "ok" : "not ok";
+//     }
+//   }
+
+//   get boxContent() {
+//     return this.content;
+//   }
+
+//   set boxContent(value) {
+//     this.content = `Date: ${new Date().toTimeString()}, Content: ${value}`;
+//   }
+
+//   async content2(value: string) {
+//     const data = await new Date().toTimeString();
+//     this.content = `Date: ${data}, Content: ${value}`;
+//   }
+// }
+
+// const firstBox = new Box(250);
+
+// console.log(firstBox.checkBoxSize(250));
+// // console.log(firstBox.checkBoxSize([250, 200]));
+// console.log((firstBox.boxContent = "test"));
+// console.log(firstBox.boxContent);
+
+// console.log(firstBox.content2("test"));
+
+// --------------- lesson67 - Початкове значення та Index signatures
+
 class Box {
   width!: number;
-  height!: number;
+  height: number = 500; // можна створити властивість без конструктора та встановити значення
   volume!: number | undefined;
-  content: string | undefined;
+  _content: string | undefined;
 
   constructor(width: number, volume?: number, content?: string) {
     this.width = width;
-    this.height = 500;
     this.volume = volume;
-    this.content = content;
+    this._content = content;
   }
+}
+const firstBox = new Box(250);
 
-  calculateVolume(): void {
-    if (!this.volume) {
-      this.volume = this.width * this.height;
-      console.log(`Volume is ${this.volume}`);
-    } else {
-      console.log(`Volume is ${this.volume}`);
-    }
-  }
+console.log(firstBox._content);
 
-  checkBoxSize(transport: number): string;
-  checkBoxSize(transport: number[]): string;
-  checkBoxSize(transport: number | number[]): string {
-    if (typeof transport === "number") {
-      return transport >= this.width ? "ok" : "not ok";
-    } else {
-      return transport.some((t) => t >= this.width) ? "ok" : "not ok";
-    }
-  }
+class Styles {
+  [s: string]: string | ((s: string) => boolean);
 
-  get boxContent() {
-    return this.content;
-  }
-
-  set boxContent(value) {
-    this.content = `Date: ${new Date().toTimeString()}, Content: ${value}`;
-  }
-
-  async content2(value: string) {
-    const data = await new Date().toTimeString();
-    this.content = `Date: ${data}, Content: ${value}`;
+  method() {
+    return true;
   }
 }
 
-const firstBox = new Box(250);
+const style = new Styles();
 
-console.log(firstBox.checkBoxSize(250));
-// console.log(firstBox.checkBoxSize([250, 200]));
-console.log((firstBox.boxContent = "test"));
-console.log(firstBox.boxContent);
-
-console.log(firstBox.content2("test"));
-
-
+style.color = "red";
+style.font = "Roboto";
