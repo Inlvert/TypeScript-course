@@ -2603,6 +2603,37 @@
 
 // --------------- lesson67 - Початкове значення та Index signatures
 
+// class Box {
+//   width!: number;
+//   height: number = 500; // можна створити властивість без конструктора та встановити значення
+//   volume!: number | undefined;
+//   _content: string | undefined;
+
+//   constructor(width: number, volume?: number, content?: string) {
+//     this.width = width;
+//     this.volume = volume;
+//     this._content = content;
+//   }
+// }
+// const firstBox = new Box(250);
+
+// console.log(firstBox._content);
+
+// class Styles {
+//   [s: string]: string | ((s: string) => boolean);
+
+//   method() {
+//     return true;
+//   }
+// }
+
+// const style = new Styles();
+
+// style.color = "red";
+// style.font = "Roboto";
+
+// --------------- lesson68 - Extends in class
+
 class Box {
   width!: number;
   height: number = 500; // можна створити властивість без конструктора та встановити значення
@@ -2614,20 +2645,46 @@ class Box {
     this.volume = volume;
     this._content = content;
   }
-}
-const firstBox = new Box(250);
+  get boxContent() {
+    return this._content;
+  }
 
-console.log(firstBox._content);
+  set boxContent(value) {
+    this._content = `Date: ${new Date().toTimeString()}, Content: ${value}`;
+  }
 
-class Styles {
-  [s: string]: string | ((s: string) => boolean);
+  async content2(value: string) {
+    const data = await new Date().toTimeString();
+    this._content = `Date: ${data}, Content: ${value}`;
+    console.log(this._content);
 
-  method() {
-    return true;
+    // return this._content;
   }
 }
 
-const style = new Styles();
+class PesentBox extends Box {
+  wrap!: string;
+  height: number = 1000;
 
-style.color = "red";
-style.font = "Roboto";
+  constructor(wrap: string, width: number) {
+    super(width);
+    this.wrap = wrap;
+  }
+  override async content2(value: string, text?: string) { // override
+    const data = await new Date().toTimeString();
+
+    if (!text) {
+      super.content2(value);
+    } else {
+      this._content = `Date: ${data}, Content: ${value}, Text: ${
+        text ? text : "No text"
+      }`;
+    }
+
+    console.log(this._content);
+
+    // return this._content;
+  }
+}
+
+new PesentBox("red", 250).content2("TV", "This Text");
