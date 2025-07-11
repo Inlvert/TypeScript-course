@@ -2517,29 +2517,88 @@
 
 // --------------- lesson65 - class Constructor Перегрузка Дженерики
 
+// class Box {
+//   width!: number;
+//   height!: number;
+//   volume!: string;
+
+//   constructor(volume: string); // Перегрузка
+//   constructor(width: number); // Перегрузка
+//   constructor(widthOrVolume: number | string) {
+//     if (typeof widthOrVolume === "number") {
+//       this.width = widthOrVolume;
+//     } else {
+//       this.volume = widthOrVolume;
+//     }
+//   }
+// }
+
+// class Box2<T> {
+//   width!: T;
+//   height!: number;
+//   volume!: string;
+
+//   constructor(width: T) {
+//     this.width = width;
+//     this.height = 500;
+//   }
+// }
+
+// --------------- lesson66 - methods, overload, getter, setter
+
 class Box {
   width!: number;
   height!: number;
-  volume!: string;
+  volume!: number | undefined;
+  content: string | undefined;
 
-  constructor(volume: string); // Перегрузка
-  constructor(width: number); // Перегрузка
-  constructor(widthOrVolume: number | string) {
-    if (typeof widthOrVolume === "number") {
-      this.width = widthOrVolume;
-    } else {
-      this.volume = widthOrVolume;
-    }
-  }
-}
-
-class Box2<T> {
-  width!: T;
-  height!: number;
-  volume!: string;
-
-  constructor(width: T) {
+  constructor(width: number, volume?: number, content?: string) {
     this.width = width;
     this.height = 500;
+    this.volume = volume;
+    this.content = content;
+  }
+
+  calculateVolume(): void {
+    if (!this.volume) {
+      this.volume = this.width * this.height;
+      console.log(`Volume is ${this.volume}`);
+    } else {
+      console.log(`Volume is ${this.volume}`);
+    }
+  }
+
+  checkBoxSize(transport: number): string;
+  checkBoxSize(transport: number[]): string;
+  checkBoxSize(transport: number | number[]): string {
+    if (typeof transport === "number") {
+      return transport >= this.width ? "ok" : "not ok";
+    } else {
+      return transport.some((t) => t >= this.width) ? "ok" : "not ok";
+    }
+  }
+
+  get boxContent() {
+    return this.content;
+  }
+
+  set boxContent(value) {
+    this.content = `Date: ${new Date().toTimeString()}, Content: ${value}`;
+  }
+
+  async content2(value: string) {
+    const data = await new Date().toTimeString();
+    this.content = `Date: ${data}, Content: ${value}`;
   }
 }
+
+const firstBox = new Box(250);
+
+console.log(firstBox.checkBoxSize(250));
+// console.log(firstBox.checkBoxSize([250, 200]));
+console.log((firstBox.boxContent = "test"));
+console.log(firstBox.boxContent);
+
+console.log(firstBox.content2("test"));
+
+
