@@ -2712,72 +2712,131 @@
 
 // --------------- lesson70 - task
 
-enum TransferStatus {
-  Pending = "pending",
-  Rejected = "rejected",
-  Completed = "completed",
-}
+// enum TransferStatus {
+//   Pending = "pending",
+//   Rejected = "rejected",
+//   Completed = "completed",
+// }
 
-enum ErrorMessages {
-  NotFound = "Not found: 404",
-  NotEnoughSpace = "Not enough space: 507",
-  Forbidden = "Forbidden: 403",
-}
+// enum ErrorMessages {
+//   NotFound = "Not found: 404",
+//   NotEnoughSpace = "Not enough space: 507",
+//   Forbidden = "Forbidden: 403",
+// }
 
-interface ITransfer {
-  path: string;
-  data: string[];
-  date?: Date;
-  start: (p: string, d: string[]) => string;
-  stop: (reason: string) => string;
-}
+// interface ITransfer {
+//   path: string;
+//   data: string[];
+//   date?: Date;
+//   start: (p: string, d: string[]) => string;
+//   stop: (reason: string) => string;
+// }
 
-interface TransferError {
-  message: ErrorMessages;
-}
+// interface TransferError {
+//   message: ErrorMessages;
+// }
 
-// Класс должен имплементировать ITransfer и TransferError
-class SingleFileTransfer implements ITransfer, TransferError {
-  path!: string;
-  data!: string[];
+// // Класс должен имплементировать ITransfer и TransferError
+// class SingleFileTransfer implements ITransfer, TransferError {
+//   path!: string;
+//   data!: string[];
 
-  message!: ErrorMessages;
-  transferStatus!: TransferStatus;
+//   message!: ErrorMessages;
+//   transferStatus!: TransferStatus;
 
-  // Место для реализаций
-  // Необходимо создать метод checkTransferStatus, проверяющий состояние передачи данных
-  // Можно вывести в консоль данные, можно вернуть строку
+//   // Место для реализаций
+//   // Необходимо создать метод checkTransferStatus, проверяющий состояние передачи данных
+//   // Можно вывести в консоль данные, можно вернуть строку
 
-  constructor(status: TransferStatus) {
-    this.transferStatus = status;
+//   constructor(status: TransferStatus) {
+//     this.transferStatus = status;
+//   }
+
+//   checkTransferStatus(): string {
+//     return this.transferStatus;
+//   }
+
+//   start(p: string, d: string[]): string {
+//     return "";
+//   }
+
+//   // Необходимо создать метод, который будет останавливать передачу данных
+//   // И возвращать строку с причиной и датой остановки (Дата в любом формате)
+
+//   stop = (reason: string): string => {
+//     return `The transfer was stoped, reason is: ${reason}, Date: ${new Date().toLocaleString()}`;
+//   };
+
+//   // Необходимо создать метод, который будет возвращать строку, содержащую
+//   // Статус передачи и любое сообщение об ошибке. На ваш выбор или отталкиваться от приходящего аргумента
+//   // Метод может показаться странным, но может использоваться для тестов, например
+
+//   error(): string {
+//     return `${TransferStatus.Rejected} error message is ${ErrorMessages.NotFound}`;
+//   }
+// }
+
+// const test = new SingleFileTransfer(TransferStatus.Pending);
+
+// console.log(test.checkTransferStatus());
+// console.log(test.stop("WTF?"));
+// console.log(test.error());
+
+// --------------- lesson71 - модифікатор видимості
+
+class Player {
+  private login: string;
+  private _password: string;
+  public server: string; // занчення за замовченням можна не ставити
+  protected consent: boolean; // поширюється нащадка 
+
+  get password() {
+    return this._password;
   }
 
-  checkTransferStatus(): string {
-    return this.transferStatus;
-  }
-
-  start(p: string, d: string[]): string {
-    return "";
-  }
-
-  // Необходимо создать метод, который будет останавливать передачу данных
-  // И возвращать строку с причиной и датой остановки (Дата в любом формате)
-
-  stop = (reason: string): string => {
-    return `The transfer was stoped, reason is: ${reason}, Date: ${new Date().toLocaleString()}`;
-  };
-
-  // Необходимо создать метод, который будет возвращать строку, содержащую
-  // Статус передачи и любое сообщение об ошибке. На ваш выбор или отталкиваться от приходящего аргумента
-  // Метод может показаться странным, но может использоваться для тестов, например
-
-  error(): string {
-    return `${TransferStatus.Rejected} error message is ${ErrorMessages.NotFound}`;
+  set password(newPassword: string) {
+    //Validation
+    this._password = newPassword;
   }
 }
 
-const test = new SingleFileTransfer(TransferStatus.Pending);
+class CompetitivePlayer extends Player {
+  rang: number;
+  // super(consent: boolean) {
+  //   this.consent = consent;
+  // }
+  isConsendet(consent: boolean) {
+    // if (consent === true) {
+    //   return "Yes";
+    // } else {
+    //   return "No";
+    // }
+    return this.consent ? "Yes" : "No";
+  }
+}
 
-console.log(test.checkTransferStatus());
-console.log(test.stop("WTF?"));
-console.log(test.error());
+// const player = new Player();
+// player.login = "ascscs";
+
+// class User {
+//   public email: string;
+//   public name: string;
+
+//   constructor(email: string, name: string) {
+//     this.name = name;
+//     this.email = email;
+//   }
+// }
+
+// class User {
+//   constructor(public email: string, public name: string) {}
+// }
+const test = new Player();
+
+test.password = "tets";
+console.log(test.password);
+
+const test2 = new CompetitivePlayer();
+
+console.log(test2.isConsendet(true));
+console.log(test2.rang);
