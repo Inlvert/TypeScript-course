@@ -2634,57 +2634,79 @@
 
 // --------------- lesson68 - Extends in class
 
-class Box {
-  width!: number;
-  height: number = 500; // можна створити властивість без конструктора та встановити значення
-  volume!: number | undefined;
-  _content: string | undefined;
+// class Box {
+//   width!: number;
+//   height: number = 500; // можна створити властивість без конструктора та встановити значення
+//   volume!: number | undefined;
+//   _content: string | undefined;
 
-  constructor(width: number, volume?: number, content?: string) {
-    this.width = width;
-    this.volume = volume;
-    this._content = content;
-  }
-  get boxContent() {
-    return this._content;
-  }
+//   constructor(width: number, volume?: number, content?: string) {
+//     this.width = width;
+//     this.volume = volume;
+//     this._content = content;
+//   }
+//   get boxContent() {
+//     return this._content;
+//   }
 
-  set boxContent(value) {
-    this._content = `Date: ${new Date().toTimeString()}, Content: ${value}`;
-  }
+//   set boxContent(value) {
+//     this._content = `Date: ${new Date().toTimeString()}, Content: ${value}`;
+//   }
 
-  async content2(value: string) {
-    const data = await new Date().toTimeString();
-    this._content = `Date: ${data}, Content: ${value}`;
-    console.log(this._content);
+//   async content2(value: string) {
+//     const data = await new Date().toTimeString();
+//     this._content = `Date: ${data}, Content: ${value}`;
+//     console.log(this._content);
 
-    // return this._content;
+//     // return this._content;
+//   }
+// }
+
+// class PesentBox extends Box {
+//   wrap!: string;
+//   height: number = 1000;
+
+//   constructor(wrap: string, width: number) {
+//     super(width);
+//     this.wrap = wrap;
+//   }
+//   override async content2(value: string, text?: string) { // override
+//     const data = await new Date().toTimeString();
+
+//     if (!text) {
+//       super.content2(value);
+//     } else {
+//       this._content = `Date: ${data}, Content: ${value}, Text: ${
+//         text ? text : "No text"
+//       }`;
+//     }
+
+//     console.log(this._content);
+
+//     // return this._content;
+//   }
+// }
+
+// new PesentBox("red", 250).content2("TV", "This Text");
+
+// --------------- lesson69 - implements in class
+
+interface IUser {
+  login: string;
+  password: string;
+}
+
+interface IValidation {
+  valid: boolean;
+  isValid: (data: string) => boolean;
+}
+
+class UserForm implements IUser, IValidation {
+  login!: string;
+  password!: string;
+  valid!: boolean;
+  isValid(login: string) {
+    return login.length > 3;
   }
 }
 
-class PesentBox extends Box {
-  wrap!: string;
-  height: number = 1000;
-
-  constructor(wrap: string, width: number) {
-    super(width);
-    this.wrap = wrap;
-  }
-  override async content2(value: string, text?: string) { // override
-    const data = await new Date().toTimeString();
-
-    if (!text) {
-      super.content2(value);
-    } else {
-      this._content = `Date: ${data}, Content: ${value}, Text: ${
-        text ? text : "No text"
-      }`;
-    }
-
-    console.log(this._content);
-
-    // return this._content;
-  }
-}
-
-new PesentBox("red", 250).content2("TV", "This Text");
