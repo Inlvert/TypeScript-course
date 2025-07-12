@@ -2784,8 +2784,67 @@
 
 // --------------- lesson71 - модифікатор видимості
 
+// class Player {
+//   private login: string;
+//   private _password: string;
+//   public server: string; // занчення за замовченням можна не ставити
+//   protected consent: boolean; // поширюється нащадка 
+
+//   get password() {
+//     return this._password;
+//   }
+
+//   set password(newPassword: string) {
+//     //Validation
+//     this._password = newPassword;
+//   }
+// }
+
+// class CompetitivePlayer extends Player {
+//   rang: number;
+//   // super(consent: boolean) {
+//   //   this.consent = consent;
+//   // }
+//   isConsendet(consent: boolean) {
+//     // if (consent === true) {
+//     //   return "Yes";
+//     // } else {
+//     //   return "No";
+//     // }
+//     return this.consent ? "Yes" : "No";
+//   }
+// }
+
+// // const player = new Player();
+// // player.login = "ascscs";
+
+// // class User {
+// //   public email: string;
+// //   public name: string;
+
+// //   constructor(email: string, name: string) {
+// //     this.name = name;
+// //     this.email = email;
+// //   }
+// // }
+
+// // class User {
+// //   constructor(public email: string, public name: string) {}
+// // }
+// const test = new Player();
+
+// test.password = "tets";
+// console.log(test.password);
+
+// const test2 = new CompetitivePlayer();
+
+// console.log(test2.isConsendet(true));
+// console.log(test2.rang);
+
+// --------------- lesson72 - privet fild (#)
+
 class Player {
-  private login: string;
+  #login: string; //  privet fild
   private _password: string;
   public server: string; // занчення за замовченням можна не ставити
   protected consent: boolean; // поширюється нащадка 
@@ -2800,43 +2859,6 @@ class Player {
   }
 }
 
-class CompetitivePlayer extends Player {
-  rang: number;
-  // super(consent: boolean) {
-  //   this.consent = consent;
-  // }
-  isConsendet(consent: boolean) {
-    // if (consent === true) {
-    //   return "Yes";
-    // } else {
-    //   return "No";
-    // }
-    return this.consent ? "Yes" : "No";
-  }
-}
-
-// const player = new Player();
-// player.login = "ascscs";
-
-// class User {
-//   public email: string;
-//   public name: string;
-
-//   constructor(email: string, name: string) {
-//     this.name = name;
-//     this.email = email;
-//   }
-// }
-
-// class User {
-//   constructor(public email: string, public name: string) {}
-// }
 const test = new Player();
 
-test.password = "tets";
-console.log(test.password);
-
-const test2 = new CompetitivePlayer();
-
-console.log(test2.isConsendet(true));
-console.log(test2.rang);
+test.login
