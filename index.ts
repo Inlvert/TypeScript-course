@@ -2788,7 +2788,7 @@
 //   private login: string;
 //   private _password: string;
 //   public server: string; // занчення за замовченням можна не ставити
-//   protected consent: boolean; // поширюється нащадка 
+//   protected consent: boolean; // поширюється нащадка
 
 //   get password() {
 //     return this._password;
@@ -2843,11 +2843,48 @@
 
 // --------------- lesson72 - privet fild (#)
 
+// class Player {
+//   #login: string; //  privet fild
+//   private _password: string;
+//   public server: string; // занчення за замовченням можна не ставити
+//   protected consent: boolean; // поширюється нащадка
+
+//   get password() {
+//     return this._password;
+//   }
+
+//   set password(newPassword: string) {
+//     //Validation
+//     this._password = newPassword;
+//   }
+// }
+
+// const test = new Player();
+
+// test.login
+
+// --------------- lesson73 - static properties and methods
+
+function setName() {
+  return 'COD2'
+}
+
 class Player {
+  private static game: string = "COD";
+
   #login: string; //  privet fild
   private _password: string;
   public server: string; // занчення за замовченням можна не ставити
-  protected consent: boolean; // поширюється нащадка 
+  protected consent: boolean; // поширюється нащадка
+
+  constructor(game: string) {
+    // this.game = game;
+    Player.game = game;
+  }
+
+  static { // static block
+    Player.game = setName()
+  }
 
   get password() {
     return this._password;
@@ -2857,8 +2894,14 @@ class Player {
     //Validation
     this._password = newPassword;
   }
+
+  static getGameName() {
+    return Player.game;
+    // return this.game;
+  }
 }
 
-const test = new Player();
 
-test.login
+const test = Player.getGameName();
+
+console.log(test);

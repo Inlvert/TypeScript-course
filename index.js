@@ -1,5 +1,6 @@
 "use strict";
 // --------------- lesson6 - Basic types: string, number, boolean
+var _Player_login;
 // const isBirthday: boolean = true;
 // let age: number = 40;
 // const userName: string = "John";
@@ -1946,17 +1947,323 @@
 // type FetchUsersReturnType = Awaited<ReturnType<typeof fetchUsers>>;
 // type UnwrappedPromise<T> = T extends Promise<infer Return> ? Return : T;
 // type FetchDataReturnType = UnwrappedPromise<ReturnType<typeof fetchUsers>>;
-// --------------- lesson64 base work with class
-class Box {
-    constructor(width, height) {
-        this.width = width;
-        this.height = 500;
-    }
-}
-const firstBox = new Box(10, 20);
-console.log(firstBox);
-class User {
-}
-const ivan = new User();
-ivan.name = 'Ivan';
-console.log(ivan);
+// --------------- lesson64 - base work with class
+// class Box {
+//   width!: number;
+//   height: number;
+//   constructor(width: number, height: number) {
+//     this.width = width;
+//     this.height = 500;
+//   }
+// }
+// const firstBox = new Box(10, 20);
+// console.log(firstBox);
+// class User {
+//   name!: string;
+// }
+// const ivan = new User();
+// ivan.name = 'Ivan'
+// console.log(ivan)
+// --------------- lesson65 - class Constructor Перегрузка Дженерики
+// class Box {
+//   width!: number;
+//   height!: number;
+//   volume!: string;
+//   constructor(volume: string); // Перегрузка
+//   constructor(width: number); // Перегрузка
+//   constructor(widthOrVolume: number | string) {
+//     if (typeof widthOrVolume === "number") {
+//       this.width = widthOrVolume;
+//     } else {
+//       this.volume = widthOrVolume;
+//     }
+//   }
+// }
+// class Box2<T> {
+//   width!: T;
+//   height!: number;
+//   volume!: string;
+//   constructor(width: T) {
+//     this.width = width;
+//     this.height = 500;
+//   }
+// }
+// --------------- lesson66 - methods, overload, getter, setter
+// class Box {
+//   width!: number;
+//   height!: number;
+//   volume!: number | undefined;
+//   content: string | undefined;
+//   constructor(width: number, volume?: number, content?: string) {
+//     this.width = width;
+//     this.height = 500;
+//     this.volume = volume;
+//     this.content = content;
+//   }
+//   calculateVolume(): void {
+//     if (!this.volume) {
+//       this.volume = this.width * this.height;
+//       console.log(`Volume is ${this.volume}`);
+//     } else {
+//       console.log(`Volume is ${this.volume}`);
+//     }
+//   }
+//   checkBoxSize(transport: number): string;
+//   checkBoxSize(transport: number[]): string;
+//   checkBoxSize(transport: number | number[]): string {
+//     if (typeof transport === "number") {
+//       return transport >= this.width ? "ok" : "not ok";
+//     } else {
+//       return transport.some((t) => t >= this.width) ? "ok" : "not ok";
+//     }
+//   }
+//   get boxContent() {
+//     return this.content;
+//   }
+//   set boxContent(value) {
+//     this.content = `Date: ${new Date().toTimeString()}, Content: ${value}`;
+//   }
+//   async content2(value: string) {
+//     const data = await new Date().toTimeString();
+//     this.content = `Date: ${data}, Content: ${value}`;
+//   }
+// }
+// const firstBox = new Box(250);
+// console.log(firstBox.checkBoxSize(250));
+// // console.log(firstBox.checkBoxSize([250, 200]));
+// console.log((firstBox.boxContent = "test"));
+// console.log(firstBox.boxContent);
+// console.log(firstBox.content2("test"));
+// --------------- lesson67 - Початкове значення та Index signatures
+// class Box {
+//   width!: number;
+//   height: number = 500; // можна створити властивість без конструктора та встановити значення
+//   volume!: number | undefined;
+//   _content: string | undefined;
+//   constructor(width: number, volume?: number, content?: string) {
+//     this.width = width;
+//     this.volume = volume;
+//     this._content = content;
+//   }
+// }
+// const firstBox = new Box(250);
+// console.log(firstBox._content);
+// class Styles {
+//   [s: string]: string | ((s: string) => boolean);
+//   method() {
+//     return true;
+//   }
+// }
+// const style = new Styles();
+// style.color = "red";
+// style.font = "Roboto";
+// --------------- lesson68 - Extends in class
+// class Box {
+//   width!: number;
+//   height: number = 500; // можна створити властивість без конструктора та встановити значення
+//   volume!: number | undefined;
+//   _content: string | undefined;
+//   constructor(width: number, volume?: number, content?: string) {
+//     this.width = width;
+//     this.volume = volume;
+//     this._content = content;
+//   }
+//   get boxContent() {
+//     return this._content;
+//   }
+//   set boxContent(value) {
+//     this._content = `Date: ${new Date().toTimeString()}, Content: ${value}`;
+//   }
+//   async content2(value: string) {
+//     const data = await new Date().toTimeString();
+//     this._content = `Date: ${data}, Content: ${value}`;
+//     console.log(this._content);
+//     // return this._content;
+//   }
+// }
+// class PesentBox extends Box {
+//   wrap!: string;
+//   height: number = 1000;
+//   constructor(wrap: string, width: number) {
+//     super(width);
+//     this.wrap = wrap;
+//   }
+//   override async content2(value: string, text?: string) { // override
+//     const data = await new Date().toTimeString();
+//     if (!text) {
+//       super.content2(value);
+//     } else {
+//       this._content = `Date: ${data}, Content: ${value}, Text: ${
+//         text ? text : "No text"
+//       }`;
+//     }
+//     console.log(this._content);
+//     // return this._content;
+//   }
+// }
+// new PesentBox("red", 250).content2("TV", "This Text");
+// --------------- lesson69 - implements in class
+// interface IUser {
+//   login: string;
+//   password: string;
+// }
+// interface IValidation {
+//   valid: boolean;
+//   isValid: (data: string) => boolean;
+// }
+// class UserForm implements IUser, IValidation {
+//   login!: string;
+//   password!: string;
+//   valid!: boolean;
+//   isValid(login: string) {
+//     return login.length > 3;
+//   }
+// }
+// --------------- lesson70 - task
+// enum TransferStatus {
+//   Pending = "pending",
+//   Rejected = "rejected",
+//   Completed = "completed",
+// }
+// enum ErrorMessages {
+//   NotFound = "Not found: 404",
+//   NotEnoughSpace = "Not enough space: 507",
+//   Forbidden = "Forbidden: 403",
+// }
+// interface ITransfer {
+//   path: string;
+//   data: string[];
+//   date?: Date;
+//   start: (p: string, d: string[]) => string;
+//   stop: (reason: string) => string;
+// }
+// interface TransferError {
+//   message: ErrorMessages;
+// }
+// // Класс должен имплементировать ITransfer и TransferError
+// class SingleFileTransfer implements ITransfer, TransferError {
+//   path!: string;
+//   data!: string[];
+//   message!: ErrorMessages;
+//   transferStatus!: TransferStatus;
+//   // Место для реализаций
+//   // Необходимо создать метод checkTransferStatus, проверяющий состояние передачи данных
+//   // Можно вывести в консоль данные, можно вернуть строку
+//   constructor(status: TransferStatus) {
+//     this.transferStatus = status;
+//   }
+//   checkTransferStatus(): string {
+//     return this.transferStatus;
+//   }
+//   start(p: string, d: string[]): string {
+//     return "";
+//   }
+//   // Необходимо создать метод, который будет останавливать передачу данных
+//   // И возвращать строку с причиной и датой остановки (Дата в любом формате)
+//   stop = (reason: string): string => {
+//     return `The transfer was stoped, reason is: ${reason}, Date: ${new Date().toLocaleString()}`;
+//   };
+//   // Необходимо создать метод, который будет возвращать строку, содержащую
+//   // Статус передачи и любое сообщение об ошибке. На ваш выбор или отталкиваться от приходящего аргумента
+//   // Метод может показаться странным, но может использоваться для тестов, например
+//   error(): string {
+//     return `${TransferStatus.Rejected} error message is ${ErrorMessages.NotFound}`;
+//   }
+// }
+// const test = new SingleFileTransfer(TransferStatus.Pending);
+// console.log(test.checkTransferStatus());
+// console.log(test.stop("WTF?"));
+// console.log(test.error());
+// --------------- lesson71 - модифікатор видимості
+// class Player {
+//   private login: string;
+//   private _password: string;
+//   public server: string; // занчення за замовченням можна не ставити
+//   protected consent: boolean; // поширюється нащадка
+//   get password() {
+//     return this._password;
+//   }
+//   set password(newPassword: string) {
+//     //Validation
+//     this._password = newPassword;
+//   }
+// }
+// class CompetitivePlayer extends Player {
+//   rang: number;
+//   // super(consent: boolean) {
+//   //   this.consent = consent;
+//   // }
+//   isConsendet(consent: boolean) {
+//     // if (consent === true) {
+//     //   return "Yes";
+//     // } else {
+//     //   return "No";
+//     // }
+//     return this.consent ? "Yes" : "No";
+//   }
+// }
+// // const player = new Player();
+// // player.login = "ascscs";
+// // class User {
+// //   public email: string;
+// //   public name: string;
+// //   constructor(email: string, name: string) {
+// //     this.name = name;
+// //     this.email = email;
+// //   }
+// // }
+// // class User {
+// //   constructor(public email: string, public name: string) {}
+// // }
+// const test = new Player();
+// test.password = "tets";
+// console.log(test.password);
+// const test2 = new CompetitivePlayer();
+// console.log(test2.isConsendet(true));
+// console.log(test2.rang);
+// --------------- lesson72 - privet fild (#)
+// class Player {
+//   #login: string; //  privet fild
+//   private _password: string;
+//   public server: string; // занчення за замовченням можна не ставити
+//   protected consent: boolean; // поширюється нащадка
+//   get password() {
+//     return this._password;
+//   }
+//   set password(newPassword: string) {
+//     //Validation
+//     this._password = newPassword;
+//   }
+// }
+// const test = new Player();
+// test.login
+// --------------- lesson73 static properties and methods
+// class Player {
+//     constructor() {
+//         _Player_login.set(this, void 0); //  privet fild
+//     }
+//     get password() {
+//         return this._password;
+//     }
+//     set password(newPassword) {
+//         //Validation
+//         this._password = newPassword;
+//     }
+//     static getGaneName() {
+//         return Player.game;
+//         // return this.game;
+//     }
+// }
+// _Player_login = new WeakMap();
+// Player.game = "COD";
+// const test = Player.getGaneName();
+// console.log(test);
+
+let a = 11;
+var b = 12;
+
+
+console.log(this.a)
+console.log(this.b)
+console.log(this.window)
+
