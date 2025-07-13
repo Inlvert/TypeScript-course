@@ -2907,80 +2907,114 @@
 
 // --------------- lesson74 - this in class
 
-function setName() {
-  return "COD2";
+// function setName() {
+//   return "COD2";
+// }
+
+// class Player {
+//   private static game: string = "COD";
+
+//   #login: string; //  privet fild
+//   private _password: string;
+//   public server: string; // занчення за замовченням можна не ставити
+//   protected consent: boolean; // поширюється нащадка
+
+//   constructor(game: string, login: string) {
+//     // this.game = game;
+//     Player.game = game;
+//     this.#login = login;
+//   }
+
+//   static {
+//     // static block
+//     Player.game = setName();
+//   }
+
+//   get password() {
+//     return this._password;
+//   }
+
+//   set password(newPassword: string) {
+//     //Validation
+//     this._password = newPassword;
+//   }
+
+//   static getGameName() {
+//     return Player.game;
+//     // return this.game;
+//   }
+
+//   // login(this: Player) { // анотація контекста
+//   //   return `Player ${this.#login} online`;
+//   // }
+
+//   login = () => {
+//     return `Player ${this.#login} online`;
+//   };
+
+//   connect() {
+//     // Do smth
+//     return this; // буде повертати екземпляр
+//   }
+
+//   isPro(): this is CompetitivePlayer {
+//     return this instanceof CompetitivePlayer;
+//   }
+// }
+
+// class CompetitivePlayer extends Player {
+//   rang: number;
+//   checkLogin() {
+//     // return super.login();
+//     return this.login();
+//   }
+// }
+
+// const player = new Player("COD", "testLogin");
+// console.log(player.login());
+// console.log(player.connect().login());
+
+// // const test = player.login.bind(player); // привязка контекста через bind()
+// const test = player.login;
+// test();
+
+// const player2 = new CompetitivePlayer("COD2", "testLogin2");
+// console.log(player2.checkLogin());
+
+// const somePlayer: Player | CompetitivePlayer = new CompetitivePlayer("COD3", "testLogin3")
+// console.log(somePlayer.isPro())
+
+
+
+
+
+// --------------- lesson75 - abstract class
+
+interface IEngine {
+  model: string;
+  capacity: number;
+  starEngine: (time: Date) => string;
 }
 
-class Player {
-  private static game: string = "COD";
-
-  #login: string; //  privet fild
-  private _password: string;
-  public server: string; // занчення за замовченням можна не ставити
-  protected consent: boolean; // поширюється нащадка
-
-  constructor(game: string, login: string) {
-    // this.game = game;
-    Player.game = game;
-    this.#login = login;
+abstract class AbstractVehicle {
+  model: string;
+  capacity: number;
+  abstract starEngine: (time: Date) => string; // абстрактний метод який потрібно реалізувати
+  stopEngine(time: Date): string {
+    this.starEngine(new Date());
+    return "Engine stopped";
   }
+}
 
-  static {
-    // static block
-    Player.game = setName();
-  }
-
-  get password() {
-    return this._password;
-  }
-
-  set password(newPassword: string) {
-    //Validation
-    this._password = newPassword;
-  }
-
-  static getGameName() {
-    return Player.game;
-    // return this.game;
-  }
-
-  // login(this: Player) { // анотація контекста
-  //   return `Player ${this.#login} online`;
-  // }
-
-  login = () => {
-    return `Player ${this.#login} online`;
+new AbstractVehicle();
+class Vehicle extends AbstractVehicle {
+  model: string;
+  capacity: number;
+  starEngine = (time: Date) => {
+    return "Started";
   };
-
-  connect() {
-    // Do smth
-    return this; // буде повертати екземпляр
-  }
-
-  isPro(): this is CompetitivePlayer {
-    return this instanceof CompetitivePlayer;
-  }
 }
 
-class CompetitivePlayer extends Player {
-  rang: number;
-  checkLogin() {
-    // return super.login();
-    return this.login();
-  }
-}
+const test = new Vehicle().starEngine(new Date());
 
-const player = new Player("COD", "testLogin");
-console.log(player.login());
-console.log(player.connect().login());
-
-// const test = player.login.bind(player); // привязка контекста через bind()
-const test = player.login;
-test();
-
-const player2 = new CompetitivePlayer("COD2", "testLogin2");
-console.log(player2.checkLogin());
-
-
-const somePlayer: Player | CompetitivePlayer = new CompetitivePlayer("COD3", "testLogin3")
-console.log(somePlayer.isPro())
+console.log(test);
