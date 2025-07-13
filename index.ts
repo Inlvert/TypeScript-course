@@ -2865,8 +2865,50 @@
 
 // --------------- lesson73 - static properties and methods
 
+// function setName() {
+//   return 'COD2'
+// }
+
+// class Player {
+//   private static game: string = "COD";
+
+//   #login: string; //  privet fild
+//   private _password: string;
+//   public server: string; // занчення за замовченням можна не ставити
+//   protected consent: boolean; // поширюється нащадка
+
+//   constructor(game: string) {
+//     // this.game = game;
+//     Player.game = game;
+//   }
+
+//   static { // static block
+//     Player.game = setName()
+//   }
+
+//   get password() {
+//     return this._password;
+//   }
+
+//   set password(newPassword: string) {
+//     //Validation
+//     this._password = newPassword;
+//   }
+
+//   static getGameName() {
+//     return Player.game;
+//     // return this.game;
+//   }
+// }
+
+// const test = Player.getGameName();
+
+// console.log(test);
+
+// --------------- lesson74 - this in class
+
 function setName() {
-  return 'COD2'
+  return "COD2";
 }
 
 class Player {
@@ -2877,13 +2919,15 @@ class Player {
   public server: string; // занчення за замовченням можна не ставити
   protected consent: boolean; // поширюється нащадка
 
-  constructor(game: string) {
+  constructor(game: string, login: string) {
     // this.game = game;
     Player.game = game;
+    this.#login = login;
   }
 
-  static { // static block
-    Player.game = setName()
+  static {
+    // static block
+    Player.game = setName();
   }
 
   get password() {
@@ -2899,9 +2943,44 @@ class Player {
     return Player.game;
     // return this.game;
   }
+
+  // login(this: Player) { // анотація контекста
+  //   return `Player ${this.#login} online`;
+  // }
+
+  login = () => {
+    return `Player ${this.#login} online`;
+  };
+
+  connect() {
+    // Do smth
+    return this; // буде повертати екземпляр
+  }
+
+  isPro(): this is CompetitivePlayer {
+    return this instanceof CompetitivePlayer;
+  }
 }
 
+class CompetitivePlayer extends Player {
+  rang: number;
+  checkLogin() {
+    // return super.login();
+    return this.login();
+  }
+}
 
-const test = Player.getGameName();
+const player = new Player("COD", "testLogin");
+console.log(player.login());
+console.log(player.connect().login());
 
-console.log(test);
+// const test = player.login.bind(player); // привязка контекста через bind()
+const test = player.login;
+test();
+
+const player2 = new CompetitivePlayer("COD2", "testLogin2");
+console.log(player2.checkLogin());
+
+
+const somePlayer: Player | CompetitivePlayer = new CompetitivePlayer("COD3", "testLogin3")
+console.log(somePlayer.isPro())
