@@ -3305,14 +3305,74 @@
 
 // --------------- lesson79 - Терминология, фабрика декораторов
 
+// interface ICar {
+//   fuel: string;
+//   open: boolean;
+//   freeSeats: number;
+// }
+
+// @changeDoorStatus(true)
+// @changeAmountOfFuel('90%')
+// class MyCar implements ICar {
+//   fuel: string = "50%";
+//   open: boolean = true;
+//   freeSeats: number;
+//   isOpen() {
+//     console.log(this.fuel);
+//     return this.open ? "open" : "close";
+//   }
+// }
+
+// function changeDoorStatus(status: boolean) {
+//   console.log('1')
+//   return <T extends { new (...args: any[]): {} }>(constructor: T) => {
+//     console.log('2')
+//     return class extends constructor {
+//       open = status;
+//     };
+//   };
+// }
+
+// function changeAmountOfFuel(amount: string) {
+//   console.log('3')
+//   return <T extends { new (...args: any[]): {} }>(constructor: T) => {
+//     console.log('4')
+//     return class extends constructor {
+//       fuel = amount;
+//     };
+//   };
+// }
+
+// // function closeCar<T extends { new (...args: any[]): {} }>(constructor: T) {
+// //   return class extends constructor {
+// //     open = false;
+// //   };
+// // }
+
+// // function addFuel<T extends { new (...args: any[]): {} }>(constructor: T) {
+// //   return class extends constructor {
+// //     fuel = "100%";
+// //   };
+// // }
+
+// const car = new MyCar();
+// console.log(car);
+
+// car.isOpen();
+// console.log("car.open", car.open);
+
+// console.log("car.fuel", car.fuel);
+
+// // 1 3 4 2
+
+// --------------- lesson80 - ES декораторы из версии 5+, ES декоратор классов
 interface ICar {
   fuel: string;
   open: boolean;
   freeSeats: number;
 }
-
 @changeDoorStatus(true)
-@changeAmountOfFuel('90%')
+@changeAmountOfFuel("90%")
 class MyCar implements ICar {
   fuel: string = "50%";
   open: boolean = true;
@@ -3323,37 +3383,45 @@ class MyCar implements ICar {
   }
 }
 
+// function changeDoorStatus(status: boolean) {
+//   console.log('1')
+//   return <T extends { new (...args: any[]): {} }>(constructor: T) => {
+//     console.log('2')
+//     return class extends constructor {
+//       open = status;
+//     };
+//   };
+// }
+
+// function changeAmountOfFuel(amount: string) {
+//   console.log('3')
+//   return <T extends { new (...args: any[]): {} }>(constructor: T) => {
+//     console.log('4')
+//     return class extends constructor {
+//       fuel = amount;
+//     };
+//   };
+// }
+
 function changeDoorStatus(status: boolean) {
-  console.log('1')
-  return <T extends { new (...args: any[]): {} }>(constructor: T) => {
-    console.log('2')
-    return class extends constructor {
+  console.log("1");
+  return <T extends { new (...args: any[]): {} }>( target: T, context: ClassDecoratorContext<T>) => { //ES декораторы из версии 5+
+    console.log("2");
+    return class extends target {
       open = status;
     };
   };
 }
 
 function changeAmountOfFuel(amount: string) {
-  console.log('3')
-  return <T extends { new (...args: any[]): {} }>(constructor: T) => {
-    console.log('4')
-    return class extends constructor {
+  console.log("3");
+  return <T extends { new (...args: any[]): {} }>( target: T, context: ClassDecoratorContext<T>) => { //ES декораторы из версии 5+
+    console.log("4");
+    return class extends target {
       fuel = amount;
     };
   };
 }
-
-// function closeCar<T extends { new (...args: any[]): {} }>(constructor: T) {
-//   return class extends constructor {
-//     open = false;
-//   };
-// }
-
-// function addFuel<T extends { new (...args: any[]): {} }>(constructor: T) {
-//   return class extends constructor {
-//     fuel = "100%";
-//   };
-// }
 
 const car = new MyCar();
 console.log(car);
