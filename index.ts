@@ -3239,28 +3239,66 @@
 //   };
 // }
 
-// --------------- lesson77 Decorators
+// --------------- lesson77 - Decorators
 
-const myCar = {
-  fuel: "50%",
-  open: true,
-  freeSeats: 3,
+// const myCar = {
+//   fuel: "50%",
+//   open: true,
+//   freeSeats: 3,
+//   isOpen() {
+//     console.log(this.fuel)
+//     return this.open ? "open" : "close";
+//   },
+// };
+
+// function closeCar(car: typeof myCar) {
+//   car.open = car.open ? false : true;
+//   return car;
+// }
+
+// function addFuel(car: typeof myCar) {
+//   car.fuel = "100%";
+//   return car;
+// }
+
+// console.log(closeCar(myCar).isOpen());
+// console.log(closeCar(addFuel(myCar)).isOpen());
+
+// --------------- lesson78 - Decorators in TS
+
+interface ICar {
+  fuel: string;
+  open: boolean;
+  freeSeats: number;
+}
+@closeCar
+@addFuel
+class MyCar implements ICar {
+  fuel: string = "50%";
+  open: boolean = true;
+  freeSeats: number;
   isOpen() {
-    console.log(this.fuel)
+    console.log(this.fuel);
     return this.open ? "open" : "close";
-  },
-};
-
-function closeCar(car: typeof myCar) {
-  car.open = car.open ? false : true;
-  return car;
+  }
 }
 
-function addFuel(car: typeof myCar) {
-  car.fuel = "100%";
-  return car;
+function closeCar<T extends { new (...args: any[]): {} }>(constructor: T) {
+  return class extends constructor {
+    open = false;
+  };
 }
 
-console.log(closeCar(myCar).isOpen());
-console.log(closeCar(addFuel(myCar)).isOpen());
+function addFuel<T extends { new (...args: any[]): {} }>(constructor: T) {
+  return class extends constructor {
+    fuel = "100%";
+  };
+}
 
+const car = new MyCar();
+console.log(car);
+
+car.isOpen();
+console.log("car.open", car.open);
+
+console.log("car.fuel", car.fuel);
