@@ -3434,53 +3434,129 @@
 // // 1 3 4 2
 
 // --------------- lesson81 - Декораторы методов и работа с this
+// interface ICar {
+//   fuel: string;
+//   open: boolean;
+//   freeSeats: number;
+// }
+
+// class MyCar implements ICar {
+//   fuel: string = "50%";
+//   open: boolean = false;
+//   freeSeats: number;
+
+//  @chackAmountOfFuel2("Some text") // фабрика декоратора метода
+//   @chackAmountOfFuel             //  декоратор метода
+//   isOpen(value: string) {
+//     console.log("this.fuel in method", this.fuel);
+//     return this.open ? "open" : `close ${value}`;
+//   }
+// }
+
+// function chackAmountOfFuel(
+//   target: Object,
+//   propertyKey: string | Symbol,
+//   descriptor: PropertyDescriptor
+// ) {
+//   const oldValue = descriptor.value;
+//   descriptor.value = function (this: any, ...args: any[]) {
+//     console.log('this.fuel decorator', this.fuel);
+//     return oldValue.apply(this, args);
+//   };
+// }
+
+// function chackAmountOfFuel2(value: string) { // фабрика декоратора метода
+//   return function (
+//     target: Object,
+//     propertyKey: string | symbol,
+//     descriptor: PropertyDescriptor
+//   ) {
+//     const oldValue = descriptor.value;
+//     descriptor.value = function (this: any, ...args: any[]) {
+//       console.log(`Decorator argument: ${value}`);
+//       console.log("Fuel in decorator:", this.fuel);
+//       return oldValue.apply(this, args);
+//     };
+//   };
+// }
+
+// const car = new MyCar();
+// console.log(car);
+
+// console.log(car.isOpen("checked"));
+
+// --------------- lesson82 - ES Декораторы методов версии 5.0   "experimentalDecorators": false,
+
 interface ICar {
   fuel: string;
   open: boolean;
   freeSeats: number;
 }
-
+@changeDoorStatus(true)
+@changeAmountOfFuel("90%")
 class MyCar implements ICar {
   fuel: string = "50%";
-  open: boolean = false;
+  open: boolean = true;
   freeSeats: number;
 
- @chackAmountOfFuel2("Some text") // фабрика декоратора метода
-  @chackAmountOfFuel             //  декоратор метода
-  isOpen(value: string) {
-    console.log("this.fuel in method", this.fuel);
-    return this.open ? "open" : `close ${value}`;
+  @chackAmountOfFuel
+  isOpen() {
+    console.log("this.fuel method", this.fuel);
+    return this.open ? "open" : "close";
   }
 }
 
-function chackAmountOfFuel(
-  target: Object,
-  propertyKey: string | Symbol,
-  descriptor: PropertyDescriptor
+// V1
+
+// function chackAmountOfFuel(target: any, context: ClassMethodDecoratorContext) {
+//   return function (this: any, ...args: any[]) {
+//     console.log("this.fuel decorator", this.fuel);
+//     return target.apply(this, args);
+//   };
+// }
+
+//V2 білше типізаціїї для декоратора за допомогою дженеріка
+
+function chackAmountOfFuel<T, A extends any[], R>(
+  target: (this: T, ...args: A) => R,
+  context: ClassMethodDecoratorContext<T, (this: T, ...args: A) => R>
 ) {
-  const oldValue = descriptor.value;
-  descriptor.value = function (this: any, ...args: any[]) {
-    console.log('this.fuel decorator', this.fuel);
-    return oldValue.apply(this, args);
+  return function (this: any, ...args: A): R {
+    console.log("this.fuel decorator", this.fuel);
+    console.log(`Method - ${String(context.name)} was started`)
+    return target.apply(this, args);
   };
 }
 
-function chackAmountOfFuel2(value: string) { // фабрика декоратора метода
-  return function (
-    target: Object,
-    propertyKey: string | symbol,
-    descriptor: PropertyDescriptor
-  ) {
-    const oldValue = descriptor.value;
-    descriptor.value = function (this: any, ...args: any[]) {
-      console.log(`Decorator argument: ${value}`);
-      console.log("Fuel in decorator:", this.fuel);
-      return oldValue.apply(this, args);
+
+function changeDoorStatus(status: boolean) {
+  console.log("1");
+  return <T extends { new (...args: any[]): {} }>(
+    target: T,
+    context: ClassDecoratorContext<T>
+  ) => {
+    //ES декораторы из версии 5+
+    console.log("2");
+    return class extends target {
+      open = status;
+    };
+  };
+}
+
+function changeAmountOfFuel(amount: string) {
+  console.log("3");
+  return <T extends { new (...args: any[]): {} }>(
+    target: T,
+    context: ClassDecoratorContext<T>
+  ) => {
+    //ES декораторы из версии 5+
+    console.log("4");
+    return class extends target {
+      fuel = amount;
     };
   };
 }
 
 const car = new MyCar();
-console.log(car);
 
-console.log(car.isOpen("checked"));
+console.log(car.isOpen());
