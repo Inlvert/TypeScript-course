@@ -3734,6 +3734,118 @@
 // console.log(car.freeSeats);
 
 // --------------- lesson85 - Декораторы свойств-акцессоров (get/set)
+// interface ICar {
+//   fuel: string;
+//   open: boolean;
+//   freeSeats: number;
+// }
+// @changeDoorStatus(true)
+// @changeAmountOfFuel("90%")
+// class MyCar implements ICar {
+//   fuel: string = "50%";
+//   open: boolean = true;
+//   _weight: number = 1000;
+
+//   @log
+//   set weight(num: number) {
+//     this._weight = this._weight + num;
+//   }
+
+//   get weight() {
+//     return this._weight;
+//   }
+
+//   @chackNumberOfSeats(3)
+//   freeSeats: number;
+
+//   @chackAmountOfFuel
+//   isOpen() {
+//     console.log("this.fuel method", this.fuel);
+//     return this.open ? "open" : "close";
+//   }
+// }
+
+// function log(
+//   target: Object,
+//   propertyKey: string | symbol,
+//   descriptor: PropertyDescriptor
+// ) {
+//   const oldValue = descriptor.set;
+//   const oldGet = descriptor.get;
+
+//   descriptor.set = function (this: any, ...args: any) {
+//     console.log('waight was changed')
+//     return oldValue?.apply(this, args)
+//   }
+//   descriptor.get = function () {
+//     console.log('waight was changed')
+//     return oldGet?.apply(this)
+//   }
+// }
+
+// function chackNumberOfSeats(limit: number) {
+//   return function (target: Object, propertyKey: string | symbol) {
+//     let value: number;
+
+//     const getter = function () {
+//       console.log("property");
+//       return value;
+//     };
+
+//     const setter = function (newAmount: number) {
+//       if (newAmount >= 1 && newAmount < limit) {
+//         value = newAmount;
+//         console.log(`Can't be more seats ${value}`);
+//       } else {
+//         console.log(`Can't be more seats ${limit}`);
+//       }
+//     };
+//     Object.defineProperty(target, propertyKey, {
+//       get: getter,
+//       set: setter,
+//     });
+//   };
+// }
+
+// function chackAmountOfFuel(
+//   target: Object,
+//   propertyKey: string | symbol,
+//   descriptor: PropertyDescriptor
+// ) {
+//   const oldValue = descriptor.value;
+//   descriptor.value = function (this: any, ...args: any[]) {
+//     console.log("this.fuel decorator", this.fuel);
+//     return oldValue.apply(this, args);
+//   };
+// }
+
+// function changeDoorStatus(status: boolean) {
+//   // console.log("1");
+//   return <T extends { new (...args: any[]): {} }>(constructor: T) => {
+//     // console.log("2");
+//     return class extends constructor {
+//       open = status;
+//     };
+//   };
+// }
+
+// function changeAmountOfFuel(amount: string) {
+//   // console.log("3");
+//   return <T extends { new (...args: any[]): {} }>(constructor: T) => {
+//     // console.log("4");
+//     return class extends constructor {
+//       fuel = amount;
+//     };
+//   };
+// }
+
+// const car = new MyCar();
+// car.weight = 3
+
+// console.log("freeSeats", car.weight);
+// console.log(car._weight);
+
+// --------------- lesson86 - ES-декораторы свойств-акцессоров (5+)
 interface ICar {
   fuel: string;
   open: boolean;
@@ -3746,19 +3858,17 @@ class MyCar implements ICar {
   open: boolean = true;
   _weight: number = 1000;
 
-  @log
+  @logOnSet
   set weight(num: number) {
     this._weight = this._weight + num;
   }
-  
-  
+  @logOnGet
   get weight() {
     return this._weight;
   }
 
-  @chackNumberOfSeats(3)
-  freeSeats: number;
-
+  @chackNumberOfSeats(4)
+  freeSeats: number = 2;
   @chackAmountOfFuel
   isOpen() {
     console.log("this.fuel method", this.fuel);
@@ -3766,83 +3876,109 @@ class MyCar implements ICar {
   }
 }
 
-function log(
-  target: Object,
-  propertyKey: string | symbol,
-  descriptor: PropertyDescriptor
+function logOnSetV1(
+  target: (value: number) => void,
+  context: ClassSetterDecoratorContext
 ) {
-  const oldValue = descriptor.set;
-  const oldGet = descriptor.get;
-
-  descriptor.set = function (this: any, ...args: any) {
-    console.log('waight was changed')
-    return oldValue?.apply(this, args)
-  }
-  descriptor.get = function () {
-    console.log('waight was changed')
-    return oldGet?.apply(this)
-  }
-}
-
-function chackNumberOfSeats(limit: number) {
-  return function (target: Object, propertyKey: string | symbol) {
-    let value: number;
-
-    const getter = function () {
-      console.log("property");
-      return value;
-    };
-
-    const setter = function (newAmount: number) {
-      if (newAmount >= 1 && newAmount < limit) {
-        value = newAmount;
-        console.log(`Can't be more seats ${value}`);
-      } else {
-        console.log(`Can't be more seats ${limit}`);
-      }
-    };
-    Object.defineProperty(target, propertyKey, {
-      get: getter,
-      set: setter,
-    });
+  return function (this: any, ...args: any) {
+    console.log("waight was changed setter");
+    return target.apply(this, args);
   };
 }
 
-function chackAmountOfFuel(
-  target: Object,
-  propertyKey: string | symbol,
-  descriptor: PropertyDescriptor
+function logOnSet<T, R>(
+  target: (this: T, value: number) => R,
+  context: ClassSetterDecoratorContext<T, number>
 ) {
-  const oldValue = descriptor.value;
-  descriptor.value = function (this: any, ...args: any[]) {
+  return function (this: T, ...args: any) {
+    console.log("waight was changed setter");
+    return target.apply(this, args);
+  };
+}
+
+function logOnGetV1(
+  target: () => number,
+  context: ClassGetterDecoratorContext
+) {
+  return function (this: any) {
+    console.log("waight was changed getter");
+    return target.apply(this );
+  };
+}
+
+function logOnGet<T, R>(
+  target: (this: T) => R,
+  context: ClassGetterDecoratorContext<T, number>
+) {
+  return function (this: T): R {
+    console.log("waight was changed getter");
+    return target.apply(this );
+  };
+}
+
+function chackNumberOfSeats(limit: number) {
+  return function (target: undefined, context: ClassFieldDecoratorContext) {
+    return function (this: any, newAmount: number) {
+      if (newAmount >= 1 && newAmount < limit) {
+        return newAmount;
+      } else {
+        throw new Error("Error Can not be more seats");
+      }
+    };
+  };
+}
+// V1
+
+// function chackAmountOfFuel(target: any, context: ClassMethodDecoratorContext) {
+//   return function (this: any, ...args: any[]) {
+//     console.log("this.fuel decorator", this.fuel);
+//     return target.apply(this, args);
+//   };
+// }
+
+//V2 білше типізаціїї для декоратора за допомогою дженеріка
+
+function chackAmountOfFuel<T, A extends any[], R>(
+  target: (this: T, ...args: A) => R,
+  context: ClassMethodDecoratorContext<T, (this: T, ...args: A) => R>
+) {
+  return function (this: any, ...args: A): R {
     console.log("this.fuel decorator", this.fuel);
-    return oldValue.apply(this, args);
+    console.log(`Method - ${String(context.name)} was started`);
+    return target.apply(this, args);
   };
 }
 
 function changeDoorStatus(status: boolean) {
-  // console.log("1");
-  return <T extends { new (...args: any[]): {} }>(constructor: T) => {
-    // console.log("2");
-    return class extends constructor {
+  console.log("1");
+  return <T extends { new (...args: any[]): {} }>(
+    target: T,
+    context: ClassDecoratorContext<T>
+  ) => {
+    //ES декораторы из версии 5+
+    console.log("2");
+    return class extends target {
       open = status;
     };
   };
 }
 
 function changeAmountOfFuel(amount: string) {
-  // console.log("3");
-  return <T extends { new (...args: any[]): {} }>(constructor: T) => {
-    // console.log("4");
-    return class extends constructor {
+  console.log("3");
+  return <T extends { new (...args: any[]): {} }>(
+    target: T,
+    context: ClassDecoratorContext<T>
+  ) => {
+    //ES декораторы из версии 5+
+    console.log("4");
+    return class extends target {
       fuel = amount;
     };
   };
 }
 
 const car = new MyCar();
-car.weight = 3
 
-console.log("freeSeats", car.weight);
-console.log(car._weight);
+car.weight = 3;
 
+console.log(car.weight);
