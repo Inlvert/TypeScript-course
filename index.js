@@ -3312,5 +3312,4 @@ function changeAmountOfFuel(amount) {
     };
 }
 const car = new MyCar();
-car.starteTravel(5);
-console.log(car);
+car.starteTravel(3);

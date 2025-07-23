@@ -3985,6 +3985,166 @@
 
 // --------------- lesson87 - Декораторы параметров и метаданные
 
+// import "reflect-metadata";
+// const limitMetadataKey = Symbol("limit");
+
+// interface ICar {
+//   fuel: string;
+//   open: boolean;
+//   freeSeats: number;
+// }
+// @changeDoorStatus(true)
+// @changeAmountOfFuel("90%")
+// class MyCar implements ICar {
+//   fuel: string = "50%";
+//   open: boolean = true;
+//   _weight: number = 1000;
+
+//   @log
+//   set weight(num: number) {
+//     this._weight = this._weight + num;
+//   }
+
+//   get weight() {
+//     return this._weight;
+//   }
+
+//   @chackNumberOfSeats(3)
+//   freeSeats: number;
+
+//   @chackAmountOfFuel
+//   isOpen() {
+//     console.log("this.fuel method", this.fuel);
+//     return this.open ? "open" : "close";
+//   }
+
+//   @validate
+//   starteTravel(@limit passengers: number) {
+//     console.log(`Started with ${passengers} passengers`);
+//   }
+// }
+
+// function limit(
+//   target: Object,
+//   propertyKey: string | symbol,
+//   parameterIndex: number
+// ) {
+//   let limitedParameters: number[] =
+//     Reflect.getOwnMetadata(limitMetadataKey, target, propertyKey) || [];
+//   limitedParameters.push(parameterIndex);
+//   Reflect.defineMetadata(
+//     limitMetadataKey,
+//     limitedParameters,
+//     target,
+//     propertyKey
+//   );
+// }
+
+// function validate(
+//   target: Object,
+//   propertyKey: string | symbol,
+//   descriptor: PropertyDescriptor
+// ) {
+//   let method = descriptor.value;
+//   descriptor.value = function (...args: any) {
+//     let limitedParameters: number[] = Reflect.getOwnMetadata(
+//       limitMetadataKey,
+//       target,
+//       propertyKey
+//     );
+
+//     if (limitedParameters) {
+//       for (let index of limitedParameters) {
+//         if (args[index] > 4) {
+//           throw new Error("cant take more than 4 passengers");
+//         }
+//       }
+//     }
+//     return method?.apply(this, args);
+//   };
+// }
+
+// function log(
+//   target: Object,
+//   propertyKey: string | symbol,
+//   descriptor: PropertyDescriptor
+// ) {
+//   const oldValue = descriptor.set;
+//   const oldGet = descriptor.get;
+
+//   descriptor.set = function (this: any, ...args: any) {
+//     console.log("waight was changed");
+//     return oldValue?.apply(this, args);
+//   };
+//   descriptor.get = function () {
+//     console.log("waight was changed");
+//     return oldGet?.apply(this);
+//   };
+// }
+
+// function chackNumberOfSeats(limit: number) {
+//   return function (target: Object, propertyKey: string | symbol) {
+//     let value: number;
+
+//     const getter = function () {
+//       console.log("property");
+//       return value;
+//     };
+
+//     const setter = function (newAmount: number) {
+//       if (newAmount >= 1 && newAmount < limit) {
+//         value = newAmount;
+//         console.log(`Can't be more seats ${value}`);
+//       } else {
+//         console.log(`Can't be more seats ${limit}`);
+//       }
+//     };
+//     Object.defineProperty(target, propertyKey, {
+//       get: getter,
+//       set: setter,
+//     });
+//   };
+// }
+
+// function chackAmountOfFuel(
+//   target: Object,
+//   propertyKey: string | symbol,
+//   descriptor: PropertyDescriptor
+// ) {
+//   const oldValue = descriptor.value;
+//   descriptor.value = function (this: any, ...args: any[]) {
+//     console.log("this.fuel decorator", this.fuel);
+//     return oldValue.apply(this, args);
+//   };
+// }
+
+// function changeDoorStatus(status: boolean) {
+//   // console.log("1");
+//   return <T extends { new (...args: any[]): {} }>(constructor: T) => {
+//     // console.log("2");
+//     return class extends constructor {
+//       open = status;
+//     };
+//   };
+// }
+
+// function changeAmountOfFuel(amount: string) {
+//   // console.log("3");
+//   return <T extends { new (...args: any[]): {} }>(constructor: T) => {
+//     // console.log("4");
+//     return class extends constructor {
+//       fuel = amount;
+//     };
+//   };
+// }
+
+// const car = new MyCar();
+
+// car.starteTravel(3)
+
+
+// --------------- lesson88 - Decorator Evaluation
+
 import "reflect-metadata";
 const limitMetadataKey = Symbol("limit");
 
@@ -4018,75 +4178,116 @@ class MyCar implements ICar {
     return this.open ? "open" : "close";
   }
 
-  @validate
-  starteTravel(@limit passengers: number) {
+  @validate()
+  starteTravel(@limit() passengers: number) {
     console.log(`Started with ${passengers} passengers`);
   }
 }
 
-function limit(
-  target: Object,
-  propertyKey: string | symbol,
-  parameterIndex: number
-) {
-  let limitedParameters: number[] =
-    Reflect.getOwnMetadata(limitMetadataKey, target, propertyKey) || [];
-  limitedParameters.push(parameterIndex);
-  Reflect.defineMetadata(
-    limitMetadataKey,
-    limitedParameters,
-    target,
-    propertyKey
-  );
-}
-
-function validate(
-  target: Object,
-  propertyKey: string | symbol,
-  descriptor: PropertyDescriptor
-) {
-  let method = descriptor.value;
-  descriptor.value = function (...args: any) {
-    let limitedParameters: number[] = Reflect.getOwnMetadata(
-      limitMetadataKey,
-      target,
-      propertyKey
-    );
-
-    if (limitedParameters) {
-      for (let index of limitedParameters) {
-        if (args[index] > 4) {
-          throw new Error("cant take more than 4 passengers");
-        }
-      }
-    }
-    return method?.apply(this, args);
+function changeDoorStatus(status: boolean) {
+  console.log("Class Decorator Init - changeDoorStatus - 4");
+  return <T extends { new (...args: any[]): {} }>(constructor: T) => {
+    console.log("Class Decorator Call - changeDoorStatus - 4");
+    return class extends constructor {
+      open = status;
+    };
   };
 }
+
+function changeAmountOfFuel(amount: string) {
+  console.log("Class Decorator Init - changeAmountOfFuel - 5");
+  return <T extends { new (...args: any[]): {} }>(constructor: T) => {
+    console.log("Class Decorator Call - changeAmountOfFuel - 5");
+    return class extends constructor {
+      fuel = amount;
+    };
+  };
+}
+
 
 function log(
   target: Object,
   propertyKey: string | symbol,
   descriptor: PropertyDescriptor
 ) {
+  console.log("Method Decorator Init - log - 1");
   const oldValue = descriptor.set;
   const oldGet = descriptor.get;
 
   descriptor.set = function (this: any, ...args: any) {
+    console.log("Method Decorator Call - log - 1");
     console.log("waight was changed");
     return oldValue?.apply(this, args);
   };
   descriptor.get = function () {
+    console.log("Method Decorator Call - log");
     console.log("waight was changed");
     return oldGet?.apply(this);
   };
 }
 
+
+
+function limit() {
+  console.log("Parameter Decorator Init - validate - 7");
+  return (
+    target: Object,
+    propertyKey: string | symbol,
+    parameterIndex: number
+  ) => {
+    console.log("Parameter Decorator Call - validate - 7");
+
+    let limitedParameters: number[] =
+      Reflect.getOwnMetadata(limitMetadataKey, target, propertyKey) || [];
+    limitedParameters.push(parameterIndex);
+    Reflect.defineMetadata(
+      limitMetadataKey,
+      limitedParameters,
+      target,
+      propertyKey
+    );
+  };
+}
+
+function validate() {
+  console.log("Method Decorator Init - validate - 6");
+  return (
+    target: Object,
+    propertyKey: string | symbol,
+    descriptor: PropertyDescriptor
+  ) => {
+    console.log("Method Decorator Call - validate - 6");
+    let method = descriptor.value;
+    descriptor.value = function (...args: any) {
+      let limitedParameters: number[] = Reflect.getOwnMetadata(
+        limitMetadataKey,
+        target,
+        propertyKey
+      );
+
+      if (limitedParameters) {
+        for (let index of limitedParameters) {
+          if (args[index] > 4) {
+            throw new Error("cant take more than 4 passengers");
+          }
+        }
+      }
+
+      return method?.apply(this, args);
+    };
+  };
+}
+
+
+
 function chackNumberOfSeats(limit: number) {
+  console.log("Method Decorator Init - chackNumberOfSeats - 2");
   return function (target: Object, propertyKey: string | symbol) {
     let value: number;
 
     const getter = function () {
+      console.log("Method Decorator Call - chackNumberOfSeats - 2");
+
       console.log("property");
       return value;
     };
@@ -4111,35 +4312,22 @@ function chackAmountOfFuel(
   propertyKey: string | symbol,
   descriptor: PropertyDescriptor
 ) {
+  console.log("Method Decorator Init - chackAmountOfFuel - 3");
   const oldValue = descriptor.value;
   descriptor.value = function (this: any, ...args: any[]) {
-    console.log("this.fuel decorator", this.fuel);
+    console.log("Method Decorator Call - chackAmountOfFuel - 3");
+    // console.log("this.fuel decorator", this.fuel);
     return oldValue.apply(this, args);
   };
 }
 
-function changeDoorStatus(status: boolean) {
-  // console.log("1");
-  return <T extends { new (...args: any[]): {} }>(constructor: T) => {
-    // console.log("2");
-    return class extends constructor {
-      open = status;
-    };
-  };
-}
 
-function changeAmountOfFuel(amount: string) {
-  // console.log("3");
-  return <T extends { new (...args: any[]): {} }>(constructor: T) => {
-    // console.log("4");
-    return class extends constructor {
-      fuel = amount;
-    };
-  };
-}
 
 const car = new MyCar();
 
-car.starteTravel(3)
+car.weight = 100;
+car.freeSeats = 3;
 
+// console.log(car.freeSeats);
 
+car.isOpen();
